@@ -144,19 +144,20 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Videos",
+          "anchor": "Coupones",
           "href": "https://gpuhub.com/",
-          "icon": "youtube"
+          "icon": "ticket"
         },
         {
           "anchor": "Community",
           "href": "https://gpuhub.com/",
           "icon": "discord"
         },
+
         {
-          "anchor": "Coupones",
+          "anchor": "Videos",
           "href": "https://gpuhub.com/",
-          "icon": "ticket"
+          "icon": "youtube"
         }
       ]
     }
