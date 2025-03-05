@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Mint Starter Kit",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#964CEF",
+    "light": "#C493FF",
+    "dark": "#6F27C5"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -18,24 +18,111 @@
             "pages": [
               "introduction",
               "quickstart",
-              "development"
+              "gpu-selection",
+              "gpu-benchmarks"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Rechage & Pricing",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "recharge-pricing/recharge",
+              "recharge-pricing/billing"
+            ]
+          },
+          {
+            "group": "Maintenance & Troubleshooting",
+            "pages": [
+              "maintenance-troubleshooting/maintenance-troubleshooting"
+            ]
+          },
+          {
+            "group": "Terms of Service",
+            "pages": [
+              "terms/terms-of-service",
+              "terms/privacy-policy",
+              "terms/anti-mining-agreement"
             ]
           }
         ]
       },
       {
-        "tab": "API Reference",
+        "tab": "Instance",
+        "groups": [
+          {
+            "group": "Cloud Container Instance",
+            "pages": [
+              "cloud-container-instance/overview",
+              "cloud-container-instance/jupyterlab",
+              "cloud-container-instance/ssh",
+              "cloud-container-instance/scale-configuration",
+              "cloud-container-instance/change-billing-model",
+              "cloud-container-instance/save-image",
+              "cloud-container-instance/reset-system",
+              "cloud-container-instance/migrate-instance",
+              "cloud-container-instance/run-in-background",
+              "cloud-container-instance/multi-host-multi-gpu",
+              "cloud-container-instance/remote-desktop"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Data",
+        "groups": [
+          {
+            "group": "Data Transmission & Storage",
+            "pages": [
+              "data-trans-storage/overview",
+              "data-trans-storage/upload-data",
+              "data-trans-storage/download-data",
+              "data-trans-storage/local-data-disk",
+              "data-trans-storage/public-data",
+              "data-trans-storage/file-storage",
+              "data-trans-storage/compress-decompress"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Environment",
+        "groups": [
+          {
+            "group": "Environment Configuration",
+            "pages": [
+              "environment/overview",
+              "environment/dependency-installation",
+              "environment/image",
+              "environment/python3-x",
+              "environment/cuda-cudnn",
+              "environment/miniconda"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "FAQ",
+        "groups": [
+          {
+            "group": "Frequently Asked Question",
+            "pages": [
+              "faqs/example"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Best Practices",
+        "groups": [
+          {
+            "group": "Best Practices",
+            "pages": [
+              "best-practices/example"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API",
         "groups": [
           {
             "group": "API Documentation",
@@ -57,19 +144,19 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "Videos",
+          "href": "https://gpuhub.com/",
+          "icon": "youtube"
         },
         {
           "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
+          "href": "https://gpuhub.com/",
+          "icon": "discord"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Coupones",
+          "href": "https://gpuhub.com/",
+          "icon": "ticket"
         }
       ]
     }
@@ -82,20 +169,22 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:info@gpuhub.com"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Console",
+      "href": "hhttps://gpuhub.com/"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://gpuhub.com/",
+      "github": "https://gpuhub.com/",
+      "linkedin": "https://gpuhub.com/",
+      "discord": "https://gpuhub.com/",
+      "youtube": "https://gpuhub.com/"
     }
   }
 }

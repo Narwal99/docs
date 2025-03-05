@@ -1,44 +1,63 @@
 ---
 title: "Introduction "
-description: "Welcome to the home of your new documentation"
+description: "🔮 Welcome to the GPUhub documentations"
+icon: 'grid-2'
 ---
 
-<img alt="Hero Light" classname="block dark:hidden" src="/images/hero-light.png" />
+## Create Your Cloud Container Instance
 
-<img alt="Hero Dark" classname="hidden dark:block" src="/images/hero-dark.png" />
-
-## Setting up
-
-The first step to world-class documentation is setting up your editing environments.
+Create a stable, reliable, and reasonably priced cloud container instance suitable for your use.
 
 <CardGroup cols={2}>
-  <Card title="Edit Your Docs" icon="pen-to-square" href="https://mintlify.com/docs/quickstart">
-    Get your docs set up locally for easy development
+  <Card title="Quick Start" icon="hat-wizard" href="https://www.autodl.com/">
+    Register an account and easily create a Cloud Container Instance: Select the billing model, choose the appropriate host, select the number of GPUs for the instance you want to create, select the image (which includes different deep learning frameworks), and then create it.
   </Card>
 
-  <Card title="Preview Changes" icon="image" href="https://mintlify.com/docs/development">
-    Preview your changes before you push to make sure they're perfect
+  <Card title="GPU Selection" icon="cauldron" href="https://www.autodl.com/">
+    Select the GPUs that your purpose and scenario: The platform allocates GPUs, CPUs, and memory proportionally to the number of GPUs rented. The CPU and memory displayed in the computing power market are allocated per GPU. If you rent two GPUs, the CPU and memory will be doubled.
+  </Card>
+
+  <Card title="Keep Instance Active in Background" icon="wave-pulse" href="https://www.autodl.com/">
+    When using SSH or SSH-based tools (like XShell, PyCharm, VSCode) for remote execution, remember to run commands in daemon mode to prevent program termination due to SSH disconnection.
+  </Card>
+
+  <Card title="Read Data Retention Policies" icon="broom-wide" href="https://www.autodl.com/">
+    If you shut down the instance continuously for 30 days, it will be released, and all data within the instance will be cleared. Additionally, if the host is no longer available for rent and is taken offline, the instance will also be released.
   </Card>
 </CardGroup>
 
-## Make it yours
+## Data Transmission & Storage
 
-Update your docs to your brand and add valuable content for the best user conversion.
+We are offering multiple flexible methods for data transfer. It supports various tools and techniques, including JupyterLab, scp commands, and graphical interfaces like FileZilla or XShell, providing users with convenient options for uploading and downloading data.
 
 <CardGroup cols={2}>
-  <Card title="Customize Style" icon="palette" href="https://mintlify.com/docs/settings/global">
-    Customize your docs to your company's colors and brands
+  <Card title="Upload Data" icon="upload" href="https://www.autodl.com/">
+    Upload data to your cloud instance using simple file transfer tools, terminal-based commands, or drag-and-drop interfaces. These flexible options ensure efficient data management.
   </Card>
 
-  <Card title="Reference APIs" icon="code" href="https://mintlify.com/docs/api-playground/openapi">
-    Automatically generate endpoints from an OpenAPI spec
+  <Card title="Download Data" icon="download" href="https://www.autodl.com/">
+    Download data from your cloud instance using file transfer tools, terminal commands, or intuitive interfaces. These options provide quick and convenient access to your data.
   </Card>
 
-  <Card title="Add Components" icon="screwdriver-wrench" href="https://mintlify.com/docs/content/components/accordions">
-    Build interactive features and designs to guide your users
+  <Card title="Data Disk" icon="hard-drive" href="https://www.autodl.com/">
+    Data disks are ideal for intensive tasks and offer cost-effective pricing based on usage.
   </Card>
 
-  <Card title="Get Inspiration" icon="stars" href="https://mintlify.com/customers">
-    Check out our showcase of our favorite documentation
+  <Card title="File Storage" icon="cloud" href="hhttps://www.autodl.com/">
+    File Storage allows you to upload and manage data without running an instance, making it perfect for long-term storage and backup.
+  </Card>
+</CardGroup>
+
+## Enviroment Configuration
+
+The platform's images come with many frameworks and versions. If they don't meet your needs, see how to configure other versions.
+
+<CardGroup cols={2}>
+  <Card title="Enviroment Configuration" icon="wrench" href="hhttps://www.autodl.com/">
+    The platform's images come with many frameworks and versions. If they don't meet your needs, see how to configure other versions.
+  </Card>
+
+  <Card title="Image" icon="rectangle-history" href="hhttps://www.autodl.com/">
+    If you've set up an environment in an instance and want to reuse or retain it long-term, saving the image is the best choice. You can also share images with other users.
   </Card>
 </CardGroup>
