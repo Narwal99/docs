@@ -1,5 +1,320 @@
 ---
 title: 'GPU Benchmarks'
-description: 'XXX'
+description: "Only considering official compute power doesn't give a full picture of GPU differences and quality."
 icon: 'chart-simple'
 ---
+
+Memory bandwidth also significantly impacts total time. Here, we compare different GPUs using deep - learning tasks.
+
+Test details:
+
+- Tested GPUs on AutoDL (single - card tests) using PyTorch = 1.9.0.
+- Input was pseudo - data made by torch.zero, so CPU preprocessing and IO didn't affect results; GPU performance was key.
+- Tested ResNet50 (many activations, sensitive to memory bandwidth) and ViT Transformer (many convolutions, sensitive to compute power).
+- Results include FP32 and FP16 (not mixed - precision). Compare as per your needs.
+- GPU memory size is also key. Check the document for parameter comparisons and detailed hardware specs.
+
+GPU memory size is also important. 
+Check the [document]() for theoretical parameter comparisons and specialized [media website]() for detailed hardware specs.
+
+<CodeGroup>
+
+```python 3090
+>>> ResNet50
+Namespace(device=0, model='resnet50', precision='float16', train=False)
+Iteration 0, 2294.06 images/s in 0.837s.
+Iteration 1, 2391.29 images/s in 0.803s.
+Iteration 2, 2396.06 images/s in 0.801s.
+Iteration 3, 2394.62 images/s in 0.802s.
+Iteration 4, 2402.61 images/s in 0.799s.
+Namespace(device=0, model='resnet50', precision='float32', train=False)
+Iteration 0, 1453.34 images/s in 1.321s.
+Iteration 1, 1490.90 images/s in 1.288s.
+Iteration 2, 1491.79 images/s in 1.287s.
+Iteration 3, 1493.76 images/s in 1.285s.
+Iteration 4, 1494.50 images/s in 1.285s.
+
+>>> ViT Transformer
+Namespace(device=0, model='vit_base_patch16_224', precision='float16', train=False)
+Iteration 0, 1044.44 images/s in 1.838s.
+Iteration 1, 1047.37 images/s in 1.833s.
+Iteration 2, 1046.37 images/s in 1.835s.
+Iteration 3, 1044.68 images/s in 1.838s.
+Iteration 4, 1043.91 images/s in 1.839s.
+Namespace(device=0, model='vit_base_patch16_224', precision='float32', train=False)
+Iteration 0, 596.59 images/s in 3.218s.
+Iteration 1, 599.41 images/s in 3.203s.
+Iteration 2, 598.86 images/s in 3.206s.
+Iteration 3, 597.92 images/s in 3.211s.
+Iteration 4, 597.46 images/s in 3.214s.
+```
+
+```python 3090 Ti
+>>> ResNet50
+Namespace(device=0, model='resnet50', precision='float16', train=False)
+Iteration 0, 2307.14 images/s in 0.832s.
+Iteration 1, 2569.71 images/s in 0.747s.
+Iteration 2, 2570.15 images/s in 0.747s.
+Iteration 3, 2570.29 images/s in 0.747s.
+Iteration 4, 2569.88 images/s in 0.747s.
+Namespace(device=0, model='resnet50', precision='float32', train=False)
+Iteration 0, 1578.58 images/s in 1.216s.
+Iteration 1, 1612.02 images/s in 1.191s.
+Iteration 2, 1612.37 images/s in 1.191s.
+Iteration 3, 1612.63 images/s in 1.191s.
+Iteration 4, 1612.32 images/s in 1.191s.
+
+>>> ViT Transformer
+Namespace(device=0, model='vit_base_patch16_224', precision='float16', train=False)
+Iteration 0, 1214.12 images/s in 1.581s.
+Iteration 1, 1223.07 images/s in 1.570s.
+Iteration 2, 1222.81 images/s in 1.570s.
+Iteration 3, 1221.12 images/s in 1.572s.
+Iteration 4, 1223.38 images/s in 1.569s.
+Namespace(device=0, model='vit_base_patch16_224', precision='float32', train=False)
+Iteration 0, 686.56 images/s in 2.797s.
+Iteration 1, 693.84 images/s in 2.767s.
+Iteration 2, 693.32 images/s in 2.769s.
+Iteration 3, 691.64 images/s in 2.776s.
+Iteration 4, 691.63 images/s in 2.776s.
+```
+
+```python A40
+>>> ResNet50
+Namespace(device=0, model='resnet50', precision='float16', train=False)
+Iteration 0, 1837.41 images/s in 1.045s.
+Iteration 1, 1892.04 images/s in 1.015s.
+Iteration 2, 1893.29 images/s in 1.014s.
+Iteration 3, 1892.99 images/s in 1.014s.
+Iteration 4, 1892.73 images/s in 1.014s.
+Namespace(device=0, model='resnet50', precision='float32', train=False)
+Iteration 0, 1102.49 images/s in 1.742s.
+Iteration 1, 1115.45 images/s in 1.721s.
+Iteration 2, 1118.49 images/s in 1.717s.
+Iteration 3, 1117.32 images/s in 1.718s.
+Iteration 4, 1117.80 images/s in 1.718s.
+
+>>> ViT Transformer
+Namespace(device=0, model='vit_base_patch16_224', precision='float16', train=False)
+Iteration 0, 1155.09 images/s in 1.662s.
+Iteration 1, 1153.70 images/s in 1.664s.
+Iteration 2, 1152.89 images/s in 1.665s.
+Iteration 3, 1150.99 images/s in 1.668s.
+Iteration 4, 1150.53 images/s in 1.669s.
+Namespace(device=0, model='vit_base_patch16_224', precision='float32', train=False)
+Iteration 0, 675.17 images/s in 2.844s.
+Iteration 1, 680.69 images/s in 2.821s.
+Iteration 2, 679.15 images/s in 2.827s.
+Iteration 3, 678.90 images/s in 2.828s.
+Iteration 4, 678.21 images/s in 2.831s.
+```
+
+```python A100
+>>> ResNet50
+Namespace(device=0, model='resnet50', precision='float16', train=False)
+Iteration 0, 3031.31 images/s in 0.633s.
+Iteration 1, 4145.68 images/s in 0.463s.
+Iteration 2, 4143.08 images/s in 0.463s.
+Iteration 3, 4145.51 images/s in 0.463s.
+Iteration 4, 4144.79 images/s in 0.463s.
+Namespace(device=0, model='resnet50', precision='float32', train=False)
+Iteration 0, 2588.47 images/s in 0.742s.
+Iteration 1, 2775.77 images/s in 0.692s.
+Iteration 2, 2771.13 images/s in 0.693s.
+Iteration 3, 2780.56 images/s in 0.691s.
+Iteration 4, 2764.96 images/s in 0.694s.
+
+>>> ViT Transformer
+Namespace(device=0, model='vit_base_patch16_224', precision='float16', train=False)
+Iteration 0, 1592.06 images/s in 1.206s.
+Iteration 1, 1690.54 images/s in 1.136s.
+Iteration 2, 1691.74 images/s in 1.135s.
+Iteration 3, 1692.93 images/s in 1.134s.
+Iteration 4, 1691.21 images/s in 1.135s.
+Namespace(device=0, model='vit_base_patch16_224', precision='float32', train=False)
+Iteration 0, 1438.29 images/s in 1.335s.
+Iteration 1, 1491.85 images/s in 1.287s.
+Iteration 2, 1491.50 images/s in 1.287s.
+Iteration 3, 1489.87 images/s in 1.289s.
+Iteration 4, 1489.75 images/s in 1.289s.
+```
+```python 4090
+>>> ResNet50
+Namespace(device=0, model='resnet50', precision='float16', train=False)
+Iteration 0, 3832.93 images/s in 0.501s.
+Iteration 1, 4286.27 images/s in 0.448s.
+Iteration 2, 4285.56 images/s in 0.448s.
+Iteration 3, 4286.17 images/s in 0.448s.
+Iteration 4, 4285.75 images/s in 0.448s.
+Namespace(device=0, model='resnet50', precision='float32', train=False)
+Iteration 0, 2175.56 images/s in 0.883s.
+Iteration 1, 2292.56 images/s in 0.837s.
+Iteration 2, 2292.38 images/s in 0.838s.
+Iteration 3, 2292.68 images/s in 0.837s.
+Iteration 4, 2292.69 images/s in 0.837s.
+
+>>> ViT Transformer
+Namespace(device=0, model='vit_base_patch16_224', precision='float16', train=False)
+Iteration 0, 1890.34 images/s in 1.016s.
+Iteration 1, 2028.98 images/s in 0.946s.
+Iteration 2, 2028.92 images/s in 0.946s.
+Iteration 3, 2027.23 images/s in 0.947s.
+Iteration 4, 2023.66 images/s in 0.949s.
+Namespace(device=0, model='vit_base_patch16_224', precision='float32', train=False)
+Iteration 0, 1099.47 images/s in 1.746s.
+Iteration 1, 1135.05 images/s in 1.692s.
+Iteration 2, 1132.25 images/s in 1.696s.
+Iteration 3, 1131.92 images/s in 1.696s.
+Iteration 4, 1132.28 images/s in 1.696s.
+
+```
+```python 4090D
+#Note: Tested with driver 550.54.14. 
+#The performance boost over the 4090 may come from driver optimizations.
+
+>>> ResNet50
+Namespace(device=0, model='resnet50', precision='float16', train=False)
+Iteration 0, 2941.52 images/s in 0.653s.
+Iteration 1, 4723.46 images/s in 0.406s.
+Iteration 2, 4723.64 images/s in 0.406s.
+Iteration 3, 4723.43 images/s in 0.406s.
+Iteration 4, 4723.54 images/s in 0.406s.
+Namespace(device=0, model='resnet50', precision='float32', train=False)
+Iteration 0, 1948.26 images/s in 0.985s.
+Iteration 1, 2442.01 images/s in 0.786s.
+Iteration 2, 2442.06 images/s in 0.786s.
+Iteration 3, 2442.20 images/s in 0.786s.
+Iteration 4, 2442.24 images/s in 0.786s.
+
+>>> ViT Transformer
+Namespace(device=0, model='vit_base_patch16_224', precision='float16', train=False)
+Iteration 0, 1921.61 images/s in 0.999s.
+Iteration 1, 2359.63 images/s in 0.814s.
+Iteration 2, 2358.23 images/s in 0.814s.
+Iteration 3, 2358.28 images/s in 0.814s.
+Iteration 4, 2358.27 images/s in 0.814s.
+Namespace(device=0, model='vit_base_patch16_224', precision='float32', train=False)
+Iteration 0, 795.41 images/s in 2.414s.
+Iteration 1, 835.84 images/s in 2.297s.
+Iteration 2, 834.46 images/s in 2.301s.
+Iteration 3, 832.31 images/s in 2.307s.
+Iteration 4, 833.71 images/s in 2.303s.
+```
+```python L40
+>>> ResNet50
+Namespace(device=0, model='resnet50', precision='float16', train=False)
+Iteration 0, 3508.15 images/s in 0.547s.
+Iteration 1, 3792.50 images/s in 0.506s.
+Iteration 2, 3797.41 images/s in 0.506s.
+Iteration 3, 3798.82 images/s in 0.505s.
+Iteration 4, 3798.89 images/s in 0.505s.
+Namespace(device=0, model='resnet50', precision='float32', train=False)
+Iteration 0, 1842.46 images/s in 1.042s.
+Iteration 1, 1940.97 images/s in 0.989s.
+Iteration 2, 1941.14 images/s in 0.989s.
+Iteration 3, 1940.94 images/s in 0.989s.
+Iteration 4, 1940.85 images/s in 0.989s. 
+
+>>> ViT Transformer
+Namespace(device=0, model='vit_base_patch16_224', precision='float16', train=False)
+Iteration 0, 1521.70 images/s in 1.262s.
+Iteration 1, 1518.28 images/s in 1.265s.
+Iteration 2, 1519.53 images/s in 1.264s.
+Iteration 3, 1514.74 images/s in 1.268s.
+Iteration 4, 1507.84 images/s in 1.273s.
+Namespace(device=0, model='vit_base_patch16_224', precision='float32', train=False)
+Iteration 0, 903.33 images/s in 2.125s.
+Iteration 1, 909.27 images/s in 2.112s.
+Iteration 2, 906.62 images/s in 2.118s.
+Iteration 3, 901.66 images/s in 2.129s.
+Iteration 4, 899.00 images/s in 2.136s.
+```
+```python L20
+>>> ResNet50
+Namespace(device=0, model='resnet50', precision='float16', train=False)
+Iteration 0, 2943.74 images/s in 0.652s.
+Iteration 1, 3070.92 images/s in 0.625s.
+Iteration 2, 3071.46 images/s in 0.625s.
+Iteration 3, 3071.46 images/s in 0.625s.
+Iteration 4, 3071.51 images/s in 0.625s.
+Namespace(device=0, model='resnet50', precision='float32', train=False)
+Iteration 0, 1708.50 images/s in 1.124s.
+Iteration 1, 1746.34 images/s in 1.099s.
+Iteration 2, 1746.79 images/s in 1.099s.
+Iteration 3, 1746.87 images/s in 1.099s.
+Iteration 4, 1746.66 images/s in 1.099s.
+
+>>> ViT Transformer
+Namespace(device=0, model='vit_base_patch16_224', precision='float16', train=False)
+Iteration 0, 1579.93 images/s in 1.215s.
+Iteration 1, 1589.75 images/s in 1.208s.
+Iteration 2, 1589.86 images/s in 1.208s.
+Iteration 3, 1590.05 images/s in 1.208s.
+Iteration 4, 1590.62 images/s in 1.207s.
+Namespace(device=0, model='vit_base_patch16_224', precision='float32', train=False)
+Iteration 0, 809.44 images/s in 2.372s.
+Iteration 1, 818.51 images/s in 2.346s.
+Iteration 2, 818.48 images/s in 2.346s.
+Iteration 3, 818.46 images/s in 2.346s.
+Iteration 4, 818.44 images/s in 2.346s.
+```
+```python H800
+>>> ResNet50
+Namespace(train=False, precision='float16', device=0, model='resnet50')
+Iteration 0, 3182.80 images/s in 0.603s.
+Iteration 1, 8114.82 images/s in 0.237s.
+Iteration 2, 8119.60 images/s in 0.236s.
+Iteration 3, 8116.55 images/s in 0.237s.
+Iteration 4, 8114.75 images/s in 0.237s.
+Namespace(train=False, precision='float32', device=0, model='resnet50')
+Iteration 0, 3409.18 images/s in 0.563s.
+Iteration 1, 5582.19 images/s in 0.344s.
+Iteration 2, 5581.61 images/s in 0.344s.
+Iteration 3, 5582.83 images/s in 0.344s.
+Iteration 4, 5585.93 images/s in 0.344s.
+
+>>> ViT Transformer
+Namespace(train=False, precision='float16', device=0, model='vit_base_patch16_224')
+Iteration 0, 3175.96 images/s in 0.605s.
+Iteration 1, 5818.70 images/s in 0.330s.
+Iteration 2, 5820.69 images/s in 0.330s.
+Iteration 3, 5811.54 images/s in 0.330s.
+Iteration 4, 5812.47 images/s in 0.330s.
+Namespace(train=False, precision='float32', device=0, model='vit_base_patch16_224')
+Iteration 0, 1012.97 images/s in 1.895s.
+Iteration 1, 1095.48 images/s in 1.753s.
+Iteration 2, 1095.56 images/s in 1.753s.
+Iteration 3, 1094.18 images/s in 1.755s.
+Iteration 4, 1092.81 images/s in 1.757s.
+```
+```python H20
+>>> ResNet50
+Namespace(train=False, precision='float16', device=0, model='resnet50')
+Iteration 0, 1098.48 images/s in 1.748s.
+Iteration 1, 4735.91 images/s in 0.405s.
+Iteration 2, 4736.08 images/s in 0.405s.
+Iteration 3, 4736.12 images/s in 0.405s.
+Iteration 4, 4736.24 images/s in 0.405s.
+Namespace(train=False, precision='float32', device=0, model='resnet50')
+Iteration 0, 1676.70 images/s in 1.145s.
+Iteration 1, 3191.54 images/s in 0.602s.
+Iteration 2, 3191.80 images/s in 0.602s.
+Iteration 3, 3191.68 images/s in 0.602s.
+Iteration 4, 3191.59 images/s in 0.602s.
+
+>>> ViT Transformer
+Namespace(train=False, precision='float16', device=0, model='vit_base_patch16_224')
+Iteration 0, 1440.53 images/s in 1.333s.
+Iteration 1, 2262.77 images/s in 0.849s.
+Iteration 2, 2262.85 images/s in 0.848s.
+Iteration 3, 2262.73 images/s in 0.849s.
+Iteration 4, 2263.06 images/s in 0.848s.
+Namespace(train=False, precision='float32', device=0, model='vit_base_patch16_224')
+Iteration 0, 592.16 images/s in 3.242s.
+Iteration 1, 646.19 images/s in 2.971s.
+Iteration 2, 644.67 images/s in 2.978s.
+Iteration 3, 644.38 images/s in 2.980s.
+Iteration 4, 643.00 images/s in 2.986s.
+```
+
+</CodeGroup>
