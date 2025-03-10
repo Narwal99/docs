@@ -23,10 +23,10 @@
             ]
           },
           {
-            "group": "Rechage & Pricing",
+            "group": "Pricing & Rechage",
             "pages": [
-              "recharge-pricing/recharge",
-              "recharge-pricing/billing"
+              "recharge-pricing/pricing",
+              "recharge-pricing/recharge"
             ]
           },
           {
