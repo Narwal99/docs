@@ -1,0 +1,21 @@
+---
+title: 'Migrate Instance (Same Region)'
+description: 'For migrating instances within the same region, you can refer to this document. The operation is very simple and the migration speed is fast.'
+---
+<Steps>
+    <Step title="Power off the original instance">
+        First, shut down the original instance.
+    </Step>
+    <Step title="Clone the instance">
+        Cloning an instance will create a new instance using the current instance's system disk as a template. If you also need to copy the data disk, then please check the data disk option.
+        ![](/images/migrate-clone-instance.png)
+        After clicking to clone the instance, you can select a new host to create an instance on the instance creation page.
+        ![](/images/migrate-clone-data.png)   
+        <Tip>
+        If you forgot to check the box for copying the data disk when cloning, you can click **Copy Data Across Instances** in the More Actions of the original instance after the new instance has been created to copy the data disk.
+        </Tip>
+    </Step>
+    <Step title="Handle billing">
+        If your original instance is on a subscription model, you can contact customer service to transfer the order to the new instance (this method will not result in duration loss due to changes in billing method). If you handle it yourself, simply switch the original instance to a usage-based pricing model.
+    </Step>
+</Steps>

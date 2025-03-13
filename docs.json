@@ -59,6 +59,7 @@
               "cloud-container-instance/save-image",
               "cloud-container-instance/reset-system",
               "cloud-container-instance/migrate-instance",
+              "cloud-container-instance/migrate-instance-sr",
               "cloud-container-instance/run-in-background",
               "cloud-container-instance/multi-host-multi-gpu",
               "cloud-container-instance/remote-desktop"

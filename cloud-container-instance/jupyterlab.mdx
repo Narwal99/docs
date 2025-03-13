@@ -1,4 +1,56 @@
 ---
 title: 'JupyterLab'
-description: 'XXX'
+description: 'A guide to using JupyterLab in GPUhub, including its working directory and basic features, to help users work more effectively with data analysis and programming tasks.'
 ---
+
+<Warning>
+The working directory for JupyterLab is the ```/root``` directory, not the ```/``` system root directory. 
+If you need to access the root directory ```/```, you can enter the terminal and use command-line operations.
+</Warning>
+
+## Basic Features of JupyterLab
+
+### Accessing JupyterLab
+
+Console -> Container Instances -> Jupyterlab
+
+![](/images/instance-jupyterlab.png)
+
+### JupyterLab Interface
+![](/images/jupyterlab-interface.png)
+
+### Upload Data
+![](/images/jupyterlab-upload-data.png)
+
+### Working with Notebooks
+![](/images/jupyterlab-notebook.png)
+
+### Open a New Terminal
+![](/images/jupyterlab-terminal.png)
+
+### Accessing Open Terminals or Notebooks
+
+<Note>
+In JupyterLab, closing a terminal or Notebook tab does not terminate the process by default; it continues to run in the background.
+</Note>
+
+![](/images/jupyterlab-opening.png)
+
+### File Management
+🖰 Right-click folder/file to expand the menu.
+![](/images/instance-file-management.png)
+
+## Common Issues
+
+<Note>
+Sometimes, users running programs in a Notebook may notice that after a while, **the Notebook's logs stop updating**. 
+</Note>
+
+In such cases, you can use the **"Show Log Console"** feature to view the logs. Here's a demonstration of the process:
+After executing the following piece of code, if you refresh the web page, you will find that the logs no longer update.
+
+Open the Log Console.
+![](/images/instance-log-console.png)
+
+Check the logs and use Debug Mode as necessary.
+![](/images/jupyterlab-issues.png)

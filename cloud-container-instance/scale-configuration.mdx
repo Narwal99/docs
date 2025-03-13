@@ -1,4 +1,27 @@
 ---
 title: 'Scale Configuration'
-description: 'XXX'
+description: 'Only instances with Usage-based Pricing Model supports configuration adjustments.'
 ---
+
+<Note>
+For instances with Usage-based Pricing Model that are already powered on, if you need to increase or decrease the number of GPUs, you can use the scale configuration feature to adjust the instance's settings. For instances with Subscription Pricing Model, if you want to scale up or down, you will first need to switch to Usage-based Pricing Model before adjusting the configuration.
+</Note>
+
+## Scale Configuration
+
+<Steps>
+  <Step title="First Step">
+Power off the instance, then find the scale configuration button under **"More"** and click on it to enter the **"Scale Configuration"** page.
+![](/images/scale_configuration.png)
+  </Step>
+  <Step title="Second Step">
+Select the number of GPUs, at which point the CPU and memory will be adjusted accordingly based on the number of GPUs. You can refer to the **final instance specifications shown below after the change**.
+![](/images/scale_autoadjust.png)
+  </Step>
+</Steps>
+
+## Upgrade Configuration Tips
+
+Go to Console -> Instances and click on the instance name in the first column to view the current host's GPU availability, which will help you determine if the host can support further configuration upgrades. If the available GPUs on the current host do not meet your upgrade requirements, you can choose to [migrate to another host]() that satisfies your needs.
+
+![](/images/scale_view_gpus.png)

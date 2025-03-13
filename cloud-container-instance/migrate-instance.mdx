@@ -1,4 +1,85 @@
 ---
 title: 'Migrate Instance'
-description: 'XXX'
+description: 'The local data involved in instance migration includes data from the **System Disk and the Data Disk**, both of which can be migrated.'
 ---
+
+When migrating an instance, there are two scenarios:
+1. Migrating an instance within the same region (simple and fast). You can directly refer to the [documentation](/cloud-container-instance/migrate-instance-sr) for migrating instances within the same region.
+2. Migrating an instance across regions.
+
+<Tip>
+If you frequently encounter situations where there are **"Not enough idle GPUs"**:
+
+you can switch from a Usage-based Model to Subscription Model (daily or weekly basis).
+
+Select the subscription pricing option when renting, or for instances you've already rented, click on 'Switch to Subscription' in the 'More' actions for the instance. Please refer to the [documentation](/cloud-container-instance/change-billing-model) on changing the billing method for detailed instructions.
+</Tip>
+
+## Migrate System Disk
+
+Whether migrating within the same region or across regions, it is recommended to use the [image saving](/cloud-container-instance/save-image) feature to migrate the system disk. After saving the image, you can select **My Images** to create a new instance in the new region.
+
+![](/images/migrate-system-image.png)
+
+<Tip>
+Creating an instance from a private image in a new region may take some time (as the image needs to be transferred from the public network to the new region, and no charges are incurred during the creation process). 
+
+If you're concerned about being billed after the instance is created and started, here's a helpful tip: 
+
+You can **set a scheduled shutdown**. Set the shutdown time to 3 minutes from the current time, for example, if it's 12:00 now, set the scheduled shutdown for 12:03. This way, the instance will automatically shut down after it's created, saving you costs. 
+
+The next time you start the instance or create one in the same region, you'll enjoy faster startup speeds.
+</Tip>
+
+![](/images/migrate-set-shutdown.png)
+
+## Migrate Data Disk: Same Region
+
+Go to the instance's "More" -> "Copy Data Across Instances". This feature copies data at a speed of approximately 100MB/s or more, and even small files have been optimized for very high speed. If you want to copy the entire data disk, simply enter the wildcard character ```*``` in the "Source Instance Data Path" field.
+
+<Note>
+If you are migrating data from Instance A to Instance B, then: 
+
+- Instance A is the Source Instance, 
+- and Instance B is the Target Instance.
+</Note>
+
+
+![](/images/migrate-copy-data.png)
+
+## Migrate Data Disk: Across Regions
+
+<Warning>
+Cross-instance copying will be transmitted over the public network, which is relatively slow, generally around 10MB/s. The speed can be several times slower when there are many small files.
+</Warning>
+
+For example: To copy a file (folder) from the source instance in **Singapore Region A** to the target instance in **Kuala Lumpur Region A**.
+Steps are as follows:
+
+- Step 1: For the target instance in Kuala Lumpur Region A, assume its SSH command is: ```ssh -p 66666 region-3.gpuhub.com```
+- Step 2: Execute the following command in the terminal of the source instance in Singapore Region A.
+
+<Warning>
+Note that the parameter in the command below is ```-rP```, not ```-rp```. Replace all other parameters with the corresponding values from your SSH command.
+</Warning>
+
+
+```bash bash
+scp -rP 66666 /root/gpuhub-tmp/xxx root@region-3.gpuhub.com:/root/gpuhub-tmp/
+```
+This command remotely copies the file/folder (demonstrated here as: /root/gpuhub-tmp/xxx) from the source instance in Singapore Region A to the target instance in Kuala Lumpur Region A.
+
+### Advanced Remote File Copy Method
+
+If there are many small files, the direct scp folder method mentioned above can be very slow. You can use the following method to copy.
+Execute the following command in the terminal of the source instance in Singapore Region A:
+
+```bash bash
+cd /root/gpuhub-tmp/ && tar cf - * | ssh -p 66666 root@region-3.gpuhub.com "cd /root/gpuhub-tmp && tar xf -"
+```
+
+This command copies all files in the ```/root/gpuhub-tmp``` directory of the source instance to the target instance.
+
+### Using a Network Disk Method
+You can first upload the data from the source instance to a cloud disk, and then download the data from the cloud disk to the target instance. For instructions on using a cloud disk, please refer to the public [cloud disk documentation]().
+

@@ -1,4 +1,12 @@
 ---
 title: 'Reset System'
-description: 'XXX'
+description: 'Resetting the system or changing the image restores the instance to the initial state.'
 ---
+
+<Note>
+if a community or custom image is used, resetting returns the system to the image's original state, not deleting all data, so the system disk will still be occupied.
+</Note>
+
+![](/images/reset-system.png)
+
+Resetting the system and changing the image will reset the data on the system disk (for what is a system disk, please refer to the [documentation](/cloud-container-instance/overview#about-system-disk)), while data on the data disk, cloud disk, and file storage will not be affected.

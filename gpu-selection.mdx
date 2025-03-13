@@ -46,7 +46,7 @@ The platform offers a variety of GPU models, which can be categorized into five 
 - **Cambricon MLU 200 Series Accelerator Cards:** These cards don't support model training. For model inference, computations need to be quantized to int8. Also, a deep learning framework adapted to Cambricon MLU must be installed.
 - **Huawei Ascend Series Accelerator Cards:** These support both model training and inference. However, the MindSpore framework needs to be installed for computations.
 
-Choosing a GPU model isn't difficult. For common deep learning models, the performance can be roughly estimated based on the GPU's compute power at the corresponding precision. The AutoDL platform labels and ranks the compute power of each GPU model, making it convenient for users to choose the right GPU.
+Choosing a GPU model isn't difficult. For common deep learning models, the performance can be roughly estimated based on the GPU's compute power at the corresponding precision. The GPUhub platform labels and ranks the compute power of each GPU model, making it convenient for users to choose the right GPU.
 The number of GPUs to select depends on the training task. Generally, a model should be trained within 24 hours to allow for iterative improvements the next day. Here are some suggestions for selecting multiple GPUs:
 
 - **1 GPU:** Suitable for training tasks with smaller datasets, such as Pascal VOC.
