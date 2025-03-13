@@ -100,23 +100,70 @@
         ]
       },
       {
-        "tab": "FAQ",
+        "tab": "Best Practices",
         "groups": [
           {
-            "group": "Frequently Asked Question",
+            "group": "Tools & Environment",
             "pages": [
-              "faqs/example"
+              "best-practices/linux-basics",
+              "best-practices/vscode",
+              "best-practices/pycharm",
+              "best-practices/rstudio",
+              "best-practices/gromacs",
+              "best-practices/tensorboard",
+              "best-practices/visdom"
+            ]
+          },
+          {
+            "group": "Network & Remote Connections",
+            "pages": [
+              "best-practices/ssh-tunnel",
+              "best-practices/filezilla",
+              "best-practices/xshell"
+            ]
+          },
+          {
+            "group": "AI & ML",
+            "pages": [
+              "best-practices/huggingface",
+              "best-practices/katago",
+              "best-practices/opencl",
+              "best-practices/vulkan"
+            ]
+          },
+          {
+            "group": "System Management",
+            "pages": [
+              "best-practices/software-repositories",
+              "best-practices/open-ports",
+              "best-practices/computational-precision",
+              "best-practices/exposing-multiple-services"
+            ]
+          },
+          {
+            "group": "Parallel & Optimization",
+            "pages": [
+              "best-practices/mpi",
+              "best-practices/performance",
+              "best-practices/cost-saving"
             ]
           }
         ]
       },
       {
-        "tab": "Best Practices",
+        "tab": "FAQ",
         "groups": [
           {
-            "group": "Best Practices",
+            "group": "Frequently Asked Question",
             "pages": [
-              "best-practices/example"
+              "faqs/system-disk-space-insufficient",
+              "faqs/jupyterlab-fails-to-open",
+              "faqs/unable-to-call-gpu",
+              "faqs/gpu-memory-not-released",
+              "faqs/vscode-remote-connection-failed",
+              "faqs/ssh-based-connection-exception",
+              "faqs/sd-image-generation-memory-leak",
+              "faqs/others"
             ]
           }
         ]

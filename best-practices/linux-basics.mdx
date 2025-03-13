@@ -1,0 +1,308 @@
+---
+title: 'Linux Basics'
+description: 'The system of instances rented on GPUhub defaults to the Linux Ubuntu distribution, so being familiar with basic Linux commands is very necessary for training models.'
+---
+
+Below is an introduction to the commonly used essential commands:
+
+## List Files/Folders
+
+Command: `ls` (list)
+
+```bash bash
+user@host:/tmp/test_dir$ ls    # List files and directories in the current directory
+a.txt  b
+user@host:/tmp/test_dir$ ls -l  # List detailed information about files and directories: permissions, Owner, Group, and creation/update time
+total 4
+-rw-rw-r-- 1 root root 0 Nov 9 10:50 a.txt
+drwxrwxr-x 2 root root 4096 Nov 9 10:50 b
+```
+
+## Create/Change Paths
+
+Create command: `mkdir` (make directory)
+
+Change command: `cd` (change working directory)
+
+```bash bash
+user@host:/tmp$ mkdir test_dir   # Create a new directory named test_dir
+user@host:/tmp$ cd test_dir/     # Enter the test_dir directory
+user@host:/tmp/test_dir$
+```
+
+Two special directories: `..` and `.` or written as `../` and `./`, where `..` represents the parent directory and `./` represents the current directory.
+
+```bash bash
+user@host:/tmp/test_dir$ cd ../test_dir/   # Go to the test_dir directory which is in the parent directory
+user@host:/tmp$
+```
+
+## View Current Path
+
+Command: `pwd` (print working directory)
+
+```bash bash
+user@host:~$ pwd
+/root/
+user@host:~$
+```
+
+## Rename or Move Files/Folders
+
+Command: `mv` (move)
+
+```plaintext plaintext
+user@host:/tmp# mv test_dir/ test_directory   # Rename the directory test_dir to test_directory; this also applies to renaming files
+user@host:/tmp# cd test_directory/
+user@host:/tmp/test_directory#
+```
+```plaintext plaintext
+user@host:/tmp/test_directory# mkdir a b     # Create two directories named a and b
+user@host:/tmp/test_directory# ls
+a  b
+user@host:/tmp/test_directory# mv a b/       # Move a into the directory b. If directory b does not exist, this command would rename a to b
+user@host:/tmp/test_directory# tree
+.
+└── b
+    └── a
+```
+
+## Copy Files/Folders
+
+Command: `cp` (copy)
+
+Option: `-r` (the -r stands for recursive)
+
+```bash bash
+user@host:/tmp/test_directory$ mkdir a b     # Create two directories named a and b
+user@host:/tmp/test_directory$ ls
+a  b
+user@host:/tmp/test_directory$ cp -r a b       # Copy directory a into directory b, with -r indicating recursive copy
+user@host:/tmp/test_directory$ tree
+.
+├── a
+└── b
+    └── a
+```
+
+## Delete Files/Folders
+
+Command: `rm` (remove)
+
+Option: `-rf` (the -r stands for recursive, and -f stands for force)
+
+```bash bash
+user@host:/tmp/test_directory$ ls
+a.txt  folder
+user@host:/tmp/test_directory$ rm -rf folder   
+user@host:/tmp/test_directory$ rm -rf folder/*   # The asterisk (*) is a wildcard, representing all files and folders within the folder
+```
+
+## Set Environment Variables
+
+Command: `export`
+
+For setting environment variables, two common ones are PATH and LD_LIBRARY_PATH. Here's how you can configure them:
+
+1. PATH
+
+If you have installed commands that you want to use directly, you can add them to the PATH environment variable. For instance, if you have Python installed in a non-standard location, you might need to add its path to PATH to use it without specifying the full path. You can do this with the following command:
+
+```bash bash
+export PATH=/x/x/x/miniconda3/bin:$PATH
+```
+
+This command adds the specified directory to the PATH variable, which is used by the shell to locate executable files when you type commands。The `$PATH` represents the current value of the PATH variable, and you should preserve it so that it doesn't affect the use of other commands. When you type a command like python, the shell will search for the executable in the directories listed in the PATH variable, using the first one it finds。The order of the paths before and after the colon (`:`) is important。
+
+2. LD_LIBRARY_PATH
+
+Similar to PATH, LD_LIBRARY_PATH is used to set the search path for dynamic link libraries. After installing CUDA, for example, you might need to set it like this:
+
+```bash bash
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+```
+
+You can verify if the settings are successful by using the command `env | grep PATH`.
+
+Remember, the environment variables set with `export` are only valid in the current terminal session. To make them effective globally, write the `export` commands into the file `~/.bashrc`, and then execute `source ~/.bashrc` to make them take effect, or simply open a new terminal.
+
+## Edit Text Files
+
+Command: `vim`
+
+Advanced usage of `vim` can be quite complex. Please refer to other documents for learning.
+
+## Compress and Decompress
+
+Commands: `zip`, `unzip`, `tar`
+- `zip` and `unzip` are specifically for compressing and decompressing `.zip` archives.
+- `tar` is another more versatile compression and decompression tool available in Linux.
+
+Using zip and unzip:
+```bash bash
+#If you don't have zip installed, you can install it using:
+apt-get update && apt-get install -y zip
+#To compress a directory into a .zip file:
+user@host:/tmp$ zip -r dir.zip test_directory/   # Compress the test_directory into a file named dir.zip
+#To decompress a .zip file:
+user@host:/tmp$ unzip dir.zip   # Decompress the dir.zip file
+```
+Using tar:
+```bash bash
+#The tar command is used for archiving and compressing files. The parameters c stands for create (compress), x for extract (decompress), and z for gzip compression/decompression.
+#To compress a directory into a .tar.gz file:
+user@host:/tmp$ tar czf dir.tar.gz test_directory/   # Compress the test_directory into a file named dir.tar.gz
+#To decompress a .tar.gz file:
+user@host:/tmp$ tar xzf dir.tar.gz   # Decompress the dir.tar.gz file
+tar can also be used to compress and decompress other formats of archives, such as bz2.
+```
+```bash bash
+#To compress a directory into a .tar.bz2 file:
+user@host:/tmp$ tar cjf dir.tar.bz2 test_directory/   # Compress the test_directory into a file named dir.tar.bz2
+#To decompress a .tar.bz2 file:
+user@host:/tmp$ tar xjf dir.tar.bz2   # Decompress the dir.tar.bz2 file
+```
+
+## View GPU Information
+
+Command: `nvidia-smi`
+
+```
+user@host:/tmp/test_directory# nvidia-smi
+Mon Nov  8 11:55:26 2021       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 440.82       Driver Version: 440.82       CUDA Version: 10.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  TITAN X (Pascal)    Off  | 00000000:01:00.0  On |                  N/A |
+| 31%   57C    P0    66W / 250W |    408MiB / 12194MiB |      2%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  TITAN X (Pascal)    Off  | 00000000:04:00.0 Off |                  N/A |
+| 93%   27C    P8    11W / 250W |      2MiB / 12196MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0      1450      G   /usr/lib/xorg/Xorg                            32MiB |
+|    0      2804      G   /usr/lib/xorg/Xorg                           351MiB |
++-----------------------------------------------------------------------------+
+```
+```
+Memory Usage          # Memory Utilization
+408MiB / 12194MiB     # The former 408MiB represents the used GPU memory, while the latter 12194MiB represents the total GPU memory.
+GPU Utilization       # GPU Utilization Rate
+2%                    # Utilization percentage
+```
+If you need to continuously display GPU usage information, you can use `nvidia-smi -l 1` to output the information every 1 second. Alternatively, you can use `watch -n 1 nvidia-smi` to achieve the same effect.
+
+## View/Kill Processes
+
+View Process Command: `ps`
+
+Kill Process Command: `kill`
+
+```bash bash
+root@container-5e3e11aeb4-948a17b1:~# ps -ef 
+UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  0 14:04 ?        00:00:00 bash /init/boot/boot.sh
+root          58      48  8 14:04 ?        00:00:03 /root/miniconda3/bin/python /root/miniconda3/bin/jupyter-lab --allow-root
+root          60      48  0 14:04 ?        00:00:00 /usr/sbin/sshd -D
+root          61      48 10 14:04 ?        00:00:04 /root/miniconda3/bin/python /root/miniconda3/bin/tensorboard --host 0.0.0.0 --port 6006 --logdir /root/tf-logs
+root         146      61  0 14:04 ?        00:00:00 /root/miniconda3/lib/python3.8/site-packages/tensorboard_data_server/bin/server --logdir=/root/tf-logs
+root         402     338 99 14:05 pts/0    00:00:06 python tensorflow2.x-test.py
+```
+From the output of the `ps` command, you can identify the process you want to terminate based on the command name. For example, if the process ID (PID) for the last `python tensorflow2.x-test.py` command executed is 402, you can terminate it with the following command:
+
+```bash bash
+root@container-5e3e11aeb4-948a17b1:~# kill -9 402
+root@container-5e3e11aeb4-948a17b1:~#
+```
+The `-9` option forces the process to stop immediately. After executing the `kill` command, you can use `ps -ef` again to confirm whether the process has been terminated.
+
+## View Process CPU and Memory Usage
+
+Command: `top`
+Alternatively, you can use the instance monitoring feature provided by the platform for a more convenient view.
+
+```
+Tasks:  11 total,   2 running,   9 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  2.3 us,  1.3 sy,  0.0 ni, 96.3 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem : 52801571+total, 45453059+free,  7807904 used, 65677196 buff/cache
+KiB Swap:  2074620 total,  2074620 free,        0 used. 51678192+avail Mem 
+    PID user@host      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND             
+   2316 root      20   0 21.846g 1.796g 244664 R 101.4  0.4   0:05.56 python               
+     58 root      20   0  372352  84804  15540 S   1.4  0.0   0:05.40 jupyter-lab         
+     59 root      20   0  713796  11288   7668 S   1.4  0.0   0:01.31 proxy               
+   2395 root      20   0   45920   3940   3444 R   1.4  0.0   0:00.01 top                 
+      1 root      20   0   25368   3724   3404 S   0.0  0.0   0:00.07 bash                 
+     48 root      20   0   55060  24328   9728 S   0.0  0.0   0:00.33 supervisord         
+     60 root      20   0   72304   5872   5140 S   0.0  0.0   0:00.01 sshd                 
+     61 root      20   0 9756148 315032 156124 S   0.0  0.1   0:04.16 tensorboard         
+    146 root      20   0 1582996   6964   5296 S   0.0  0.0   0:00.04 server               
+    338 root      20   0   25824   4312   3800 S   0.0  0.0   0:00.18 bash                 
+    481 root      20   0   25824   4544   4040 S   0.0  0.0   0:00.18 bash
+```
+If there is a high load (high CPU usage), processes are generally listed at the top, and you can confirm them by their process names. The CPU usage of a process can be read from the `%CPU` field. Memory usage is a bit more complex, but usually looking at the `RES` field is sufficient. For example, the first Python process mentioned has a CPU usage rate of 101.4% and is using 1.796GB of memory (Tip: If the memory units displayed are different from those mentioned, press the `e` key to switch).
+
+## Redirect Logs
+
+Command: `>`
+
+```bash bash
+user@host:/tmp$ python train.py    # Normally, logs are output to stdout/stderr.
+Epoch.1 Iter 20
+Epoch.1 Iter 40
+Epoch.1 Iter 50
+...
+
+user@host:/tmp$ python train.py > ./train.log 2>&1  # Redirect logs from stdout/stderr to the train.log file. In the command 2>&1, 2 represents stderr, and 1 represents stdout. The &1 can be thought of as taking the address, similar to C language.
+
+user@host:/tmp$ cat ./train.log    # Print the contents of the train.log file to stdout. cat (Concatenate FILE(s) to standard output.)
+Epoch.1 Iter 20
+Epoch.1 Iter 40
+Epoch.1 Iter 50
+...
+
+user@host:/tmp$ python train.py > ./train.log 2>&1 &   # If you add an & at the end, it runs in the background. You can also consider using it in conjunction with nohup.
+```
+
+## Scenario 1
+<Card>
+**Scenario**: The program appears to have stopped, but the GPU memory is still occupied.
+</Card>
+
+In general, this situation indicates that the process is seemingly dead but is actually still running. You can use the ps `-ef` command to check if the process is still active. If it is, you can terminate it with the `kill` command. Afterward, you should use `nvidia-smi` to verify whether the GPU memory has been freed.
+
+## Scenario 2
+
+<Card>
+**Scenario**: You want to save a model or data from an instance to a network drive for use by other instances.
+</Card>
+
+```bash bash
+user@host:~$ pwd
+/root/
+user@host:~$ ls
+train.py  autodl-tmp  autodl-nas
+user@host:~$ cp -r train.py autodl-nas/   # Copy the train.py file into the network drive
+```
+
+## Scenario 3
+
+<Card>
+**Scenario**: A process is using more memory than the limit allows, causing it to be terminated.
+</Card>
+
+You can use the `top` command to monitor the memory usage of processes. Check if the memory usage stabilizes at a certain value or keeps increasing. If it keeps increasing, it indicates that there might be a memory leak in the program. You can then analyze the references of variables in your Python code to optimize and resolve the issue.
+
+## Scenario 4
+
+<Card>
+**Scenario**: You're running a training process in a JupyterLab terminal as a daemon, and you're concerned about not being able to see the logs after closing the web page.
+</Card>
+
+You can use the log redirection feature to write the logs to a file.
