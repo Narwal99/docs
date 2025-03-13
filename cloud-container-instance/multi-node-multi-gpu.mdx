@@ -1,0 +1,106 @@
+---
+title: 'Multi-Node Multi-GPU Parallelism'
+description: 'This guide advises using single-node multi-GPU setups for efficiency and provides troubleshooting tips for multi-node parallel computing with GPUs.'
+---
+
+<Warning>
+Considering that GPUs other than A100 (such as those without InfiniBand or NVLink hardware support) have lower efficiency in multi-node parallel computing compared to single-node parallel computing, we **no longer support enabling internal IP addresses for multi-node parallel computing**.
+</Warning>
+
+## Multi-Node Multi-GPU
+### Check Network Interface and IP
+If the ```ifconfig``` command is not available, install it using ```apt-get update && apt-get install -y net-tools```.
+
+```bash bash
+root@container-b8cd119052-124c28e1:~# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.4  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:ac:11:00:04  txqueuelen 0  (Ethernet)
+        RX packets 29682  bytes 41859048 (41.8 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 29010  bytes 8195761 (8.1 MB)
+        TX errors 0  dropped 0  overruns 0  carrier 0  collisions 0
+
+eth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.0.0.34  netmask 255.255.255.0  broadcast 10.0.0.255
+        ether 02:42:0a:00:00:22  txqueuelen 0  (Ethernet)
+        RX packets 171  bytes 9306 (9.3 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 14  bytes 1260 (1.2 KB)
+        TX errors 0  dropped 0  overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 3911  bytes 13589584 (13.5 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 3911  bytes 13589584 (13.5 MB)
+        TX errors 0  dropped 0  overruns 0  carrier 0  collisions 0
+```
+
+The network interface names may vary across different instances, so it is best to check each instance individually. In the example above, the network interface is ```eth1``` with an IP address of ```10.0.0.34```.
+
+(There may be multiple network interfaces. Please select the independent IP address of the enabled instance and its corresponding network interface. The network interface name is usually ```eth1```.)
+
+## Testing
+
+Download the test script:
+
+```
+wget http://gpuhub-public.ks3-cn-beijing.ksyun.com/debug/ddp.py
+```
+
+Execute on the master node:
+
+```bash bash
+export NCCL_SOCKET_IFNAME=eth1   # Replace with your own network interface name
+# Set nnodes to the number of nodes (i.e., instances), nproc_per_node to the number of processes per node (i.e., number of GPUs), node_rank to the node number, and master_addr to the IP address of the master node's network interface. Adjust these four variables according to your actual situation. The master_port does not need to be changed.
+python -m torch.distributed.launch \
+    --nproc_per_node=1 \
+    --nnodes=2 \
+    --node_rank=0 \
+    --master_addr="10.0.0.2" \
+    --master_port=55568 \
+    ddp.py
+```
+Execute on the worker node:
+
+```bash bash
+export NCCL_SOCKET_IFNAME=eth1
+python -m torch.distributed.launch \
+    --nproc_per_node=1 \
+    --nnodes=2 \
+    --node_rank=1 \
+    --master_addr="10.0.0.2" \
+    --master_port=55568 \
+    ddp.py
+```
+
+## Common Issues
+
+If errors or blocks occur, first set the environment variable ```export NCCL_DEBUG=INFO``` and then run the training command to observe the NCCL debug logs.
+If you encounter log messages indicating a connection refusal, such as:
+
+```bash bash
+container-xxx:152731:152731 [1] NCCL INFO Bootstrap : Using eth0:172.17.0.4<0>
+container-xxx:152731:152731 [1] NCCL INFO NET/Plugin : No plugin found (libnccl-net.so), using internal implementation
+container-xxx:152731:152731 [1] NCCL INFO NET/IB : No device found.
+container-xxx:152731:152731 [1] NCCL INFO NET/Socket : Using [0]eth0:172.17.0.4<0> [1]eth1:172.18.0.16<0>
+container-xxx:152731:152731 [1] NCCL INFO Using network Socket
+container-xxx:152730:152730 [0] NCCL INFO Bootstrap : Using eth0:172.17.0.4<0>
+container-xxx:152730:152730 [0] NCCL INFO NET/Plugin : No plugin found (libnccl-net.so), using internal implementation
+container-xxx:152730:152730 [0] NCCL INFO NET/IB : No device found.
+container-xxx:152730:152730 [0] NCCL INFO NET/Socket : Using [0]eth0:172.17.0.4<0> [1]eth1:172.18.0.16<0>
+container-3e581195ae-be8c3f28:152730:152730 [0] NCCL INFO Using network Socket
+container-3e581195ae-be8c3f28:152731:152775 [1] NCCL INFO Call to connect returned Connection refused, retrying
+container-3e581195ae-be8c3f28:152730:152783 [0] NCCL INFO Call to connect returned Connection refused, retrying
+container-3e581195ae-be8c3f28:152731:152775 [1] NCCL INFO Call to connect returned Connection refused, retrying
+container-3e581195ae-be8c3f28:152730:152783 [0] NCCL INFO Call to connect returned Connection refused, retrying
+```
+It is highly likely that the ```NCCL_SOCKET_IFNAME``` environment variable is not taking effect. In this case, you can write the following content into the ```/etc/nccl.conf``` configuration file, and you will no longer need to add the environment variable separately:
+
+```bash bash
+NCCL_SOCKET_IFNAME=eth1  # Replace with your own network interface name
+NCCL_DEBUG=WARN
+```
+Refer to the official documentation: [Environment Variables — NCCL 2.25.1 documentation](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html)
