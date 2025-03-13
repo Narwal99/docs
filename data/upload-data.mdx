@@ -1,4 +1,65 @@
 ---
 title: 'Upload Data'
-description: 'XXX'
+description: 'The following introduces various methods for uploading data to instances.'
 ---
+
+1. <Icon icon="thumbs-up" iconType="solid" /> **[FileZilla Software:]()** Supports both files and folders, and allows for easy drag-and-drop uploading and downloading. 
+2. <Icon icon="thumbs-up" iconType="solid" /> **[XShell Software:]()** Manages SSH connections and integrates xftp, which supports drag-and-drop uploading and downloading of folders/files. 
+3. **[JupyterLab Upload:](/container-instance/jupyterlab)** Similar to cloud drives, it is simple to use but only supports files, not folders.
+4. **[GPUhub File Storage]():** Upload data directly to GPUhub File Storage. The advantage is its simplicity and no need to start an instance, but the downside is that the web interface does not support uploading folders.
+5. **SCP Command:** Supports uploading and downloading both files and folders. However, since it is executed via the command line, _it has a slightly higher learning curve_.
+
+## FileZilla
+
+Refer to the [documentation](/data/file-storage) for FileZilla.
+
+## XShell
+
+Refer to the [documentation](/data/file-storage) for XShell.
+
+## Uploading Data with JupyterLab
+
+![](/images/upload-data.png)
+
+## Uploading Data via File Storage
+
+Refer to the [documentation](/data/file-storage) for File Storage.
+
+## Remote Copy via SCP
+
+<Note>
+The following commands need to be executed on your local machine to copy data to the instance, not within the instance itself.
+
+If you are using Windows, the default Windows system does not come with an SSH client. We recommend downloading and using the [Cmder](https://cmder.app/) tool, which is portable and can be used directly after extraction without installation.
+</Note>
+
+Copy your SSH login command, which typically has the format:
+
+```bash bash
+# Here, 35394 is the port number, and region-1.gpuhub.com is the remote address. 
+# Please replace these with your instance's port and address.
+ssh -p 35394 root@region-1.gpuhub.com
+```
+
+
+To use SCP to remotely copy files or folders to the instance, the command is:
+
+```bash bash
+# Execute this command on your local machine.
+scp -rP 35394 <local file/folder> root@region-1.gpuhub.com:/root/gpuhub-tmp
+```
+
+If you want to copy data from the instance to your local machine, the SCP command is:
+
+```bash bash
+scp -rP 35394 root@120.92.100.9:<file/folder-in-the instance> <local-file/folder>
+```
+
+### Advanced Usage Methods
+The direct SCP method for copying folders can be very slow if there are many small files. You can use the following method to copy a ```tar``` stream:
+
+```bash bash
+# Provided that the tar command is available on your local machine
+cd <directory of the folder to be copied>
+tar cf - * | ssh -p 35394 root@region-1.gpuhub.com "cd /root/gpuhub-tmp && tar xf -"
+```

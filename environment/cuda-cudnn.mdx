@@ -1,4 +1,108 @@
 ---
 title: 'CUDA / cuDNN'
-description: 'XXX'
+description: 'Install CUDA/cuDNN'
 ---
+
+<Note>
+If you don't need to recompile code, you typically don't need to install CUDA/cuDNN separately. Frameworks come with precompiled CUDA support, and the framework version corresponds to a specific CUDA version. Therefore, you only need to focus on the framework version and not the CUDA version independently.
+</Note>
+
+## Check Default CUDA/cuDNN Version
+
+<Note>
+The CUDA version displayed by the  `nvidia-smi` command only indicates the highest CUDA version supported by the driver, not the actual version of CUDA installed on the instance.
+</Note>
+
+To check the default CUDA version installed in the platform's built-in image (installation directory is `/usr/local/`):
+
+```bash bash
+# Query the CUDA version in the platform's built-in image
+ldconfig -p | grep cuda
+    libnvrtc.so.11.0 (libc6,x86-64) => /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so.11.0
+    libnvrtc.so (libc6,x86-64) => /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so
+    libnvrtc-builtins.so.11.0 (libc6,x86-64) => /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc-builtins.so.11.0
+```
+To check the cuDNN version installed in the platform's built-in image:
+
+```bash bash
+# Query the cuDNN version in the platform's built-in image
+ldconfig -p | grep cudnn
+    libcudnn_ops_train.so.8 (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libcudnn_ops_train.so.8
+    libcudnn_ops_train.so (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libcudnn_ops_train.so
+    libcudnn_ops_infer.so.8 (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so.8
+    libcudnn_ops_infer.so (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so
+```
+The version number is indicated by the number after `.so` in the output logs. If you have installed CUDA via `conda`, you can check it using the following commands:
+
+```bash bash
+conda list | grep cudatoolkit
+cudatoolkit               10.1.243             h6bb024c_0    defaults
+
+conda list | grep cudnn
+cudnn                     7.6.5                cuda10.1_0    defaults
+
+
+```
+
+## Install Other Versions of CUDA/cuDNN
+### Method 1: Install using Conda
+
+**Advantages:** Simple and easy to use. **Disadvantages:** Typically, header files are not included. If you need to compile code, you will need to install using Method 2.
+
+```bash bash
+conda install cudatoolkit==xx.xx
+conda install cudnn==xx.xx
+```
+<Accordion title="Not sure what the version number is? Search for it.">
+  ```bash bash
+    conda search cudatoolkit
+    Loading channels: done
+    # Name                       Version           Build  Channel             
+    cudatoolkit                      9.0      h13b8566_0  anaconda/pkgs/main  
+    cudatoolkit                      9.2               0  anaconda/pkgs/main  
+    cudatoolkit                 10.0.130               0  anaconda/pkgs/main  
+    cudatoolkit                 10.1.168               0  anaconda/pkgs/main  
+    cudatoolkit                 10.1.243      h6bb024c_0  anaconda/pkgs/main  
+    cudatoolkit                  10.2.89      hfd86e86_0  anaconda/pkgs/main  
+    cudatoolkit                  10.2.89      hfd86e86_1  anaconda/pkgs/main  
+    cudatoolkit                 11.0.221      h6bb024c_0  anaconda/pkgs/main  
+    cudatoolkit                   11.3.1      h2bc3f7f_2  anaconda/pkgs/main    
+  ```
+</Accordion>
+
+
+### Method 2: Install by Downloading and Installing the Package
+
+<Note>
+CUDA Download Address: [CUDA Toolkit Archive](https://developer.nvidia.com/cuda-toolkit-archive)
+</Note>
+
+**Installation Method:**
+
+After downloading the `.run` installation package:
+
+```bash bash
+chmod +x xxx.run   # Add execution permission
+./xxx.run          # Run the installation package
+```
+<Note>
+cuDNN Download Address: [CUDA Deep Neural Network](https://developer.nvidia.com/cudnn)
+</Note>
+
+**Installation Method:**
+
+1. Unzip the downloaded file.
+2. Move the dynamic libraries and header files to the corresponding directories:
+
+```bash bash
+mv cuda/include/* /usr/local/cuda/include/
+chmod +x cuda/lib64/* && mv cuda/lib64/* /usr/local/cuda/lib64/
+```
+3. After installation, add the environment variable:
+```bash bash
+echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64/:${LD_LIBRARY_PATH} \n" >> ~/.bashrc
+source ~/.bashrc && ldconfig
+```
+<Note>
+The default image includes the most basic version of CUDA and cuDNN. If you have installed `cudatoolkit` via Conda, it will generally be used preferentially over the default installation.
+</Note>

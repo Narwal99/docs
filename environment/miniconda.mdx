@@ -1,4 +1,94 @@
 ---
 title: 'Miniconda'
-description: 'XXX'
+description: "The platform's built-in images all come with Miniconda installed, and the installation path is /root/miniconda3/."
 ---
+If you need to use other versions of CUDA or cuDNN, you can easily set up the required environment in just a few steps using Miniconda. We recommend **choosing the Miniconda image when creating an instance** (it does not come with any deep learning frameworks pre-installed, keeping the runtime environment clean and avoiding unnecessary issues).
+
+The following example demonstrates how to use Conda to set up an environment for TensorFlow 1.15.0.
+
+<Tip>
+If you need to install the virtual environment on a data disk, please refer to the method described at the end of the document.
+</Tip>
+
+## Creating a Virtual Environment
+
+```bash bash
+conda create -n tf python=3.7           # Create a virtual environment named "tf"
+conda init bash && source /root/.bashrc # Update the environment variables in bashrc
+conda activate tf                       # Switch to the created virtual environment "tf"
+```
+## Installing Software Dependencies
+
+Here is an example of installing TensorFlow 1.15.0.
+
+```bash bash
+# After switching to the Conda virtual environment
+conda install tensorflow-gpu==1.15.0
+# Conda will automatically resolve and install the required CUDA and cuDNN versions for TensorFlow 1.15.0
+```
+
+```python python
+# Simple test using Python after installation
+import tensorflow as tf
+hello = tf.constant('Hello, TensorFlow!')
+sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+print(sess.run(hello))
+```
+## Switching the Notebook Environment
+
+How to Use the New Conda Environment in JupyterLab Notebook
+
+```bash bash
+# Create a new Conda virtual environment (skip if already created)
+conda create -n tf python=3.7             # Create a virtual environment named "tf"
+conda init bash && source /root/.bashrc   # Update the environment variables in bashrc
+
+# Add the new Conda virtual environment to JupyterLab
+conda activate tf                         # Switch to the created virtual environment "tf"
+conda install ipykernel                    # Install ipykernel to enable kernel integration
+ipython kernel install --user --name=tf   # Set up the kernel for the environment, with "tf" as the kernel name
+
+```
+
+After executing the above commands, if you create a new Notebook, you can select the Notebook named "tf".
+
+![](/images/env-miniconda-notebook-tr.png)
+
+If it is an existing Notebook
+
+![](/images/env-miniconda-notebook-tr-2.png)
+
+## Clearing the Conda Virtual Environment
+
+```bash bash
+# Clear the installed environment
+conda deactivate          # Exit the current (tf) environment and return to the base environment
+conda remove -n tf --all  # Remove the tf environment
+```
+## Deleting Installation Packages and Cache
+
+```bash bash
+conda clean -y --all
+```
+## Installing the Virtual Environment to the Data Disk
+
+Execute the following commands to set up the virtual environment installation path to `/root/guphub-tmp/conda/envs` and the package cache path to `/root/guphub-tmp/conda/pkgs`:
+
+```bash bash
+mkdir -p /root/autodl-tmp/conda/pkgs
+conda config --add pkgs_dirs /root/autodl-tmp/conda/pkgs
+
+mkdir -p /root/autodl-tmp/conda/envs
+conda config --add envs_dirs /root/autodl-tmp/conda/envs
+```
+Verifying the Configuration
+
+```bash bash
+# Check if the configured paths are in the file content
+cat /root/.condarc
+
+```
+
+Cancelling the Configuration for Installing Virtual Environment to the Data Disk
+
+Edit the `/root/.condarc` file and delete the lines corresponding to the configured paths.

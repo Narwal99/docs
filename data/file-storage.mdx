@@ -1,4 +1,34 @@
 ---
 title: 'File Storage'
-description: 'XXX'
+description: 'Store your important data and code in here!'
 ---
+
+File storage is a network-shared storage that can be mounted to different instances within the same region
+
+<CardGroup cols={2}>
+  <Card title="Advantages">
+    `1` Shared across instances with multi-point read/write capabilities, unaffected by instance release.
+    
+    `2` High data reliability due to multiple redundant copies on the storage backend (Local Data Disks have no redundancy and are more prone to disk failures).
+  </Card>
+  <Card title="Disadvantages">
+    Generally lower IO performance.
+  </Card>
+</CardGroup>
+
+## Recommendation
+- **Store your important data and code in file storage** for shared access and high reliability. For training data requiring high IO performance, copy it to the local data disk of the instance to achieve better IO performance. This approach balances convenience, safety, and performance.
+
+## Initialization
+Enter the Console -> File Storage menu, and initialize the file storage for the corresponding region. After creating an instance in that region and starting it, the file storage will be mounted to the ```/root/gpuhub-fs``` directory of the instance.
+![](/images/file-storage.png)
+
+
+## Billing
+For details on data disk billing, please refer to the [pricing](/recharge-pricing/pricing).
+
+## Data Cleanup
+
+<Warning>
+If the account has not logged in for three consecutive months or has an outstanding fee of more than $10.00, the data in the file storage will be cleared.
+</Warning>

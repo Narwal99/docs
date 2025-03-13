@@ -1,4 +1,53 @@
 ---
 title: 'Overview'
-description: 'XXX'
+description: 'The platform provides pre-installed images with specific frameworks and versions. If these versions do not meet your needs, see below for methods to configure other versions.'
 ---
+
+<Note>
+The system version of all platform images is Ubuntu, with the majority being Ubuntu 18.04 and a few being Ubuntu 20.04.
+</Note>
+
+<Accordion title="Pre-installed images" icon="rectangle-vertical-history">
+    |Framework | Framework Version | Python Version | CUDA Version|
+    |----|----|----|----|
+    |PyTorch	|1.1.0	|3.7	|10.0|
+    |PyTorch	|1.5.1	|3.8	|10.1|
+    |PyTorch	|1.6.0	|3.8	|10.1|
+    |PyTorch	|1.7.0	|3.8	|11.0|
+    |PyTorch	|1.8.1	|3.8	|11.1|
+    |PyTorch	|1.9.0	|3.8	|11.1|
+    |PyTorch	|1.10.0	|3.8	|11.3|
+    |TensorFlow	|1.15.5	|3.8	|11.4|
+    |TensorFlow	|2.3.0	|3.8	|10.1|
+    |TensorFlow	|2.5.0	|3.8	|11.2|
+    |PaddlePaddle	|2.1.0	|3.8	|11.1|
+    |PaddlePaddle	|2.2.0	|3.8	|11.2|
+    |Miniconda	|conda3	|3.8	|10.0|
+    |Miniconda	|conda3	|3.8	|10.1|
+    |Miniconda	|conda3	|3.8	|10.2|
+    |Miniconda	|conda3	|3.8	|11.1|
+    |Miniconda	|conda3	|3.8	|11.3|
+    |Jittor	|1.3.1	|3.7	|11.3|
+    |ADL Dragon	|latest	|3.8	11.3|
+</Accordion>
+
+<CardGroup cols={4}>
+  <Card title="Installation of Other Python Versions" href="/environment/python3-x">
+    Refer to the documentation
+  </Card>
+  <Card title="Installation of Other CUDA Versions" href="/environment/cuda-cudnn">
+    Refer to the documentation
+  </Card>
+  <Card title="Installation of PyTorch: Refer to the documentation" href="https://pytorch.org/get-started/previous-versions/">
+    Refer to the documentation
+  </Card>
+  <Card title="Installation of TensorFlow" href="https://www.tensorflow.org/install/pip">
+    Refer to the documentation
+  </Card>
+</CardGroup>
+
+## Recommended Usage
+
+1. **First, check if the platform's pre-installed images** include the required versions of PyTorch, TensorFlow, or other frameworks. If available, prioritize using the platform's built-in images.
+2. If the platform does not have the desired framework versions, determine the required CUDA version for your framework. For example, PyTorch 1.9.0 requires CUDA 11.1. You can then select a platform image with Miniconda and CUDA 11.1 pre-installed. This allows you to install the required framework without the hassle of setting up cudatoolkit. (The pre-installed CUDA on the platform includes .h header files, which is more convenient if you need to compile code.)
+3. If neither of the above conditions is met, you can choose any Miniconda image and install the required frameworks, CUDA, or even other Python versions after the instance is started.

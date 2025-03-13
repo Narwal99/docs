@@ -1,4 +1,96 @@
 ---
 title: 'Compress / Decompress'
-description: 'XXX'
+description: 'This document provides guidance on compressing and decompressing files using various formats and tools on GPUhub instances.'
 ---
+
+<Tip>
+If no special compression is needed, use the **.tar** format. It only packages files without compression, which is fast and efficient for files like images and videos that are already compressed.
+</Tip>
+
+## Arc Compression Tool
+
+Since the installation packages for tools like **zip** and **rar** typically support only one type of compression or decompression, we provide a small utility that supports the following formats:
+
+| Compression/Packaging | Decompression/Unpacking | 
+|----|----|
+|`.zip`, `.tar` | `.tar`, `.zip`, `.rar`, `.7z` |
+
+<Note>
+The provided URL for downloading the arc tool may not be accessible due to network issues or potential problems with the link itself. If you encounter difficulties, please check the validity of the URL and ensure it is correctly formatted. Retrying the download after some time or from a different network may resolve the issue.
+</Note>
+
+```bash bash
+# Download and Install
+curl -L -o /usr/bin/arc http://gpuhub-public.ks3-sig-sig1.ksyun.com/tool/arc && chmod +x /usr/bin/arc
+
+# Compress/Package
+arc compress xxx.zip path/to/directory
+
+# Decompress/Unpack
+arc decompress xxx.zip
+
+# Or decompress to a specific directory:
+arc decompress xxx.zip path/to/directory
+```
+
+If a ZIP file cannot be decompressed using the above command or the `unzip` command, first check the file size. If the file size matches the original, try the following command:
+```bash bash
+apt-get update && apt-get install -y fastjar
+jar xvf xxx.zip
+```
+
+## Commonly Used Compression Tool
+
+<AccordionGroup>
+  <Accordion title="zip">
+    ```bash bash
+    # Compress: If the zip command is not installed, install it using:
+    apt-get update && apt-get install -y zip
+
+    # Then compress the directory:
+    zip -r <custom_archive_name>.zip <path_to_directory_to_compress>
+
+    # Decompress: If the unzip command is not installed, install it using:
+    apt-get update && apt-get install -y unzip  
+
+    # Then decompress the ZIP file:
+    unzip <archive_name>.zip -d <path_to_extract>
+    ```
+  </Accordion>
+
+  <Accordion title="tar" >
+    ```bash bash
+    # Compress (packing without compression, 
+    # recommended for files that are already compressed like images):
+    tar -cf <custom_archive_name>.tar <path_to_directory_to_compress>
+    # Decompress:
+    tar -xf <archive_name>.tar -C <path_to_extract>
+
+    ```
+  </Accordion>
+
+  <Accordion title="tar.gz">
+    ```bash bash
+    # Compress:
+    tar -czf <custom_archive_name>.tar.gz <path_to_directory_to_compress>
+    # Decompress:
+    tar -xzf <archive_name>.tar.gz -C <path_to_extract>
+
+    ```
+  </Accordion>
+  
+  <Accordion title="rar">
+    <Warning>
+    Not Recommended: RAR packages are not commonly used on Linux.
+    </Warning>
+    Decompress: If the `unrar` command is not installed, install it using:
+
+    ```bash bash
+    apt-get update && apt-get install -y unrar
+    # Then decompress the RAR file:
+    unrar e <archive_name>.rar
+    ```
+  </Accordion>
+</AccordionGroup>
+
+

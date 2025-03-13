@@ -1,4 +1,21 @@
 ---
 title: 'Local Data Disk'
-description: 'XXX'
+description: 'This document explains Local Data Disks, covering capacity, resizing, and billing details.'
 ---
+<Warning>
+The instance's system disk and data disk are generally local SSDs, with a small portion being cloud disks. 
+Local data disks offer good performance but lack redundant copies. Due to the inherent lifespan of local disks, there is a probability of failure. 
+Important data should be regularly backed up to [file storage](/data/file-storage) or local storage. 
+GPUhub does not provide reliability guarantees or services for such local storage products.
+</Warning>
+
+## Instance Creation
+When renting an instance, a data disk of 50-100 GB is provided for free. If you need to expand the disk, select a host that supports the required capacity during rental.
+![](/images/data-local-ex.png)
+
+## Adjust Capacity
+Resize operations, both expansion and reduction, are also available after renting.
+![](/images/data-local-adjust.png)
+
+## Billing
+For details on data disk billing, please refer to the [pricing](/recharge-pricing/pricing).

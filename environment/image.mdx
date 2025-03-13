@@ -1,4 +1,32 @@
 ---
 title: 'Image'
-description: 'XXX'
+description: 'This document explains how to save, load, and share custom images on GPUhub, allowing users to replicate and reuse their configured environments across different instances.'
 ---
+
+<Note>
+GPUhub currently does not support importing custom images.
+</Note>
+
+To reuse or save your configured environment for later, you can save it as an image. You can also share these images with others.
+
+## Save Image
+
+After shutting down an instance, you can save the entire system disk of that instance by clicking "Save Image" in the "More" menu. ([What system disk is?](/container-instance/overview))
+
+![](/images/env-save-image.png)
+
+View saved images in the "My Images" menu.
+
+![](/images/env-my-images.png)
+
+## Load Image
+
+When creating a new instance or replacing the image of an existing instance, select the saved image you created to restore all the contents of the original instance's system disk.
+
+![](/images/env-load-image.png)
+
+## Share Image
+
+After saving an image, you can click "Share" in the actions menu to share it with specific users.
+
+![](/images/env-share-image.png)

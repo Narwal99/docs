@@ -1,4 +1,42 @@
 ---
 title: 'Download Data'
-description: 'XXX'
+description: 'The following introduces various methods for downloading data from instances.'
 ---
+
+1. <Icon icon="thumbs-up" iconType="solid" /> **[FileZilla Software:]()** Supports both files and folders, and allows for easy drag-and-drop uploading and downloading.
+2. **[JupyterLab:](/container-instance/jupyterlab)** Can download files but not folders. The advantage is its simplicity and ease of use.
+3. **SCP Command:** Supports both files and folders. Since it is executed via the command line, _it has a slightly higher learning curve_.
+
+## FileZilla
+
+Refer to the [documentation](/data/file-storage) for FileZilla.
+
+## JupyterLab
+
+![](/images/download-data.png)
+
+## SCP Command
+
+<Note>
+The following commands need to be executed on your local machine to copy data to the instance, not within the instance itself.
+
+If you are using Windows, the default Windows system does not come with an SSH client. We recommend downloading and using the [Cmder](https://cmder.app/) tool, which is portable and can be used directly after extraction without installation.
+</Note>
+
+Copy your SSH login command, which has the format: 
+
+```bash bash
+# 35394 is the port number, and region-1.gpuhub.com is the remote address.
+# Please replace these with your instance's port and address.
+ssh -p 35394 root@region-1.gpuhub.com
+```
+<Warning>
+Note that the parameter in the following command is ```-rP```, not ```-rp```.
+</Warning>
+
+Then, the SCP command for remotely downloading files is:
+
+```bash bash
+# Note that this command needs to be executed on your local machine.
+scp -rP 35394 root@region-1.gpuhub.com:/path/to/file_or_folder_in_instance <local_file_or_folder>
+```
