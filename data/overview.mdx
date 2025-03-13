@@ -1,0 +1,31 @@
+---
+title: 'Overview'
+description: 'This document outlines data retention policies, data transfer methods, and public dataset usage for GPUhub instances.'
+---
+
+<Warning>
+The instance's system disk and data disk are generally local SSDs, with a small portion being cloud disks. 
+Local data disks offer good performance but lack redundant copies. Due to the inherent lifespan of local disks, there is a probability of failure. 
+Important data should be regularly backed up to [file storage](/data/file-storage) or local storage. 
+GPUhub does not provide reliability guarantees or services for such local storage products.
+</Warning>
+
+## Data Retention in Instances
+
+Data retention rules in instances:
+
+1. Data remains intact during normal operation, shutdown, restart, and even after the expiration of annual or monthly subscription plans. However, instances are subject to a release cycle. An instance will be released if it **remains shut down continuously for 15 days**, and **all data within the instance will be cleared**.
+2. Additionally, rented hosts have a lease expiration date. The typical lease period for a host ranges from 3 months to several years. **If a host is no longer available for rent, the instance will also be released when the host is taken offline** (the system will display a red countdown notice on the instance at least 7 days in advance, and you can enable instance expiration/release alerts on the console homepage). Therefore, please pay attention to the lease expiration date of the host and it is recommended to subscribe to instance release/expiration notifications on the console homepage.
+
+## Uploading and Downloading Data
+
+Other upload and download methods:
+
+<CardGroup cols={2}>
+  <Card horizontal title="Upload Data" icon="cloud-arrow-up" href="/data/upload-data">
+    [](/data/upload-data)
+  </Card>
+  <Card horizontal title="Download Data" icon="cloud-arrow-down" href="/data/download-data">
+    [](/data/download-data)
+  </Card>
+</CardGroup>

@@ -51,18 +51,18 @@
           {
             "group": "Cloud Container Instance",
             "pages": [
-              "cloud-container-instance/overview",
-              "cloud-container-instance/jupyterlab",
-              "cloud-container-instance/ssh",
-              "cloud-container-instance/scale-configuration",
-              "cloud-container-instance/change-billing-model",
-              "cloud-container-instance/save-image",
-              "cloud-container-instance/reset-system",
-              "cloud-container-instance/migrate-instance",
-              "cloud-container-instance/migrate-instance-sr",
-              "cloud-container-instance/run-in-background",
-              "cloud-container-instance/multi-node-multi-gpu",
-              "cloud-container-instance/remote-desktop"
+              "container-instance/overview",
+              "container-instance/jupyterlab",
+              "container-instance/ssh",
+              "container-instance/scale-configuration",
+              "container-instance/change-billing-model",
+              "container-instance/save-image",
+              "container-instance/reset-system",
+              "container-instance/migrate-instance",
+              "container-instance/migrate-instance-sr",
+              "container-instance/run-in-background",
+              "container-instance/multi-node-multi-gpu",
+              "container-instance/remote-desktop"
             ]
           }
         ]
@@ -73,13 +73,12 @@
           {
             "group": "Data Transmission & Storage",
             "pages": [
-              "data-trans-storage/overview",
-              "data-trans-storage/upload-data",
-              "data-trans-storage/download-data",
-              "data-trans-storage/local-data-disk",
-              "data-trans-storage/public-data",
-              "data-trans-storage/file-storage",
-              "data-trans-storage/compress-decompress"
+              "data/overview",
+              "data/upload-data",
+              "data/download-data",
+              "data/local-data-disk",
+              "data/file-storage",
+              "data/compress-decompress"
             ]
           }
         ]
