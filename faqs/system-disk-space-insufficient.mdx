@@ -21,7 +21,33 @@ du -sh /root/.cache
 ```
 
 ## Normal Cleanup Steps
+First, check the disk space used by files and directories. Folders under the system/root directory generally do not occupy significant disk space, so you should mainly focus on the directories or files that you have created.
+
 ### File Size
+
+Use the ls -alh command to check the sizes of files such as `.bashrc` and `.profile` in the example below. However, **the size displayed for directories is only the size of the directory itself, not the total size of all files within the directory**.
+
+![](/images/faq-disk-space-1.png)
+
 ### Directory Size
+
+Use the `du -sh xxx` command to recursively calculate the total size of all files within a directory.
+
+![](/images/faq-disk-space-2.png)
+
 ### Deletion
+
+Use `rm -rf xxx` to delete files or directories and free up space.
+
+![](/images/faq-disk-space-3.png)
+
 ### Special Folders Not Occupying System Disk Space
+
+`/root/autodl-tmp`
+`/root/autodl-nas`
+`/root/autodl-pub`
+`/root/autodl-fs`
+
+## Clearing All Data
+
+If you no longer need the data, you can clear everything by clicking "Reset System" in the "More" operations of the instance. This will clear the system disk.

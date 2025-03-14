@@ -1,6 +1,86 @@
 ---
 title: 'Others'
-description: 'XXX'
+description: 'The mysteries unfold in question.'
 ---
 
-![](/images/papapa.gif)
+## Why is my program stuck with no output?
+
+First, use the top and nvidia-smi commands to check CPU and GPU usage. If the CPU is at 100% and the GPU is idle, it likely means the program is stuck at a GPU call. Refer to the answer to the previous question for more details. If not, debug the code by adding print statements to key lines to identify where the program is hanging. Then, search online for the specific issue. Always analyze the code instead of guessing blindly.
+
+---
+
+## Why am I encountering CUDA OOM (Out of Memory)?
+
+If your program reports OOM, start by setting the batch size to 1 and gradually increase it to see when it fails. This will help you decide whether to [upgrade your configuration](/container-instance/scale-configuration) or switch to a GPU with more memory. If the first run is fine but subsequent runs fail, use `nvidia-smi` to check for residual GPU memory usage. If there is usage, terminate the lingering process with ps `-ef` and `kill -9 <PID>`. If not, the program might inherently require more memory during computation, especially with dynamic frameworks.
+
+---
+
+## What if there are not enough idle GPUs on the host?
+
+You can either start the instance in "[no-GPU mode](/best-practices/cost-saving)" to download important data or [migrate the instance](/container-instance/migrate-instance) to another host. Alternatively, wait for GPUs to become available on the current host.
+
+---
+
+## Why can't I connect to VSCode or SSH after changing the instance image?
+
+For Linux/Mac users, delete the local known_hosts file by running `rm ~/.ssh/known_hosts`. For Windows users, delete `C:/Users/<username>/.ssh/known_hosts`. Then, retry the connection.
+
+---
+
+## Can I use vouchers for annual or monthly plans?
+
+Some vouchers are applicable. Check the scope of use for your voucher. Vouchers can be stacked and will prioritize balance deductions.
+
+---
+
+## Will GPUs be reserved after shutting down an annual/monthly instance?
+
+GPUs will be reserved throughout the annual/monthly period. You can restart at any time without worrying about other users occupying the GPU.
+
+---
+
+## Can multiple GPUs in one instance be used in parallel?
+
+Multiple GPUs within the same instance on the same physical host can be used in parallel. For multi-node parallelism, contact customer support.
+
+---
+
+## How is billing handled if the GPU price changes mid-way for a pay-as-you-go instance?
+
+Billing is based on the price at the time of startup. Price changes during runtime do not affect billing. If you restart the instance, the latest price will be applied.
+
+---
+
+## Can I recover data from a released instance?
+
+No, data cannot be recovered once the instance is released.
+
+---
+
+## What if the host of my instance experiences hardware failures like disk or GPU issues?
+
+You can either migrate the instance to another host or wait for the host to be repaired and brought back online. The platform will provide compensation for such situations.
+
+---
+
+## Can data on instances be accidentally damaged or lost?
+
+Local data disks on instances are mostly physical disks without redundancy, so data loss is possible. Important data should be backed up regularly. Data stored on shared cloud disks, however, use multi-replica redundancy and have a very high reliability.
+
+---
+
+## Will closing the browser or logging out affect programs running on JupyterLab(Notebook)?
+
+No, it will not affect the running programs. However, ensure logs are saved properly, such as redirecting them to log files. Refer to the [documentation](/container-instance/run-in-background) for more details.
+
+---
+
+## How can I ensure a program continues running after an SSH connection is disconnected?
+
+Use the JupyterLab terminal to run commands or use tools like screen or tmux. Refer to the section on [daemon processes](/container-instance/run-in-background) for more information.
+
+---
+
+## Why did my program get terminated with a "Killed" message?
+
+The program was terminated by the system due to excessive memory usage. You can check memory usage via the instance monitoring dashboard. Solutions include upgrading your instance configuration or switching to a host with more memory, as memory allocation is linearly proportional to the number of GPUs.

@@ -1,6 +1,65 @@
 ---
 title: 'SSH-Based Connection Exception'
-description: 'XXX'
+description: 'When you encounter connection issues with VSCode, PyCharm, or other SSH-based tools, please follow the steps below.'
 ---
 
-![](/images/papapa.gif)
+<Note>
+If you are using XShell, MobaXterm, or similar tools and encounter connection issues, please refer to the [relevant documentation](/best-practices/xshell) instead of the solutions below.
+</Note>
+
+## Possible Causes:
+
+1. SSH Fingerprint Change:
+
+    - If the system disk of the instance is reset or the image is changed, the SSH fingerprint will change. This will cause an error when connecting via SSH: "REMOTE HOST IDENTIFICATION HAS CHANGED."
+
+2. Incorrect Local SSH Config File Permissions:
+
+    - If the permissions of the local SSH config file are incorrect, you may encounter errors when SSH tries to write to the configuration (or other files).
+
+3. VSCode/PyCharm Connection Issues:
+
+    - VSCode may fail to distinguish between different instances when connecting to the same host on different ports, leading to incorrect connections and failures.
+
+## Troubleshooting Steps:
+
+### Step 1: Check the First Two Causes
+
+- For Windows Users: Open PowerShell by searching for it in the Start menu.
+- For Mac Users: Open Terminal by searching for it in Spotlight.
+
+Enter the complete SSH command for your instance and press Enter. If the connection is successful, you will see output similar to the following:
+
+![](/images/faq-ssh-connection-1.png)
+
+<Note>
+If the connection is normal, you do not need to proceed to the next step (i.e., no need to enter a password). You can then proceed to Step 2 to troubleshoot VSCode/PyCharm issues.
+</Note>
+
+If you encounter errors like the following and the SSH connection exits:
+
+![](/images/faq-ssh-connection-2.png)
+
+Other possible error messages include:
+
+```
+Bad owner or permissions on C:\Users\USER\.ssh\config
+Load key "C:\Users\USER\.ssh\id_rsa": bad permissions
+```
+Solution:
+
+- Delete the `known_hosts` and `config files mentioned in the error messages (these are local files, and the paths may vary for each user).
+- If there is a permission error with the RSA key, Windows users should set the key file to read-only. For Linux/Mac users, run `chmod 600 <rsa_file>` to correct the permissions.
+
+### Step 2: Troubleshooting VSCode and PyCharm Connection Issues
+
+VSCode Connection Issues:
+
+- Common Cause: HOST conflicts. For example, if you rent two instances (A and B) in the same region with the same host name but different ports, VSCode may write identical HOST alias entries in the `ssh/config` file. When instance A is shut down and instance B is started, VSCode may incorrectly connect to instance A instead of B, resulting in a connection failure.
+- Solution:
+    - Quick Fix: Delete the `C:\Users\USER\.ssh\config` file.
+    - Elegant Solution: Edit the `config` file and modify the `Host` field (alias name) to differentiate between instances before reconnecting.
+
+PyCharm Connection Issues:
+
+- Cause: PyCharm's complex encapsulation and lack of visible logs require troubleshooting based on the error messages provided.

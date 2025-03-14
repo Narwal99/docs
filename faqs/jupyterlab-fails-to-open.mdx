@@ -1,6 +1,36 @@
 ---
 title: 'JupyterLab Fails to Open'
-description: 'XXX'
+description: 'Typically caused by dependency installation or network connection issues.'
 ---
 
-![](/images/papapa.gif)
+## Issue Type 1: Dependency installation
+
+If JupyterLab fails to run due to dependency changes during package installation, log in via [SSH](/container-instance/ssh) and run `jupyter-lab` to check. If it errors, reinstall JupyterLab using `pip install jupyterlab` and restart the instance.
+
+(Windows users can SSH via CMD or PowerShell, but may need to **manually enter the password** instead of pasting it.)
+
+- If you see normal output after entering `jupyter-lab`, JupyterLab is working correctly. 
+- If you encounter errors like the ones below, JupyterLab cannot start.
+
+![](/images/faq-jupyterlab-fails-1.png)
+
+Solution for JupyterLab startup errors: 
+
+Reinstall JupyterLab. 
+
+- If the `pip` command is missing, run `conda install pip` first. 
+- If `conda` is missing, you may have deleted Miniconda, and the simplest solution is to reset the system.
+    1. Uninstall the current JupyterLab: `pip uninstall jupyterlab`
+    2. Reinstall JupyterLab: `pip install jupyterlab`
+
+![](/images/faq-jupyterlab-fails-2.png)
+
+## Issue Type 2: Network Connection
+
+If the first issue is ruled out, the problem is likely network-related:
+
+1. Close all running VPN connections.
+2. If access is still not possible after closing the VPN, you may need to turn the VPN back on and switch it to Direct mode. 
+3. If your VPN does not have a Direct mode, choose PAC mode (avoid using Global mode).
+4. Try accessing with a different browser.
+5. Contact customer support if the issue persists.

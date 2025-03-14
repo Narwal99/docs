@@ -1,6 +1,37 @@
 ---
 title: 'SD Image Generation Memory Leak'
-description: 'XXX'
+description: 'If you experience continuous memory growth while generating images or switching models in the AUTOMATIC1111 SD WebUI, you can try the following solution:'
 ---
 
-![](/images/papapa.gif)
+## Steps to Resolve Memory Growth Issues
+
+1. Install Dependencies
+
+```bash
+apt install libgoogle-perftools-dev
+```
+
+2. Set Environment Variable Before Launching WebUI
+Verify the existence of `libtcmalloc.so.4` using:
+
+```bash
+ldconfig -p | grep libtcmalloc.so.4
+```
+
+If found, set the environment variable:
+
+```bash
+export LD_PRELOAD=libtcmalloc.so.4
+```
+
+3. Launch WebUI
+
+After setting the environment variable, start the WebUI:
+
+```bash
+python launch.py --port 6006
+```
+
+Source
+
+This solution is derived from Discussion ["Linux - Use tcmalloc for memory management for slight speed boost and much, MUCH lower CPU memory leakage" #6722](https://github.com/AUTOMATIC1111/stable-diffusion-webui/discussions/6722) on the AUTOMATIC1111 SD WebUI GitHub repository.

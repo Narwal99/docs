@@ -9,7 +9,7 @@ Considering that GPUs other than A100 (such as those without InfiniBand or NVLin
 
 ## Multi-Node Multi-GPU
 ### Check Network Interface and IP
-If the ```ifconfig``` command is not available, install it using ```apt-get update && apt-get install -y net-tools```.
+If the `ifconfig` command is not available, install it using `apt-get update && apt-get install -y net-tools`.
 
 ```bash bash
 root@container-b8cd119052-124c28e1:~# ifconfig
@@ -78,7 +78,7 @@ python -m torch.distributed.launch \
 
 ## Common Issues
 
-If errors or blocks occur, first set the environment variable ```export NCCL_DEBUG=INFO``` and then run the training command to observe the NCCL debug logs.
+If errors or blocks occur, first set the environment variable `export NCCL_DEBUG=INFO` and then run the training command to observe the NCCL debug logs.
 If you encounter log messages indicating a connection refusal, such as:
 
 ```bash bash
@@ -97,7 +97,7 @@ container-3e581195ae-be8c3f28:152730:152783 [0] NCCL INFO Call to connect return
 container-3e581195ae-be8c3f28:152731:152775 [1] NCCL INFO Call to connect returned Connection refused, retrying
 container-3e581195ae-be8c3f28:152730:152783 [0] NCCL INFO Call to connect returned Connection refused, retrying
 ```
-It is highly likely that the ```NCCL_SOCKET_IFNAME``` environment variable is not taking effect. In this case, you can write the following content into the ```/etc/nccl.conf``` configuration file, and you will no longer need to add the environment variable separately:
+It is highly likely that the `NCCL_SOCKET_IFNAME` environment variable is not taking effect. In this case, you can write the following content into the `/etc/nccl.conf` configuration file, and you will no longer need to add the environment variable separately:
 
 ```bash bash
 NCCL_SOCKET_IFNAME=eth1  # Replace with your own network interface name
