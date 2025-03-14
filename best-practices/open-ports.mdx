@@ -1,4 +1,15 @@
 ---
 title: 'Open Ports'
-description: 'XXX'
+description: 'Since our instances do not have a dedicated public IP, arbitrary ports cannot be opened directly.'
 ---
+
+<Note>
+Opening ports requires enterprise verification, which can be accessed through the "Console" → "Account" → "Account Security". If you are an individual user, you can choose to use an SSH tunnel tool to proxy any port to your local machine for access.
+</Note>
+
+As instances lack a public IP, direct port opening isn't possible. GPUhub provides public access to each instance's port `6006` via a mapped `ip:port`, supporting TCP or HTTP. You can find this `ip:port` via the 'Custom' portal.
+
+![](/images/bestpractices-visdom-2.png)
+
+After clicking to access, you can obtain the address, for example: `region-11.gpuhub.com:26040`. `region-11.gpuhub.com` and `26040` are the address and port, respectively.
+For examples of using this feature, you can refer to [Visdom documentation](/best-practices/visdom#custom-service-method).

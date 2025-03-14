@@ -1,4 +1,56 @@
 ---
 title: 'MPI'
-description: 'XXX'
+description: 'An instructions for using MPI on Ubuntu 20.04'
 ---
+
+<Note>
+Upon testing, 
+
+it has been observed that the Ubuntu 20.04 system operates normally, 
+
+whereas Ubuntu 22.04 tends to hang. We recommend selecting the Ubuntu 20.04 image for use. 
+
+The underlying cause of this issue remains unknown. 
+
+Should you have any insights or information regarding the cause, we would greatly appreciate your feedback. 
+
+Thank you for your cooperation and support.
+</Note>
+
+## Installation
+
+```bash bash
+# Note: Do not install or use the openmpi package, as it has issues.
+apt update && apt-get install mpich
+```
+
+## Verification
+
+Simple Test:
+
+```bash bash
+# Execute the `ls` command using MPI to see if it can output directories and files.
+mpirun -n 2 ls
+
+```
+Compilation Test:
+
+```bash bash
+# Create a file named `test.c` with the following content:
+#include <stdio.h>
+#include <mpi.h>
+int main (int argc, char** argv) {
+    int size, rank;
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    printf("size = %d rank = %d\n", size, rank);
+    MPI_Finalize();
+}
+
+# Compile the code to generate an executable file named `a.out`.
+mpicc test.c
+
+# Run the executable. Note that you need to use the absolute path since `a.out` is not in the PATH environment variable. For example, if the test directory is `/root`:
+mpirun -n 1 /root/a.out
+```

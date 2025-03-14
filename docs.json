@@ -133,7 +133,6 @@
           {
             "group": "System Management",
             "pages": [
-              "best-practices/software-repositories",
               "best-practices/open-ports",
               "best-practices/computational-precision",
               "best-practices/exposing-multiple-services"

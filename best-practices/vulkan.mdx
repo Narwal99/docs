@@ -1,4 +1,58 @@
 ---
 title: 'Vulkan'
-description: 'XXX'
+description: 'In machine learning applications, Vulkan can be used to accelerate image processing, data augmentation, and other tasks that require a large amount of parallel computation.'
 ---
+
+![](/images/logo-vulkan.png)
+
+
+If you encounter issues with Vulkan (or other software that depends on Vulkan, such as omnigibson) where the GPU device cannot be found, you can resolve it with the following steps:
+
+<Steps>
+  <Step title="Step 1: Write the ICD file">
+    ```bash bash
+    cat >> /etc/vulkan/icd.d/my_nvidia_icd.json <<EOF
+    {
+        "file_format_version" : "1.0.0",
+        "ICD": {
+            "library_path": "/lib/x86_64-linux-gnu/libEGL_nvidia.so.0",
+            "api_version" : "1.3.277"
+        }
+    }
+    EOF
+    ```
+    In the `library_path` above, the library should only be `libEGL_nvidia`, not `libGLX_nvidia`. The reason is that the server does not have a desktop environment and operates in headless mode, which requires the former. 
+    For details, you can refer to the [NVIDIA Documentation](https://download.nvidia.com/XFree86/Linux-x86_64/535.183.01/README/installedcomponents.html).
+  </Step>
+  <Step title="Step 2: Verification">
+    Install necessary dependencies:
+
+    ```bash bash
+    apt update && apt install -y vulkan-tools libvulkan1 libsm6 libegl1
+    ```
+    Finally, execute vulkaninfo `--summary` to confirm:
+
+    ```bash bash
+    $ export VK_ICD_FILENAMES=/etc/vulkan/icd.d/my_nvidia_icd.json     # Explicitly specify the ICD file path
+    $ vulkaninfo --summary
+    ...
+    Devices:
+    ========
+    GPU0:
+            apiVersion         = 4206869 (1.3.277)
+            driverVersion      = 2308620416 (0x899ac080)
+            vendorID           = 0x10de
+            deviceID           = 0x2684
+            deviceType         = PHYSICAL_DEVICE_TYPE_DISCRETE_GPU  <--- Here the device type is GPU, indicating it is correct. If the GPU is not recognized, it would be: PHYSICAL_DEVICE_TYPE_CPU
+            deviceName         = NVIDIA GeForce RTX 4090            <--- Here you can see the correct GPU model is identified
+            driverID           = DRIVER_ID_NVIDIA_PROPRIETARY
+            driverName         = NVIDIA
+            driverInfo         = 550.107.02
+            conformanceVersion = 1.3.7.2
+            deviceUUID         = 75219daa-2fe9-cefe-4994-1a598657b01f
+            driverUUID         = 12adfef6-a92a-528b-8610-45df7fa0a5b8
+    ...
+
+    ```
+  </Step>
+</Steps>

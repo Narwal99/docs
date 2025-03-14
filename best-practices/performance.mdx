@@ -1,4 +1,163 @@
 ---
 title: 'Performance Tips'
-description: 'XXX'
+description: 'The documentation offers performance optimization tips for GPU and CPU usage, code checks, and troubleshooting common issues in machine learning tasks.'
 ---
+
+<Note>
+First, use the command `nvidia-smi -l 1` to monitor the GPU utilization. 
+- If the GPU utilization is 0, check whether your code is correctly calling the GPU for computation. 
+- If the GPU utilization is already above 90%, consider switching to multi-GPU parallelism or using a more powerful GPU.
+</Note>
+
+## Give a Stress Test
+
+If you notice that the training speed is significantly slow, you can use the following code to perform a stress test to rule out hardware issues and observe the GPU utilization:
+```python
+import torch
+m = k = n = 8192
+a = torch.zeros(m, k, dtype=torch.float32).cuda("cuda:0")
+b = torch.zeros(k, n, dtype=torch.float32).cuda("cuda:0")
+for _ in range(100):
+    y = torch.matmul(a, b)
+torch.cuda.synchronize("cuda:0")
+```
+
+## Bottleneck Analysis
+
+First, determine the characteristics of the model you are training. In terms of performance, there are several scenarios:
+
+<AccordionGroup>
+  <Accordion title="1. Small Model with Simple Data Preprocessing">
+    For example, training MNIST with LeNet. In this case, there is limited room for optimization because the model itself has low computational demands. A standard GPU is sufficient, and using a more powerful GPU will result in lower utilization. The GPU utilization in this scenario is typically low but stable.
+  </Accordion>
+
+  <Accordion title="2. Small Model with Complex Data Preprocessing">
+    For example, using a ResNet-18 network for ImageNet classification. Here, CPU preprocessing takes longer, while GPU computation is very fast and occupies a short period. Therefore, it is better to choose a more powerful CPU and a standard GPU. The GPU utilization in this scenario is highly variable, with high peaks but mostly low values.
+  </Accordion>
+
+  <Accordion title="3. Large Model with Simple Data Preprocessing">
+    In this case, the GPU utilization is generally high and stable, but the demands on disk performance are also high. If the utilization is low, refer to the methods below to optimize performance.
+  </Accordion>
+
+  <Accordion title="4. Large Model with Complex Data Preprocessing">
+    This scenario places high demands on both the CPU and GPU, and either can become a bottleneck, including disk performance. Each algorithm needs to be analyzed individually.
+  </Accordion>
+</AccordionGroup>
+
+
+**For scenarios 1 and 2,** there is limited room for optimization, and it is more appropriate to select the right host and optimize the code to improve cost-effectiveness. 
+
+**For scenarios 3 and 4,** if the GPU utilization is low, you can follow the methods below to identify bottlenecks and optimize performance.
+
+<Note>
+If the GPU utilization remains at 0, please confirm that Ampere architecture GPUs such as the 3060, 3090, 3080Ti, A4000, A40, A100, and A5000 require **CUDA 11.x** (preferably CUDA 11.1 or higher) to function properly. Please use a higher version of the framework.
+</Note>
+
+### Step 1: Check GPU Utilization
+
+Run the command `nvidia-smi -l 1` in the terminal.
+
+```
+user@seeta:/tmp/test_directory$ nvidia-smi -l 1
+Mon Nov  8 11:55:26 2021       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 440.82       Driver Version: 440.82       CUDA Version: 10.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  TITAN X (Pascal)    Off  | 00000000:01:00.0  On |                  N/A |
+| 31%   57C    P0    66W / 250W |    408MiB / 12194MiB |      2%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  TITAN X (Pascal)    Off  | 00000000:04:00.0 Off |                  N/A |
+| 93%   27C    P8    11W / 250W |      2MiB / 12196MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0      1450      G   /usr/lib/xorg/Xorg                            32MiB |
+|    0      2804      G   /usr/lib/xorg/Xorg                           351MiB |
++-----------------------------------------------------------------------------+
+```
+
+If the GPU utilization is 0, it indicates that the code may not be using the GPU. You need to check the code.
+
+If the GPU utilization fluctuates significantly and the peak utilization is below 50%, it is likely that the data preprocessing cannot keep up with the GPU's processing speed. Please refer to the steps below.
+
+### Step 2: Check CPU Usage
+Please locate the instance monitoring button under **Console** -> **Instances**.
+
+![](/images/instance-monitoring.png)
+
+To check CPU usage:
+
+1. Assess CPU Utilization:
+    - Assume your instance has 5 CPU cores.
+    - If the CPU utilization is close to 500% (indicating all 5 cores are under high load), this suggests a potential bottleneck due to insufficient CPU capacity.
+2. Addressing High CPU Utilization:
+    - Migrate the instance: Move the instance to a host with more CPU cores.
+    - Upgrade the configuration: Increase the CPU allocation for the instance.
+3. Optimizing Low CPU Utilization:
+    - If the CPU utilization is significantly below 500%, it indicates that your code is not fully utilizing the available CPU power.
+    - **Adjust `num_workers`:** Increase the CPU load by modifying the `num_workers` parameter in the Torch Dataloader.
+    - **AOptimal Setting:** Set `num_workers` to a value slightly less than the number of CPU cores.
+    - **Test Performance:** Experiment with different `num_workers` values to determine their impact on performance.
+
+### Step 3: Inspect the Code
+
+If the above steps do not resolve the issue, please debug the code to identify and analyze the lines that are time-consuming. There are several common coding practices that can impact performance; please review the following:
+
+1. Performing non-computational operations in each iteration: For example, saving test images. The solution is to increase the interval for saving test images to avoid additional time-consuming operations in every iteration.
+2. Frequent model saving: This can occupy a significant portion of the training time.
+3. Refer to the official performance optimization guides:
+    - [PyTorch Performance Optimization Guide](https://pytorch.org/tutorials/recipes/recipes/tuning_guide.html)
+    - [TensorFlow Performance Optimization Guide](https://www.tensorflow.org/guide/function)
+
+<Note>
+We also welcome you to submit feedback on other cases via the website to share knowledge.
+</Note>
+
+## Others
+### NumPy Version Issues
+
+<Note>
+Preliminary Identification Method: If the CPU load is extremely high, with all cores fully utilized, and increasing the number of cores still results in full CPU utilization, while the GPU load remains low, and you are using an Intel CPU, there is a high likelihood that the performance issue is due to the version of NumPy being used.
+</Note>
+
+NumPy uses either OpenBlas or MKL for computational acceleration. Intel CPUs support MKL, while AMD CPUs only support OpenBlas. When using Intel CPUs, MKL can offer several times the performance improvement over OpenBlas (especially for certain matrix computations), which can significantly impact overall performance. Generally, using OpenBlas on AMD CPUs is faster than using OpenBlas on Intel CPUs, so there is no need to overly worry about the performance difference when using OpenBlas on AMD CPUs.
+
+If you are using an Intel CPU, first verify whether the NumPy version you are using is based on MKL or OpenBlas.
+
+![](/images/performacce-numpy-1.png)
+
+The presence of "mkl" indicates that the version is based on MKL.
+
+Sometimes , installing NumPy will default to using the OpenBlas acceleration scheme. You may notice the following OpenBlas-related packages when you install NumPy using `conda install numpy`.
+
+![](/images/performacce-numpy-2.png)
+
+Therefore, to install the MKL version of NumPy, follow these steps:
+
+1. Uninstall the current NumPy: `pip uninstall numpy` (or if installed via conda, use `conda uninstall numpy`)
+2. Remove the domestic Conda repository: `echo "" > /root/.condarc`
+3. Reinstall NumPy: `conda install numpy`
+
+If the steps are followed correctly, you will see the following when installing NumPy:
+
+![](/images/performacce-numpy-3.png)
+
+### PyTorch Thread Count Issues
+
+<Note>
+Preliminary Identification Method: If you are renting a multi-GPU instance and running different experiments on each GPU, this may be the issue.
+</Note>
+
+By default, PyTorch creates a number of threads equal to the number of CPU cores for computation. If you rent multiple GPUs in the same instance and run different experiments on each GPU, each PyTorch process will create a number of threads equal to the number of cores. This can cause the system to spend a significant amount of time on thread scheduling rather than computation, leading to a significant slowdown in computation speed and low CPU and GPU utilization. To address this, you can use the code `torch.set_num_threads(N)` to set the number of threads for each process.
+
+Additional Tips:
+
+- If you are using single-machine multi-GPU parallelism with PyTorch, replacing `torch.nn.DataParallel (DP)` with `torch.nn.DistributedDataParallel (DDP)` generally improves performance. The official statement is: "DistributedDataParallel offers much better performance and scaling to multiple GPUs."
+- For NVIDIA GPUs with Ampere architecture, such as RTX 3090, using the latest versions of PyTorch 1.9 and 1.10 can significantly improve performance compared to version 1.7. Versions 1.7 and 1.8 have relatively poor performance. (You can switch to a PyTorch 1.10 image in the "More Operations" section after shutting down.)
+- When using the platform, if your algorithm is resource-intensive, it is best to run different experiments on separate hosts rather than on the same host or within the same instance with multiple GPUs running different experiments.

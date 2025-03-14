@@ -1,6 +1,27 @@
 ---
 title: 'System Disk Space Insufficient'
-description: 'XXX'
+description: 'First, identify which directory is occupying the system disk space.'
 ---
+If you are unsure what the system disk is, please refer to the help [documentation](/container-instance/overview).
 
-![](/images/papapa.gif)
+You can check the usage of the system disk and data by running the command source `~/.bashrc`.
+
+The following two directories can be directly deleted without affecting system operation, so **start by removing them**. If this does not free up space, proceed to the next steps:
+
+```bash
+du -sh /root/miniconda3/pkgs/ && rm -rf /root/miniconda3/pkgs/*      # Conda's historical packages
+du -sh /root/.local/share/Trash && rm -rf /root/.local/share/Trash   # JupyterLab's trash
+```
+
+The following directories may occupy significant space, but you should clean them based on your specific situation:
+
+```bash
+du -sh /tmp/
+du -sh /root/.cache
+```
+
+## Normal Cleanup Steps
+### File Size
+### Directory Size
+### Deletion
+### Special Folders Not Occupying System Disk Space

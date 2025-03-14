@@ -1,4 +1,72 @@
 ---
 title: 'Exposing Multiple Services'
-description: 'XXX'
+description: 'Currently, the custom services provided by GPUhub only support exposing a single port. If you need to expose multiple services (HTTP services) from different containers, you can use a proxy to implement routing and forwarding. For example, you can use Nginx for forwarding. Here, we provide a more lightweight approach.'
 ---
+
+
+Assuming you have two services running inside your container, listening on ports `2000` and `3000` respectively, here is an example using Flask:
+
+```python python
+# Simulate a service listening on port 2000
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/v1/hello')
+def hello():
+    return 'I`m port 2000'
+
+if __name__ == '__main__':
+    app.run(port=2000)
+
+
+# Simulate a service listening on port 3000
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/v2/hello')
+def hello():
+    return 'I`m port 3000'
+
+if __name__ == '__main__':
+    app.run(port=3000)
+```
+Below, we will start a routing and forwarding service on port `6006`. If the route matches `/v1/*`, it will forward the request to the service listening on port `2000`. If the route matches `/v2/*`, it will forward the request to the service listening on port `3000`.
+D
+ownload the proxy service program:
+
+First, download the proxy service program using the following command:
+
+```bash
+wget https://gpuhub-public.xx3-sig-sig.xxxcloud.com/tool/api-proxy/proxy_in_instance
+```
+
+Create the `config.yaml` file:
+
+In the same directory as the downloaded proxy service program, create a file named config.yaml with the following content:
+
+```yaml yaml
+proxies:
+  - host_and_port: http://127.0.0.1:2000  # Address of the service to proxy
+    route_path: /v1/*                    # Route path to forward to this address
+
+  - host_and_port: http://127.0.0.1:3000  # Multiple entries can be set to forward to different hosts
+    route_path: /v2/*
+```
+
+Start the proxy service:
+
+
+```bash bash
+# If the proxy program is not downloaded, download it using the command above.
+wget https://gpuhub-public.xx3-sig-sig.xxxcloud.com/tool/api-proxy/proxy_in_instance
+```
+
+```yaml yaml
+# If the proxy program does not have executable permissions, add the permissions
+chmod +x proxy_in_instance
+```
+
+```bash bash
+# Start the proxy service:
+./proxy_in_instance
+```

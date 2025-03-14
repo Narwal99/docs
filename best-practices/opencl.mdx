@@ -1,4 +1,21 @@
 ---
 title: 'OpenCL'
-description: 'XXX'
+description: 'OpenCL is a tool that will enable you to perform parallel general-purpose computing on GPUs or other compliant hardware accelerators.'
 ---
+
+![](/images/logo-opencl.png)
+
+
+If your program uses OpenCL and it fails to work properly after installing OpenCL, you can handle it in the following way:
+First, check if the nvidia-opencl dynamic link library exists:
+
+```bash bash
+ldconfig -p | grep nvidia-opencl
+```
+
+If there is output, it means the library exists (if it does not exist, there is an issue with the system environment; please contact customer service). Then execute the following commands:
+```bash bash
+mkdir -p /etc/OpenCL/vendors
+echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+```
+Finally, check again if OpenCL can be used normally. If it still cannot be used, please contact customer service.
