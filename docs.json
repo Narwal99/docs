@@ -126,7 +126,6 @@
             "group": "AI & ML",
             "pages": [
               "best-practices/huggingface",
-              "best-practices/katago",
               "best-practices/opencl",
               "best-practices/vulkan"
             ]

@@ -1,4 +1,25 @@
 ---
 title: 'HuggingFace'
-description: 'XXX'
+description: 'The platform where the machine learning community collaborates on models, datasets, and applications.'
 ---
+
+![](/images/logo-huggingface.png)
+
+## Common Issues
+The models downloaded from HuggingFace take up a lot of system disk space, causing the system disk space to run out.
+
+By default, HuggingFace caches models in the /root/.cache directory. You can save the model cache to the data disk by following these methods:
+
+Execute in the terminal:
+
+```bash bash
+export HF_HOME=/root/gpuhub-tmp/cache/
+```
+
+Or execute in Python code:
+
+```Python python
+import os
+os.environ['HF_HOME'] = '/root/gpuhub-tmp/cache/'
+```
+

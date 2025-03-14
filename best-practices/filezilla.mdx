@@ -1,4 +1,39 @@
 ---
 title: 'Filezilla'
-description: 'XXX'
+description: "If you want to upload and download files/folders from the instance more conveniently, you can use FileZilla: it's free and available on all platforms (Mac, Linux, Windows)."
 ---
+
+![](/images/logo-filezilla.png)
+
+## Install FileZilla
+
+<Card title="Filezilla Official Download" icon="download" horizontal href="https://filezilla-project.org/">
+  []()
+</Card>
+
+Besides, the simplest way to install FileZilla on Linux is: 
+
+```bash bash
+sudo apt install filezilla
+```
+![](/images/bestpractices-filezilla-1.png)
+
+## Connect to the Instance
+
+Copy the SSH command for your instance, for example: `ssh -p 50762 root@region-2.gpuhub.com`. In the command, the meanings of the parameters are:
+
+- Username: `root`
+- Host: `region-2.gpuhub.com`
+- Port Number: `50762`
+
+Open the following window from [File] - [Site Manager].
+
+<Note>
+You need to select the SFTP protocol.
+</Note>
+
+![](/images/bestpractices-filezilla-2.png)
+
+You can now easily upload and download files/folders by dragging and dropping.
+
+![](/images/bestpractices-filezilla-3.png)
