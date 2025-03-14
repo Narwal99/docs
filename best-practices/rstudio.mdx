@@ -1,4 +1,47 @@
 ---
 title: 'R (Rstudio)'
-description: 'XXX'
+description: 'Due to web issues associated with installing RStudio Server, the following instructions will only cover the installation of the R language.'
 ---
+
+![](/images/logo-rstudio.png)
+
+## Install R and necessary dependencies
+Update the package list and install R along with necessary dependencies:
+
+```bash bash
+apt-get update
+apt-get install -y r-base libgbm1 lib32gcc-s1 lib32stdc++6 libc6-i386 libclang-10-dev libclang-common-10-dev libclang-dev libclang1-10 libgc1c2 libllvm10 libobjc-9-dev libobjc4 libxcb-xkb1 libxkbcommon-x11-0
+```
+
+If you encounter dependency issues when executing the above commands, then run:
+
+```bash bash
+apt -y --fix-broken install
+```
+## Verify the installation
+
+Enter the command `R` in the terminal:
+
+``` r R
+# R
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 1 + 1
+[1] 2
+> 
+```

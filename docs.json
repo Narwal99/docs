@@ -110,8 +110,8 @@
               "best-practices/pycharm",
               "best-practices/rstudio",
               "best-practices/gromacs",
-              "best-practices/tensorboard",
-              "best-practices/visdom"
+              "best-practices/visdom",
+              "best-practices/tensorboard"
             ]
           },
           {

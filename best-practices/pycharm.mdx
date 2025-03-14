@@ -1,4 +1,61 @@
 ---
 title: 'PyCharm'
-description: 'XXX'
+description: 'Learn about developing remotely using PyCharm.'
 ---
+
+![](/images/logo-pycharm.png)
+
+<Warning>
+If you use PyCharm to directly run or execute training programs in the terminal, make sure to [start a daemon process with tools like screen or tmux](/container-instance/run-in-background) after debugging is complete. This ensures that the program execution is not affected by SSH connection interruptions!
+</Warning>
+
+## Remote Project Development
+
+<Card title="PyCharm Official Documentatione" icon="book-open" horizontal href="https://www.jetbrains.com/help/pycharm/configuring-remote-interpreters-via-ssh.html">
+  []()
+</Card>
+
+Work wih GPUhub:
+
+<Steps>
+  <Step title="Step 1: Confirm to PyCharm Professional edition">
+    Confirm whether the PyCharm you have installed is the Community or Professional edition. **Only the Professional edition supports remote development features**.
+  </Step>
+  <Step title="Step 2: Power on your instance">
+    Copy the SSH command for your instance, for example: `ssh -p 38076 root@region-1.gpuhub.com`
+    
+    In the `ssh -p 38076 root@region-1.gpuhub.com command`, the meanings of the parameters are as follows:
+    - Username: `root`
+    - Host: `region-1.gpuhub.com`
+    - Port Number: `38076`
+  </Step>
+  <Step title="Step 3: Configure PyCharm">
+    Go to **File -> Settings** to open the settings dialog, then search for "interpreter" to find the **Python interpreter** setting option.
+    
+    ![](/images/bestpractices-pycharm-1.png)
+    Click on "Add Interpreter," select "On SSH" and click (this option is not available in the PyCharm Community version).
+    
+    ![](/images/bestpractices-pycharm-2.png)
+    Match and fill in the Host, Port, and Username from your instance's SSH command (the Username is always root, and you can find Host and Port in your instance's SSH command).
+    
+    ![](/images/bestpractices-pycharm-3.png)
+    Next: Enter the SSH password.
+
+    ![](/images/bestpractices-pycharm-4.png)
+    Continue to the next step until you see the following prompt. Choose "System Interpreter" and configure the remote Python interpreter path to `/root/miniconda3/bin/python` (if you have installed other virtual environments in miniconda, the path to the Python interpreter of the virtual environment is `/root/miniconda3/envs/{your_virtual_env_name}/bin/python`).
+    
+    Configure the synchronization directory, which means associating the local project with which directory on the remote instance. Here, set it to the instance's data disk directory: `/root/gpuhub-tmp/project/` (Not recommended to use the default `/tmp` directory).
+    ![](/images/bestpractices-pycharm-5.png)
+    Click "Create" If the configuration is correct, PyCharm will configure for a short while, and you will be able to develop remotely after completion.
+    
+    If you can't find Python files when running, it might be because the code hasn't synchronized automatically. You can then choose to synchronize manually:
+    ![](/images/bestpractices-pycharm-6.png)
+  </Step>
+</Steps>
+
+
+
+## Open a Remote Terminal
+After setting up remote development in PyCharm, you can find and open a remote terminal from the PyCharm terminal dropdown menu by selecting the remote server:
+
+![](/images/bestpractices-pycharm-7.png)

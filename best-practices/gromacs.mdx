@@ -1,4 +1,74 @@
 ---
 title: 'Gromacs'
-description: 'XXX'
+description: 'Gromacs is a molecular dynamics package used for researching biological molecular systems.'
 ---
+
+![](/images/logo-gromacs.png)
+
+When creating an instance on GPUhuband selecting the image, use the Gromacs image to create an instance that comes with the Gromacs software package pre-installed. The pre-installed Gromacs has been compiled with CUDA, so it will use GPU acceleration for computations by default.
+
+Here is a test case for Gromacs ([source of the case](https://confluence.csuc.cat/display/HPCKB/How+to+run+a+Gromacs+simulation+of+a+protein)):
+
+## Step 1: Preparation
+
+Create a directory named `test` and navigate into it.
+
+```bash bash
+mkdir test && cd test
+```
+## Step 2: Generate Input Files
+
+Run this command separately; otherwise, it may hang. When prompted, select 14: GROMOS96 54a7 and 1: SPC.
+
+```bash bash
+gmx pdb2gmx -f 2n6m.pdb -o esculentin.gro -p esculentin.top -ignh
+```
+
+## Step 3: Set Simulation Parameters
+
+```bash bash
+gmx editconf -f esculentin.gro -o esculenbox.gro -box 5 5 5
+gmx solvate -cp esculenbox.gro -o solvated.gro -p esculentin.top
+```
+## Step 4: Configuration
+
+Create a configuration file `options.mdp` with the following content:
+
+```bash bash
+cat > options.mdp << EOF
+integrator        = md
+nsteps            = 50000000
+nstxout           = 50000
+coulombtype       = PME
+fourierspacing    = 0.15
+tcoupl            = v-rescale
+tau-t             = 0.2 0.2
+ref-t             = 298.15 298.15
+tc-grps           = Protein Non-protein
+pcoupl            = berendsen
+compressibility   = 4.5e-5
+tau-p             = 0.2
+ref-p             = 1.0
+EOF
+gmx grompp -f options.mdp -c solvated.gro -p esculentin.top -o esculentin.tpr -maxwarn 100
+```
+## Step 5: Run Simulation
+
+```bash bash
+gmx mdrun -s esculentin.tpr
+```
+
+## Gromacs Installation Script:
+
+```bash bash
+wget https://ftp.gromacs.org/gromacs/gromacs-2022.2.tar.gz \
+    && tar xfz gromacs-2022.2.tar.gz \
+    && cd gromacs-2022.2 \
+    && mkdir build \
+    && cd build \
+    && /root/miniconda3/bin/cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DGMX_GPU=CUDA -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
+    && make -j8 && make check && make install \
+    && cd ../../ && rm -rf gromacs-* \
+    && echo "PATH=/usr/local/gromacs/bin/:\$PATH" >> /etc/profile
+```
+
