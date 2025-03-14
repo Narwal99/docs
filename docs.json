@@ -187,13 +187,13 @@
         },
         {
           "anchor": "Community",
-          "href": "https://gpuhub.com/",
+          "href": "https://discordapp.com/",
           "icon": "discord"
         },
 
         {
           "anchor": "Videos",
-          "href": "https://gpuhub.com/",
+          "href": "https://www.youtube.com/",
           "icon": "youtube"
         }
       ]
@@ -218,11 +218,11 @@
   },
   "footer": {
     "socials": {
-      "x": "https://gpuhub.com/",
-      "github": "https://gpuhub.com/",
-      "linkedin": "https://gpuhub.com/",
-      "discord": "https://gpuhub.com/",
-      "youtube": "https://gpuhub.com/"
+      "x": "https://x.com/",
+      "github": "https://github.com/",
+      "linkedin": "http://www.linkedin.com/",
+      "discord": "https://discordapp.com/",
+      "youtube": "https://www.youtube.com/"
     }
   }
 }
