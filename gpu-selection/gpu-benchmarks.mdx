@@ -8,7 +8,7 @@ Memory bandwidth also significantly impacts total time. Here, we compare differe
 
 Test details:
 
-- Tested GPUs on AutoDL (single - card tests) using PyTorch = 1.9.0.
+- Tested GPUs on GPUhub (single - card tests) using PyTorch = 1.9.0.
 - Input was pseudo - data made by torch.zero, so CPU preprocessing and IO didn't affect results; GPU performance was key.
 - Tested ResNet50 (many activations, sensitive to memory bandwidth) and ViT Transformer (many convolutions, sensitive to compute power).
 - Results include FP32 and FP16 (not mixed - precision). Compare as per your needs.
