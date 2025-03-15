@@ -1,7 +1,32 @@
 ---
 title: 'Maintenance & Troubleshooting'
-description: "Listen, we haven't sorted this part out yet. You'll have to wait a bit."
+description: 'Yes. Sh*t happens.'
 icon: 'road-barrier'
 ---
+Due to the inevitability of hardware failures and other unforeseen circumstances, certain incidents may occur. 
 
-![](/images/papapa.gif)
+<Warning>
+We strongly recommend that users regularly back up important data to prevent potential losses. For further assistance, please contact our customer support team.
+</Warning>
+
+## Instance Downtime
+- Confirmation Criteria: The instance status is "Shutdown - Unexpected Downtime."
+- Handling: Users are advised to back up important data regularly. 
+
+## Network Failure
+- Confirmation Criteria: Network anomalies in the instance (not caused by local user-to-instance connection issues, such as using a VPN).
+- Handling: Users are advised to back up important data regularly. 
+
+## Local Disk Failure
+- The system disk and data disk (/root/gpuhub-tmp) provided by GPUhub are local disks on the host. While local disks offer better performance, they lack redundant backups and may experience disk failures. 
+- We strongly recommend that users regularly back up important data to prevent potential losses.
+
+## Other Scenarios
+The following scenarios are not eligible for compensation:
+1. The instance status is normal ("Running"), but the program exits prematurely due to reasons such as not running in the background.
+2. GPU memory not being correctly released due to driver issues, which can be resolved without restarting the instance.
+3. System dependency errors caused by user actions, resulting in inaccessible services like JupyterLab. These can be resolved by resetting the system.
+4. Etc.
+
+## Contacting Support
+For any questions or concerns regarding these incidents, please contact our customer support team for further assistance. We apologize for any inconvenience caused and appreciate your understanding.
