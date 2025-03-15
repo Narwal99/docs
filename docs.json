@@ -23,10 +23,10 @@
             ]
           },
           {
-            "group": "Pricing & Rechage",
+            "group": "Billing & Rechage",
             "pages": [
-              "recharge-pricing/pricing",
-              "recharge-pricing/recharge"
+              "billing-recharge/billing",
+              "billing-recharge/recharge"
             ]
           },
           {
@@ -49,7 +49,7 @@
         "tab": "Instance",
         "groups": [
           {
-            "group": "Cloud Container Instance",
+            "group": "GPU Container Instances",
             "pages": [
               "container-instance/overview",
               "container-instance/jupyterlab",

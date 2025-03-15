@@ -1,0 +1,104 @@
+---
+title: Billing
+description: "GPUhub Billing and Management Guide"
+icon: 'file-invoice-dollar'
+---
+
+## GPU Container Instances
+
+GPUhub offers two billing models for container instance: **Usage-based** and **Subscription**.
+
+### Usage-based Model (Pay-as-you-go)
+- **Billing Rules:**
+    - **Charges start when the instance is turned on and stop when it is turned off.** The fee is calculated as Duration * Unit Price, with the duration measured in seconds and a minimum charge of USD0.01.
+    - **Billing occurs hourly and at shutdown.** The fee covers the usage period, with precise measurement down to the second.
+    - **Billing starts based on instance on/off time, not GPU usage.**
+<Card>
+- Advantages:
+    - Flexibility: Supports configuration adjustments (upgrades/downgrades), data disk expansion, and instance migration.
+    - Cost Control: Billing stops when the instance is turned off (data is retained).
+</Card>
+<Card>
+- Disadvantages:
+    - Higher Costs: More expensive compared to subscription plans.
+    - No GPU Reservation: GPUs are not reserved after shutdown. If the host lacks available GPUs upon restart, you may need to wait or use alternative solutions (e.g., saving images, migrating instances, or using no-GPU mode).
+</Card>
+### Subscription Model (Prepaid)
+
+- **Billing Rules:**
+    - **Prepaid:** Pay in full at the time of rental.
+    - **Supports daily, weekly, and monthly rentals.**
+    - **Instance shutdown upon expiration** (data remains intact).
+    - **Renewal options** include daily, weekly, and monthly plans. You can also switch to the usage-based model (see below for details).
+<Card>
+- Advantages:
+    - GPU Reservation: GPUs are reserved even after shutdown, ensuring availability.
+    - Cost Savings: More economical for long-term use.
+</Card>
+<Card>
+- Disadvantages:
+    - Less Flexibility: Not as flexible as the usage-based model.
+</Card>
+
+### Switching Billing Models
+
+- **Conversion between usage-based and subscription models is supported.** If switching from subscription to usage-based, a refund is provided based on the following rules:
+    - Calculate consumed fees during the subscription period, with the unit price determined by the duration used. For example, if you subscribed for a month but used it for only 8 days, the consumed amount is calculated based on the weekly price (since usage exceeded 7 days).
+    - Refund Calculation: The consumed amount is deducted first using any available vouchers, followed by the balance. Any remaining balance is refunded. Note: Vouchers are not refunded if there is a remaining balance.
+    - Most Economical Usage: Subscribe for a period, then switch to usage-based billing for a refund. This ensures more cost-effective pricing.
+
+
+### GPU Pricing
+
+**Pricing is subject to the current rates displayed on the GPUhub website.**
+
+### Data Disk Expansion
+
+- **Billing Unit Price:** Varies by host and is displayed on the platform.
+- **Billing Rules:**
+    - **Usage-based Instances:** Paid data disks are settled daily at midnight, regardless of instance status. To stop billing, reduce the disk size to the free tier or release the instance.
+    - **Subscription Instances:** Paid data disks are included in the total fee and paid upfront. After expiration, billing follows the usage-based rules (daily settlement at midnight).
+    - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
+        - If the account owes more than USD50, the platform reserves the right to clean data (with caution). 
+        - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
+
+---
+
+## File Storage
+
+- **Elastic billing based on actual usage.** Free up to 20GB.
+- **Billing Unit Price:** USD0.01/GB/day.
+- **Billing Rules:**
+    - **Charged based on the maximum daily usage,** excluding the free 20GB. Fees are deducted daily at midnight.
+    - **Minimum Fee:** USD0.01 if exceeding the free capacity.
+    - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
+        - If the account owes more than USD50, the platform reserves the right to clean data (with caution). 
+        - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
+- **Total Storage Capacity:** Default 200GB per user. Contact support for larger capacity.
+<Card>
+- Example: If the maximum daily usage is 50GB, the daily fee = (50 - 20) * 0.01 = USD0.30.
+</Card>
+
+## Cloud Disk
+
+- **Monthly prepaid billing** with 20GB free space.
+- **Billing Unit Price:** USD0.30/GB/month.
+- **Billing Rules:**
+    - **Expand capacity** through the Cloud Disk menu, selecting size and duration. After expiration, capacity reverts to the free 20GB, and data remains intact. However, if usage exceeds the free capacity upon expiration, the instance will be unmounted until capacity is expanded or data is cleaned, and the instance is restarted.
+    - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
+        - If the account owes more than USD50, the platform reserves the right to clean data (with caution). 
+        - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
+
+## Images
+
+- **Default Limit:** 20 images per user. Contact support for more.
+- **Billing Unit Price:** USD0.01/GB/day.
+- **Billing Rules:**
+    - **Charged based on the maximum daily usage** (excluding the free 30GB). Fees are deducted daily at midnight.
+    - **Minimum Fee:** USD0.01 if exceeding the free capacity.
+    - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
+        - If the account owes more than USD50, the platform reserves the right to clean data (with caution). 
+        - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
+<Card>
+- Example: If the maximum daily usage is 50GB, the daily fee = (50 - 30) * 0.01 = USD0.20.
+</Card>
