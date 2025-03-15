@@ -49,20 +49,35 @@
         "tab": "Instance",
         "groups": [
           {
-            "group": "GPU Container Instances",
+            "group": "Management & Configuration",
             "pages": [
               "container-instance/overview",
-              "container-instance/jupyterlab",
-              "container-instance/ssh",
               "container-instance/scale-configuration",
               "container-instance/change-billing-model",
               "container-instance/save-image",
-              "container-instance/reset-system",
-              "container-instance/migrate-instance",
-              "container-instance/migrate-instance-sr",
-              "container-instance/run-in-background",
-              "container-instance/multi-node-multi-gpu",
+              "container-instance/reset-system"
+            ]
+          },
+          {
+            "group": "Connectivity & Access",
+            "pages": [
+              "container-instance/jupyterlab",
+              "container-instance/ssh",
               "container-instance/remote-desktop"
+            ]
+          },
+          {
+            "group": "Deployment & Execution",
+            "pages": [
+              "container-instance/run-in-background",
+              "container-instance/multi-node-multi-gpu"
+            ]
+          },
+          {
+            "group": "Mobility & Flexibility",
+            "pages": [
+              "container-instance/migrate-instance",
+              "container-instance/migrate-instance-sr"
             ]
           }
         ]
