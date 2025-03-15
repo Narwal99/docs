@@ -10,23 +10,47 @@ We strongly recommend that users regularly back up important data to prevent pot
 </Warning>
 
 ## Instance Downtime
-- Confirmation Criteria: The instance status is "Shutdown - Unexpected Downtime."
-- Handling: Users are advised to back up important data regularly. 
+- **Confirmation Criteria:** The instance status is "Shutdown - Unexpected Downtime."
+
+<Accordion title="Instance Downtime Compensation">
+    **Calculation:** Compensation duration is calculated from the last startup to the downtime moment, capped at 24 hours.
+    
+    **Compensation Amount:**
+    - For Usage-based instances:
+        - Compensation Voucher Amount = Duration (hours) * Instance Unit Price (USD/hour)
+    - For Subscription instances:
+        - Unit Price = Subscription Amount / Subscription Duration
+        - Compensation Voucher Amount = Duration (hours) * Unit Price
+</Accordion>
 
 ## Network Failure
-- Confirmation Criteria: Network anomalies in the instance (not caused by local user-to-instance connection issues, such as using a VPN).
-- Handling: Users are advised to back up important data regularly. 
+- **Confirmation Criteria:** Network anomalies in the instance (not caused by local user-to-instance connection issues, such as using a VPN).
+
+<Accordion title="Network Failure Compensation">
+    **Calculation:** Total duration of the anomaly (in minutes) * 1.5, rounded up to the nearest hour.
+    
+    **Compensation Amount:**
+    - For Usage-based instances:
+        - Compensation Voucher Amount = Duration (hours) * Instance Unit Price (USD/hour)
+    - For Subscription instances:
+        - Unit Price = Subscription Amount / Subscription Duration
+        - Compensation Voucher Amount = Duration (hours) * Unit Price
+</Accordion>
 
 ## Local Disk Failure
 - The system disk and data disk (/root/gpuhub-tmp) provided by GPUhub are local disks on the host. While local disks offer better performance, they lack redundant backups and may experience disk failures. 
-- We strongly recommend that users regularly back up important data to prevent potential losses.
+- Yes. We strongly recommend that users regularly back up important data to prevent potential losses, again.
+
+<Warning>
+GPUhub does not provide compensation for local disk failures. For further assistance, please contact customer support.
+</Warning>
 
 ## Other Scenarios
 The following scenarios are not eligible for compensation:
 1. The instance status is normal ("Running"), but the program exits prematurely due to reasons such as not running in the background.
 2. GPU memory not being correctly released due to driver issues, which can be resolved without restarting the instance.
 3. System dependency errors caused by user actions, resulting in inaccessible services like JupyterLab. These can be resolved by resetting the system.
-4. Etc.
+4. Other similar scenarios.
 
 ## Contacting Support
 For any questions or concerns regarding these incidents, please contact our customer support team for further assistance. We apologize for any inconvenience caused and appreciate your understanding.
