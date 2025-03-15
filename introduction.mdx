@@ -4,25 +4,25 @@ description: "🔮 Welcome to the GPUhub documentations"
 icon: 'grid-2'
 ---
 
-## Create Your Cloud Container Instance
+## Create Your Container Instance
 
 Create a stable, reliable, and reasonably priced cloud container instance suitable for your use.
 
 <CardGroup cols={2}>
   <Card title="Quick Start" icon="hat-wizard" href="/quickstart">
-    Register an account and easily create a Cloud Container Instance: Select the billing model, choose the appropriate host, select the number of GPUs for the instance you want to create, select the image (which includes different deep learning frameworks), and then create it.
+    Quickly register and create a Cloud Container Instance by selecting the billing model, host, GPU count, and image.
   </Card>
 
-  <Card title="GPU Selection" icon="cauldron" href="/gpu-selection">
-    Select the GPU suits your purpose and scenario: The platform allocates GPUs, CPUs, and memory proportionally to the number of GPUs rented. The CPU and memory displayed in the computing power market are allocated per GPU. If you rent two GPUs, the CPU and memory will be doubled.
+  <Card title="GPU Selection" icon="cauldron" href="/gpu-selection/gpu-selection">
+    Select the right GPU for your tasks. The platform provides proportional CPU and memory resources based on the number of GPUs selected.
   </Card>
 
   <Card title="Keep Instance Active in Background" icon="wave-pulse" href="/container-instance/run-in-background">
-    When using SSH or SSH-based tools (like XShell, PyCharm, VSCode) for remote execution, remember to run commands in daemon mode to prevent program termination due to SSH disconnection.
+    Ensure your programs run continuously in the background when using SSH or SSH-based tools by running commands in daemon mode.
   </Card>
 
   <Card title="Read Data Retention Policies" icon="broom-wide" href="/data/overview">
-    If you shut down the instance continuously for 30 days, it will be released, and all data within the instance will be cleared. Additionally, if the host is no longer available for rent and is taken offline, the instance will also be released.
+    Understand the data retention rules to avoid data loss, especially during instance shutdowns.
   </Card>
 </CardGroup>
 
@@ -32,19 +32,19 @@ We are offering multiple flexible methods for data transfer. It supports various
 
 <CardGroup cols={2}>
   <Card title="Upload Data" icon="upload" href="/data/upload-data">
-    Upload data to your cloud instance using simple file transfer tools, terminal-based commands, or drag-and-drop interfaces. These flexible options ensure efficient data management.
+    Use various tools like JupyterLab, scp commands, or graphical interfaces for efficient data uploads.
   </Card>
 
   <Card title="Download Data" icon="download" href="/data/download-data">
-    Download data from your cloud instance using file transfer tools, terminal commands, or intuitive interfaces. These options provide quick and convenient access to your data.
+    Easily retrieve your data using file transfer tools, terminal commands, or intuitive interfaces.
   </Card>
 
   <Card title="Data Disk" icon="hard-drive" href="/data/local-data-disk">
-    Data disks are ideal for intensive tasks and offer cost-effective pricing based on usage.
+    Ideal for intensive tasks, offering flexible and cost-effective storage solutions.
   </Card>
 
   <Card title="File Storage" icon="cloud" href="/data/file-storage">
-    File Storage allows you to upload and manage data without running an instance, making it perfect for long-term storage and backup.
+    Perfect for long-term storage and backup, allowing you to manage data without running an instance.
   </Card>
 </CardGroup>
 
@@ -54,10 +54,10 @@ The platform's images come with many frameworks and versions. If they don't meet
 
 <CardGroup cols={2}>
   <Card title="Enviroment Configuration" icon="wrench" href="/environment/overview">
-    The platform's images come with many frameworks and versions. If they don't meet your needs, see how to configure other versions.
+    Customize your environment if the pre-installed frameworks and versions don't meet your needs.
   </Card>
 
   <Card title="Image" icon="rectangle-history" href="/environment/image">
-    If you've set up an environment in an instance and want to reuse or retain it long-term, saving the image is the best choice. You can also share images with other users.
+    Save and reuse custom environments by saving images, or share them with other users.
   </Card>
 </CardGroup>

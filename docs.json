@@ -17,9 +17,14 @@
             "group": "Get Started",
             "pages": [
               "introduction",
-              "quickstart",
-              "gpu-selection",
-              "gpu-benchmarks"
+              "quickstart"
+            ]
+          },
+          {
+            "group": "GPU Selection",
+            "pages": [
+              "gpu-selection/gpu-selection",
+              "gpu-selection/gpu-benchmarks"
             ]
           },
           {
@@ -30,9 +35,9 @@
             ]
           },
           {
-            "group": "Maintenance & Troubleshooting",
+            "group": "Troubleshooting",
             "pages": [
-              "maintenance-troubleshooting/maintenance-troubleshooting"
+              "troubleshooting/troubleshooting"
             ]
           },
           {
