@@ -8,7 +8,7 @@ icon: 'file-invoice-dollar'
 
 GPUhub offers two billing models for container instance: **Usage-based** and **Subscription**.
 
-### Usage-based Model (Pay-as-you-go)
+### Usage-based Mode (Pay-as-you-go)
 - **Billing Rules:**
     - **Charges start when the instance is turned on and stop when it is turned off.** The fee is calculated as Duration * Unit Price, with the duration measured in seconds and a minimum charge of USD0.01.
     - **Billing occurs hourly and at shutdown.** The fee covers the usage period, with precise measurement down to the second.
@@ -23,7 +23,7 @@ GPUhub offers two billing models for container instance: **Usage-based** and **S
     - Higher Costs: More expensive compared to subscription plans.
     - No GPU Reservation: GPUs are not reserved after shutdown. If the host lacks available GPUs upon restart, you may need to wait or use alternative solutions (e.g., saving images, migrating instances, or using no-GPU mode).
 </Card>
-### Subscription Model (Prepaid)
+### Subscription Mode (Prepaid)
 
 - **Billing Rules:**
     - **Prepaid:** Pay in full at the time of rental.
@@ -40,7 +40,7 @@ GPUhub offers two billing models for container instance: **Usage-based** and **S
     - Less Flexibility: Not as flexible as the usage-based model.
 </Card>
 
-### Switching Billing Models
+### Switching Billing Mode
 
 - **Conversion between usage-based and subscription models is supported.** If switching from subscription to usage-based, a refund is provided based on the following rules:
     - Calculate consumed fees during the subscription period, with the unit price determined by the duration used. For example, if you subscribed for a month but used it for only 8 days, the consumed amount is calculated based on the weekly price (since usage exceeded 7 days).
