@@ -33,8 +33,7 @@
           {
             "group": "Promotions",
             "pages": [
-              "promotions/vouchers",
-              "promotions/coupons",
+              "promotions/coupons-vouchers",
               "promotions/membership",
               "promotions/student-verification"
             ]
