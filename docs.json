@@ -209,14 +209,14 @@
           "icon": "ticket"
         },
         {
-          "anchor": "Community",
-          "href": "https://discordapp.com/",
+          "anchor": "Discord",
+          "href": "https://discord.gg/aXWP3WbG",
           "icon": "discord"
         },
 
         {
           "anchor": "Videos",
-          "href": "https://www.youtube.com/",
+          "href": "https://www.youtube.com/channel/UC2qUAYW-gmjBjs_DAZbpGlg",
           "icon": "youtube"
         }
       ]
@@ -241,11 +241,11 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/",
-      "github": "https://github.com/",
-      "linkedin": "http://www.linkedin.com/",
-      "discord": "https://discordapp.com/",
-      "youtube": "https://www.youtube.com/"
+      "x": "https://x.com/gpuhubnews",
+      "github": "https://github.com/gpuhub-source",
+      "linkedin": "https://www.linkedin.com/company/106417537/",
+      "discord": "https://discord.gg/aXWP3WbG",
+      "youtube": "https://www.youtube.com/channel/UC2qUAYW-gmjBjs_DAZbpGlg"
     }
   }
 }
