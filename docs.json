@@ -31,6 +31,15 @@
             ]
           },
           {
+            "group": "Promotions",
+            "pages": [
+              "promotions/vouchers",
+              "promotions/coupons",
+              "promotions/membership",
+              "promotions/student-verification"
+            ]
+          },
+          {
             "group": "Billing & Rechage",
             "pages": [
               "billing-recharge/billing",
