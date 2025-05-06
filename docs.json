@@ -56,7 +56,9 @@
             "pages": [
               "terms/terms-of-service",
               "terms/privacy-policy",
-              "terms/anti-mining-agreement"
+              "terms/anti-mining-agreement",
+              "terms/cloud-disk-agreement",
+              "terms/custom-instance-agreement"
             ]
           }
         ]
