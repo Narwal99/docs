@@ -39,10 +39,11 @@
             ]
           },
           {
-            "group": "Billing & Rechage",
+            "group": "Billing & Recharge",
             "pages": [
               "billing-recharge/billing",
-              "billing-recharge/recharge"
+              "billing-recharge/recharge",
+              "billing-recharge/invoice"
             ]
           },
           {
