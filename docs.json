@@ -2,6 +2,13 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Mint Starter Kit",
+  "description":"GPUhub Documentation",
+  "search": {
+    "prompt": "Select the GPU suits your purpose and scenario"
+  },
+//  "banner":{
+//    "content": "🚀 GPUhub is launched! [Learn more](gpuhub.com)"
+//  },
   "appearance": {
     "default": "system"
   },
