@@ -6,9 +6,6 @@
   "search": {
     "prompt": "Select the GPU suits your purpose and scenario"
   },
-//  "banner":{
-//    "content": "🚀 GPUhub is launched! [Learn more](gpuhub.com)"
-//  },
   "appearance": {
     "default": "system"
   },
