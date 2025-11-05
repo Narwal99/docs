@@ -6,9 +6,9 @@ icon: 'file-invoice-dollar'
 
 ## GPU Container Instances
 
-GPUhub offers two billing models for container instance: **Usage-based** and **Subscription**.
+GPUhub offers two billing models for container instance: **Pay-as-you-go** and **Subscription**.
 
-### Usage-based Mode (Pay-as-you-go)
+### Pay-as-you-go Mode (Pay-as-you-go)
 - **Billing Rules:**
     - **Charges start when the instance is turned on and stop when it is turned off.** The fee is calculated as Duration * Unit Price, with the duration measured in seconds and a minimum charge of USD0.01.
     - **Billing occurs hourly and at shutdown.** The fee covers the usage period, with precise measurement down to the second.
@@ -29,7 +29,7 @@ GPUhub offers two billing models for container instance: **Usage-based** and **S
     - **Prepaid:** Pay in full at the time of rental.
     - **Supports daily, weekly, and monthly rentals.**
     - **Instance shutdown upon expiration** (data remains intact).
-    - **Renewal options** include daily, weekly, and monthly plans. You can also switch to the usage-based model (see below for details).
+    - **Renewal options** include daily, weekly, and monthly plans. You can also switch to the pay-as-you-go model (see below for details).
 <Card>
 - Advantages:
     - GPU Reservation: GPUs are reserved even after shutdown, ensuring availability.
@@ -37,15 +37,15 @@ GPUhub offers two billing models for container instance: **Usage-based** and **S
 </Card>
 <Card>
 - Disadvantages:
-    - Less Flexibility: Not as flexible as the usage-based model.
+    - Less Flexibility: Not as flexible as the pay-as-you-go model.
 </Card>
 
 ### Switching Billing Mode
 
-- **Conversion between usage-based and subscription models is supported.** If switching from subscription to usage-based, a refund is provided based on the following rules:
+- **Conversion between pay-as-you-go and subscription models is supported.** If switching from subscription to pay-as-you-go, a refund is provided based on the following rules:
     - Calculate consumed fees during the subscription period, with the unit price determined by the duration used. For example, if you subscribed for a month but used it for only 8 days, the consumed amount is calculated based on the weekly price (since usage exceeded 7 days).
     - Refund Calculation: The consumed amount is deducted first using any available vouchers, followed by the balance. Any remaining balance is refunded. Note: Vouchers are not refunded if there is a remaining balance.
-    - Most Economical Usage: Subscribe for a period, then switch to usage-based billing for a refund. This ensures more cost-effective pricing.
+    - Most Economical Usage: Subscribe for a period, then switch to pay-as-you-go billing for a refund. This ensures more cost-effective pricing.
 
 
 ### GPU Pricing
@@ -56,8 +56,8 @@ GPUhub offers two billing models for container instance: **Usage-based** and **S
 
 - **Billing Unit Price:** Varies by host and is displayed on the platform.
 - **Billing Rules:**
-    - **Usage-based Instances:** Paid data disks are settled daily at midnight, regardless of instance status. To stop billing, reduce the disk size to the free tier or release the instance.
-    - **Subscription Instances:** Paid data disks are included in the total fee and paid upfront. After expiration, billing follows the usage-based rules (daily settlement at midnight).
+    - **Pay-as-you-go Instances:** Paid data disks are settled daily at midnight, regardless of instance status. To stop billing, reduce the disk size to the free tier or release the instance.
+    - **Subscription Instances:** Paid data disks are included in the total fee and paid upfront. After expiration, billing follows the pay-as-you-go rules (daily settlement at midnight).
     - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
         - If the account owes more than USD50, the platform reserves the right to clean data (with caution). 
         - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
