@@ -1,0 +1,28 @@
+---
+title: Serverless Monitoring
+description: "Active retrieval via API inside the container"
+---
+
+Use the following code inside the container (container instance or elastic deployment container) to retrieve CPU, memory, and GPU monitoring information.
+
+<CodeGroup>
+
+```python Python
+import requests
+import json
+
+# The URL is the same for all containers; use 127.0.0.1 to retrieve
+url = 'http://127.0.0.1:2022/autopanel/v1/api/monitor/current'
+response = requests.get(url)
+content = response.content.decode()
+if response.status_code == 200 and "success" in content:
+    metric = json.loads(content)['data']
+    print(f"CPU Usage: {metric['cpu_usage']} %")
+    print(f"Mem Usage: {metric['memory_usage']} MiB")
+    print("GPU Info:")
+    gpu_metrics = metric.get('gpu_list', [])
+    for gm in gpu_metrics:
+        print(f"\tIdx:{gm['index']}  Mem Usage: {gm['memory_used']} MiB  Utilization: {gm['utilization']} %")
+```
+
+</CodeGroup>

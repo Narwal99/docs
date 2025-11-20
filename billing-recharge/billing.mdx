@@ -52,6 +52,49 @@ GPUhub offers two billing models for container instance: **Pay-as-you-go** and *
 
 **Pricing is subject to the current rates displayed on the GPUhub website.**
 
+## Serverless
+
+### Pay-As-You-Go Billing (Default)
+
+1. **Billing Calculation**
+    - Billing starts when the container is powered on and ends when it is powered off.
+    - Total cost = Duration * Unit price
+    - Duration = Power-off time - Power-on time (billed per second, minimum charge $0.01 USD)
+
+2. **Deduction Package**
+Fees are deducted twice:
+    - Every hour on the hour (for the previous hour's usage)
+    - Immediately when the container is shut down. Usage duration is calculated precisely to the **second**.
+
+3. **Important Note**
+    - Billing is triggered solely by **container started / shutdown time**, regardless of whether the GPU is actively being utilized.
+
+### Duration Package Billing
+
+**How Duration Packages Work**: After purchasing a Duration Package, the system will automatically consume hours from the remaining balance in the package during settlement.
+If the remaining hours are insufficient, any excess usage will be billed at the default pay-as-you-go rate.
+
+For Example:
+<Card>
+You create a Serverless GPU deployment and purchase the following Duration Packages: "RTX 5090 1-day package" & "RTX PRO 6000 1-day package"
+</Card>
+
+The workload is scheduled across RTX 5090, RTX PRO 6000, and RTX 4090 GPUs.
+    1. When settling a container that used an RTX 5090, the system prioritizes the RTX 5090 Duration Package. (e.g., 1 hour used → 1 hour deducted from the RTX 5090 package, leaving 23 hours, then settlement for this period = $0)
+    2. When settling a container that used an RTX 4090, since no RTX 4090 Duration Package was purchased, it will be billed according to the default pay-as-you-go rules.
+    3. Containers using RTX PRO 6000 will consume the corresponding package in the same manner.
+
+
+### Duration Package Refund Policy
+
+Refund amount = Minimum of (Total amount paid - Consumed amount, Remaining balance from non-voucher payment methods)
+(Any unused portion paid with vouchers or coupons will not be refunded)
+
+Consumed amount calculation: Consumed amount = Used hours * Unit price of the corresponding GPU modelRules for calculating consumed value:
+    - If used hours < 24 hours → Calculated at the pay-as-you-go hourly rate
+    - If used hours ≥ 24 hours → Calculated at the daily package rate
+    - If usage exceeds one week or one month, the weekly/monthly package rate applies accordingly (using the most favorable longer-duration pricing)
+
 ### Data Disk Expansion
 
 - **Billing Unit Price:** Varies by host and is displayed on the platform.
@@ -67,7 +110,7 @@ GPUhub offers two billing models for container instance: **Pay-as-you-go** and *
 ## File Storage
 
 - **Elastic billing based on actual usage.** Free up to 20GB.
-- **Billing Unit Price:** USD0.01/GB/day.
+- **Billing Unit Price:** USD0.002/GB/day.
 - **Billing Rules:**
     - **Charged based on the maximum daily usage,** excluding the free 20GB. Fees are deducted daily at midnight.
     - **Minimum Fee:** USD0.01 if exceeding the free capacity.
@@ -82,7 +125,7 @@ GPUhub offers two billing models for container instance: **Pay-as-you-go** and *
 ## Images
 
 - **Default Limit:** 20 images per user. Contact support for more.
-- **Billing Unit Price:** USD0.01/GB/day.
+- **Billing Unit Price:** USD0.002/GB/day.
 - **Billing Rules:**
     - **Charged based on the maximum daily usage** (excluding the free 30GB). Fees are deducted daily at midnight.
     - **Minimum Fee:** USD0.01 if exceeding the free capacity.
@@ -92,3 +135,4 @@ GPUhub offers two billing models for container instance: **Pay-as-you-go** and *
 <Card>
 - Example: If the maximum daily usage is 50GB, the daily fee = (50 - 30) * 0.01 = USD0.20.
 </Card>
+

@@ -1,0 +1,1130 @@
+---
+title: 'Serverless API'
+description: 'GPUhub Serverless GPU API: A simple, token-authenticated REST API that lets any user programmatically create, scale, monitor, and manage pay-per-second GPU containers for AI/ML workloads.'
+---
+
+<Note>
+The HOST address for the API server is:
+```
+https://api.gpuhub.com/
+```
+</Note>
+
+## Authentication
+
+```javascript
+headers = {"Authorization": "your token"}
+```
+
+## 1. List Private Images
+### → Request
+
+```
+POST /api/v1/dev/image/private/list
+```
+
+```json Request Body
+{
+  "page_index": 1,
+  "page_size": 10
+}
+```
+### ← Response
+
+Response Parameters
+
+| Parameter   | Type   | Description                           |
+| ----------- | ------ | ------------------------------------- |
+| `code`      | String | Response status. `Success` on success |
+| `msg`       | String | Error message. Empty when successful  |
+| `data.list` | List   | List of image objects                 |
+
+`response` Object Fields
+
+| Parameter    | Type    | Description                                 |
+| ------------ | ------- | ------------------------------------------- |
+| `id`         | Int | Image ID                                    |
+| `image_name` | String  | Image name                                  |
+| `image_uuid` | String  | Image UUID (used when creating deployments) |
+
+```json Response (on success)
+{
+    "code": "Success",
+    "msg": ""
+    "data": {
+        "list": [
+            {
+                "id": 111,
+                "created_at": "2022-01-20T18:34:08+08:00",
+                "updated_at": "2022-01-20T18:34:08+08:00",
+                "image_uuid": "image-db8346e037",
+                "image_name": "image name",
+                "status": "finished",
+            }
+        ],
+        "page_index": 1,
+        "page_size": 10,
+        "max_page": 1,
+        "offset": 0,
+    },
+}
+```
+```python Python
+import requests
+headers = {
+    "Authorization": "your token",
+    "Content-Type": "application/json"
+}
+url = "https://api.autodl.com/api/v1/dev/image/private/list"
+body = {
+    "page_index": 1,
+    "page_size": 10,
+}
+response = requests.post(url, json=body, headers=headers)
+print(response.content.decode())
+```
+
+## 2. Create Deployment
+
+### → Request
+
+```
+POST /api-reference/api-serverless#request
+```
+
+Place all parameters in the request body. Details are as follows:
+
+| Parameter                  | Type    | Required                     | Description                                                  |
+| -------------------------- | ------- | ----------------------------- | ------------------------------------------------------------ |
+| `name`                       | String  | Yes                           | Deployment name                                              |
+| `deployment_type`            | String  | Yes                           | Deployment type: `ReplicaSet`, `Job`, or `Container`               |
+| `replica_num`                | Int     | Required for ReplicaSet & Job | Desired number of container replicas                         |
+| `parallelism_num`            | Int     | Required for Job only         | Max number of containers running in parallel (for Job type)  |
+| `reuse_container`            | Bool    | No                            | Whether to reuse stopped containers (significantly speeds up creation). Default: `false` |
+| `reuse_container_scope`      | String  | No                            | Scope of reuse: `all` (account-wide) or `deployment` (current deployment only). Default: `all` |
+| `service_6006_port_protocol` | String  | No                            | Protocol for port 6006 mapping: `http` or `tcp.` Default: `http`   |
+| `service_6008_port_protocol` | String  | No                            | Protocol for port 6008 mapping: `http` or `tcp.` Default: `http`   |
+| `container_template`         | Container Object  | Yes                           | Container template (see below)                               |
+
+`container_template` Object
+
+| Parameter                         | Type         | Required | Description                                                  |
+| --------------------------------- | ------------ | --------- | ------------------------------------------------------------ |
+| `dc_list`                           | `list<String>` | Yes       | List of available regions (data centers). See Appendix for values |
+| `cuda_v_from`                       | Int          | Yes       | Minimum CUDA version supported by driver (e.g., `118` = CUDA 11.8). See Appendix |
+| `cuda_v_to`                         | Int          | Yes       | Maximum CUDA version (higher versions are backward compatible) |
+| `gpu_name_set`                      | `list<String>` | Yes       | Allowed GPU models (e.g., `["RTX 5090", "RTX Pro 6000"]`)      |
+| `gpu_num`                           | Int          | Yes       | Number of GPUs per container                                 |
+| `cpu_num_from` / `cpu_num_to`         | Int          | Yes       | CPU core range (1 vCPU units)                                |
+| `memory_size_from` / `memory_size_to` | Int          | Yes       | Memory range in GB                                           |
+| `price_from` / `price_to`             | Int          | Yes       | Price range in USD * 1000 (e.g., USD0.10/hr → `100`, USD9.00/hr → `9000`) |
+| `image_uuid`                        | String       | Yes       | UUID of your private image or public base image              |
+| `cmd`                               | String       | Yes       | Startup command (executed when container starts)             |
+| `cmd_before_shutdown`               | String       | No        | Command executed before container stops (5-second timeout; forced stop on timeout) |
+ 
+ ```json Request Body
+ {
+  "name": "api-auto-created",
+  "deployment_type": "ReplicaSet",
+  "replica_num": 2,
+  "reuse_container": true,
+  "container_template": {
+    "dc_list": ["sgp1", "us-west1"],
+    "gpu_name_set": ["RTX 5090", "RTX Pro 6000"],
+    "cuda_v_from": 118,
+    "cuda_v_to": 128,
+    "gpu_num": 1,
+    "cpu_num_from": 4,
+    "cpu_num_to": 64,
+    "memory_size_from": 16,
+    "memory_size_to": 256,
+    "cmd": "python main.py",
+    "price_from": 100,    // base price: $0.10/hr
+    "price_to": 9000,     // base price: $9.00/hr
+    "image_uuid": "image-xxxxxxxx"
+  }
+}
+ 
+ ```
+
+ ### ← Response
+
+ ```json Response (on success)
+ {
+    "code": "Success",
+    "msg": "",
+    "data": {
+        "deployment_uuid": "833f1cd5a764fa3"
+    }
+}
+```
+
+```python Python
+import requests
+
+headers = {
+    "Authorization": "your token",
+    "Content-Type": "application/json"
+}
+
+url = "https://api.gpuhub.com/api/v1/dev/deployment"
+
+# Example 1: Create a ReplicaSet deployment (auto-scaling)
+body = {
+    "name": "my-inference-service",
+    "deployment_type": "ReplicaSet",
+    "replica_num": 2,
+    "reuse_container": True,
+    "container_template": {
+        "dc_list": ["sgp1", "us-west1"],
+        "gpu_name_set": ["RTX 5090", "RTX Pro 6000"],
+        "gpu_num": 1,
+        "cuda_v_from": 118,
+        "cuda_v_to": 128,
+        "cpu_num_from": 4,
+        "cpu_num_to": 64,
+        "memory_size_from": 16,
+        "memory_size_to": 256,
+        "cmd": "python main.py",
+        "price_from": 100,   # $0.10/hr (price × 1000)
+        "price_to": 9000,    # $9.00/hr (price × 1000)
+        "image_uuid": "image-xxxxxxxx"
+    }
+}
+
+response = requests.post(url, json=body, headers=headers)
+print(response.content.decode())
+
+# Example 2: Create a Job deployment (batch processing)
+{
+    "name": "batch-training-job",
+    "deployment_type": "Job",
+    "replica_num": 4,
+    "parallelism_num": 1,
+    "reuse_container": True,
+    "container_template": {
+        "dc_list": ["sgp1"],
+        "gpu_name_set": ["RTX 5090"],
+        "gpu_num": 1,
+        "cuda_v_from": 118,
+        "cuda_v_to": 128,
+        "cpu_num_from": 8,
+        "cpu_num_to": 64,
+        "memory_size_from": 32,
+        "memory_size_to": 256,
+        "cmd": "python train.py",
+        "price_from": 100,
+        "price_to": 9000,
+        "image_uuid": "image-xxxxxxxx"
+    }
+}
+
+# Example 3: Create a single Container deployment
+{
+    "name": "debug-container",
+    "deployment_type": "Container",
+    "reuse_container": True,
+    "container_template": {
+        "dc_list": ["sgp1"],
+        "gpu_name_set": ["RTX 5090"],
+        "gpu_num": 1,
+        "cuda_v": 118,
+        "cpu_num_from": 4,
+        "cpu_num_to": 32,
+        "memory_size_from": 16,
+        "memory_size_to": 128,
+        "cmd": "sleep infinity",
+        "price_from": 100,
+        "price_to": 9000,
+        "image_uuid": "image-xxxxxxxx"
+    }
+}
+```
+
+## 3 List Deployments
+
+### → Request
+
+```
+POST /api/v1/dev/deployment/list
+```
+Place the following parameters in the request body:
+
+| Parameter         | Type   | Required | Description                                                  |
+| ----------------- | ------ | -------- | ------------------------------------------------------------ |
+| `page_index`      | Int    | Yes      | Page number (starting from 1)                                |
+| `page_size`       | Int    | Yes      | Number of items per page                                     |
+| `name`            | String | No       | Filter by exact deployment name (exact match only, no fuzzy search) |
+| `status`          | String | No       | Filter by deployment status: `running` → active deployments `stopped` → stopped deployments → leave empty to return all |
+| `deployment_uuid` | String | No       | Filter by specific deployment UUID  
+
+
+```json Request Body
+{
+  "page_index": 1,
+  "page_size": 10,
+  "name": "my-api",           // optional: filter by exact deployment name
+  "status": "running",        // optional: "running" | "stopped" | empty (all)
+  "deployment_uuid": "xxx"    // optional: filter by deployment UUID
+}
+```
+
+### ← Response
+
+The fields returned in each deployment object have the same meaning as the parameters used when creating the deployment.
+
+```json Response (on success)
+{
+  "code": "Success",
+  "msg": "",
+  "data": {
+    "list": [
+      {
+        "id": 214,
+        "uuid": "53a677bb3e281b8",
+        "name": "xxxx",
+        "deployment_type": "Container",
+        "status": "stopped",
+        "replica_num": 1,
+        "parallelism_num": 1,
+        "reuse_container": true,
+        "starting_num": 0,
+        "running_num": 0,
+        "finished_num": 2,
+        "image_uuid": "image-db8346e037",
+        "template": {
+          "dc_list": ["sgp1", "us-west1"],
+          "gpu_name_set": ["RTX 5090"],
+          "gpu_num": 1,
+          "cpu_num_from": 1,
+          "cpu_num_to": 100,
+          "memory_size_from": 1073741824,
+          "memory_size_to": 274877906944,
+          "price_from": 100,
+          "price_to": 9000,
+          "cuda_v_from": 118,
+          "cuda_v_to": 128,
+          "cmd": "sleep 100"
+        },
+        "price_estimates": 0,
+        "created_at": "2023-01-05T20:34:07+08:00",
+        "updated_at": "2023-01-05T20:34:07+08:00",
+        "stopped_at": null
+      }
+    ],
+    "page_index": 1,
+    "page_size": 10,
+    "offset": 0,
+    "max_page": 1,
+    "result_total": 3
+  }
+}
+```
+
+## 4 Scale Replicas (ReplicaSet only)
+
+### → Request
+
+```
+PUT /api/v1/dev/deployment/replica_num
+```
+Place the following parameters in the request body:
+
+| Parameter         | Type   | Required | Description                                                  |
+| ----------------- | ------ | -------- | ------------------------------------------------------------ |
+| `deployment_uuid` | String | Yes      | UUID of the deployment to scale replicas for                |
+| `replica_num`     | Int    | Yes      | Desired number of replicas (must be greater than 0)         |
+
+
+```json Request Body
+{
+  "deployment_uuid": "53a677bb3e281b8",
+  "replica_num": 3
+}
+```
+
+### ← Response
+
+| Parameter | Type   | Description                           |
+| --------- | ------ | ------------------------------------- |
+| `code`    | String | Response status. `Success` on success |
+| `msg`     | String | Error message. Empty when successful  |
+| `data`    | null   | No data returned                      |
+
+
+```json Response (on success)
+{
+  "code": "Success",
+  "msg": "",
+  "data": null
+}
+```
+
+```python Python
+import requests
+
+headers = {
+    "Authorization": "your token",
+    "Content-Type": "application/json"
+}
+
+url = "https://api.gpuhub.com/api/v1/dev/deployment/replica_num"
+
+body = {
+    "deployment_uuid": "5be3045703152b9",
+    "replica_num": 16
+}
+
+response = requests.put(url, json=body, headers=headers)
+print(response.json())
+```
+
+
+## 5 Stop Entire Deployment
+
+### → Request
+
+```
+PUT /api/v1/dev/deployment/operate
+```
+Place the following parameters in the request body:
+
+| Parameter         | Type   | Required | Description                                                  |
+| ----------------- | ------ | -------- | ------------------------------------------------------------ |
+| `deployment_uuid` | String | Yes      | UUID of the deployment to operate                            |
+| `operation`       | String | Yes      | Operation to perform: `stop` → stop the deployment `delete` → delete the deployment |
+
+
+```json Request Body
+{
+  "deployment_uuid": "53a677bb3e281b8",
+  "operation": "stop"
+}
+```
+
+### ← Response
+
+| Parameter | Type   | Description                           |
+| --------- | ------ | ------------------------------------- |
+| `code`    | String | Response status. `Success` on success |
+| `msg`     | String | Error message. Empty when successful  |
+| `data`    | null   | No data returned                      |
+
+
+```json Response (on success)
+{
+  "code": "Success",
+  "msg": "",
+  "data": null
+}
+```
+
+```python Python
+
+import requests
+headers = {
+    "Authorization": "您的token",
+    "Content-Type": "application/json"
+}
+url = "https://api.gpuhub.com/api/v1/dev/deployment/operate"
+body = {
+    "deployment_uuid": "5be3045703152b9",
+    "operate": "stop"
+}
+response = requests.put(url, json=body, headers=headers)
+print(response.content.decode())
+```
+
+## 6 Delete Entire Deployment
+
+### → Request
+
+If the deployment is still running, the system will automatically stop it first, then delete it completely (including all containers and associated resources).
+
+```
+DELETE /api/v1/dev/deployment
+```
+
+```json Request Body
+JSON{
+  "deployment_uuid": "xxx"
+}
+```
+
+### ← Response
+
+| Parameter | Type   | Description           |
+| --------- | ------ | --------------------- |
+| `code`    | String | `Success` on success  |
+| `msg`     | String | Empty when successful |
+| `data`    | null   | No data returned      |
+
+```json Response (on success)
+JSON{
+  "code": "Success",
+  "msg": "",
+  "data": null
+}
+```
+
+```python Python
+import requests
+headers = {
+    "Authorization": "your_token_here",
+    "Content-Type": "application/json"
+}
+
+url = "https://api.gpuhub.com/api/v1/dev/deployment"
+body = {"deployment_uuid": "5be3045703152b9"}
+
+response = requests.delete(url, json=body, headers=headers)
+print(response.json())
+```
+## 7 List Container Events
+
+### → Request
+
+```
+POST /api/v1/dev/deployment/container/event/list
+```
+Place the following parameters in the request body:
+
+| Parameter                   | Type    | Required | Description                                   |
+| --------------------------- | ------- | -------- | --------------------------------------------- |
+| `deployment_uuid`           | String  | Yes      | Deployment UUID                               |
+| `deployment_container_uuid` | String  | No       | Specific container UUID (leave empty for all) |
+| `page_index`                | Int | Yes      | Page number (starting from 1)                 |
+| `page_size`                 | Int | Yes      | Number of items per page                      |
+| `offset`                    | Int | No       | Starting offset (used for polling new events) |
+
+
+```json Request Body
+{
+  "deployment_uuid": "da497aea1eb8343", 
+  "deployment_container_uuid": "", 
+  "page_index": 1, 
+  "page_size": 10,
+  "offset": 0
+}
+```
+
+### ← Response
+
+Response Parameters
+
+| Parameter | Type    | Description                                   |
+| --------- | ------- | --------------------------------------------- |
+| `code`    | String  | Response status. `Success` on success         |
+| `msg`     | String  | Error message. Empty when successful          |
+| `data`    | Object  | Container event data                          |
+
+Event Object Fields
+
+| Parameter                   | Type   | Description                                                  |
+| --------------------------- | ------ | ------------------------------------------------------------ |
+| `deployment_container_uuid` | String | UUID of the container                                        |
+| `status`                    | String | Container state (e.g., `creating`, `starting`, `running`, `shutting_down`, `shutdown`) |
+| `created_at`                | String | Timestamp when the state change occurred                     |
+
+
+```json Response (on success)
+{
+    "code": "Success",
+    "data": {
+        "list": [
+            {
+                "deployment_container_uuid": "da497aea1eb8343-f94411a60c-1502e6e2",
+                "status": "shutdown",
+                "created_at": "2022-12-13T16:42:45+08:00"
+            },
+            {
+                "deployment_container_uuid": "da497aea1eb8343-f94411a60c-1502e6e2",
+                "status": "shutting_down",
+                "created_at": "2022-12-13T16:42:40+08:00"
+            },
+            {
+                "deployment_container_uuid": "da497aea1eb8343-f94411a60c-1502e6e2",
+                "status": "running",
+                "created_at": "2022-12-13T16:34:57+08:00"
+            },
+            {
+                "deployment_container_uuid": "da497aea1eb8343-f94411a60c-1502e6e2",
+                "status": "oss_merged",
+                "created_at": "2022-12-13T16:34:55+08:00"
+            },
+            {
+                "deployment_container_uuid": "da497aea1eb8343-f94411a60c-1502e6e2",
+                "status": "starting",
+                "created_at": "2022-12-13T16:34:55+08:00"
+            },
+            {
+                "deployment_container_uuid": "da497aea1eb8343-f94411a60c-1502e6e2",
+                "status": "created",
+                "created_at": "2022-12-13T16:34:54+08:00"
+            },
+            {
+                "deployment_container_uuid": "da497aea1eb8343-f94411a60c-1502e6e2",
+                "status": "creating",
+                "created_at": "2022-12-13T16:34:47+08:00"
+            }
+        ],
+        "page_index": 1,
+        "page_size": 10,
+        "offset": 0,
+        "max_page": 1,
+    },
+    "msg": ""
+}
+```
+
+
+```python Python
+import requests
+headers = {
+    "Authorization": "your token",
+    "Content-Type": "application/json"
+}
+
+url = "https://api.gpuhub.com/api/v1/dev/deployment/container/event/list"
+body = {
+    "deployment_uuid": "da497aea1eb8343", 
+    "deployment_container_uuid": "", 
+    "page_index": 1, 
+    "page_size": 10,
+    "offset": 0
+}
+
+response = requests.post(url, json=body, headers=headers)
+print(response.json())
+```
+
+## 8 List Containers
+
+### → Request
+
+Inside the container, you can get the current container's UUID via the environment variable: `AutoDLContainerUUID`
+
+```
+POST /api/v1/dev/deployment/container/list
+```
+
+Request Body Parameters
+
+| Parameter               | Type         | Required | Description                             |
+| ----------------------- | ------------ | -------- | --------------------------------------- |
+| `deployment_uuid`       | String       | Yes      | Deployment UUID                         |
+| `container_uuid`        | String       | No       | Filter by specific container UUID       |
+| `date_from` / `date_to` | String       | No       | Filter by container creation time range |
+| `gpu_name`              | String       | No       | Filter by GPU model                     |
+| `cpu_num_from/to`       | Int      | No       | CPU core range                          |
+| `memory_size_from/to`   | Int      | No       | Memory range (bytes)                    |
+| `price_from/to`         | Float        | No       | Base price range (USD × 1000)           |
+| `released`              | Boolean      | No       | Include released containers?            |
+| `status`                | `List<String>` | No       | Filter by status: e.g., `["running"]`   |
+| `page_index`            | Int      | Yes      | Page number (default: 1)                |
+| `page_size`             | Int      | Yes      | Items per page (default: 10)            |
+| `offset`                | Int      | No       | Starting offset                         |
+
+```json Request Body
+{
+    "deployment_uuid": "da497aea1eb8343", 
+    "page_index": 1, 
+    "page_size": 10
+}
+```
+
+### ← Response
+
+Response Fields
+
+| Parameter   | Type   | Description                           |
+| ----------- | ------ | ------------------------------------- |
+| `code`      | String | Response status. `Success` on success |
+| `msg`       | String | Error message. Empty when successful  |
+| `data.list` | Array  | List of container objects             |
+
+Container Object
+
+
+| Field             | Type    | Description                                                  |
+| ----------------- | ------- | ------------------------------------------------------------ |
+| `uuid`            | String  | Container UUID                                               |
+| `version`         | String  | Container version (auto-generated or user-specified on deployment update) |
+| `data_center`     | String  | Region / data center code (e.g., `sgp1`)                     |
+| `deployment_uuid` | String  | Parent deployment UUID                                       |
+| `machine_id`      | String  | Physical host ID                                             |
+| `status`          | String  | Current status (`running`, `stopped`, `starting`, etc.)      |
+| `gpu_name`        | String  | GPU model (e.g., `RTX 5090`)                                 |
+| `gpu_num`         | Int | Number of GPUs allocated                                     |
+| `cpu_num`         | Int | Number of CPU cores                                          |
+| `memory_size`     | Int | Memory size in **bytes**                                     |
+| `image_uuid`      | String  | Image UUID                                                   |
+| `price`           | Float   | Base price in **USD × 1000** (e.g., 1600 = $1.60/hr)         |
+| `info`            | Object  | Connection details (see below)                               |
+| `started_at`      | String  | Time when container started running                          |
+| `stopped_at`      | String  | Time when container stopped (null if running)                |
+| `created_at`      | String  | Creation timestamp                                           |
+| `updated_at`      | String  | Last update timestamp                                        |
+
+`info` Object (Connection Details)
+
+| Field                                      | Type   | Description                                     |
+| ------------------------------------------ | ------ | ----------------------------------------------- |
+| `ssh_command`                              | String | Full SSH login command                          |
+| `root_password`                            | String | Root password for SSH                           |
+| `service_6006_port_url`                    | String | Public HTTPS URL for port 6006                  |
+| `service_6008_port_url`                    | String | Public HTTP URL for port 6008                   |
+| `service_url`, `proxy_host`, `custom_port` | —      | **Deprecated** — use the two service URLs above |
+
+
+```json Response (on success)
+{
+  "code": "Success",
+  "msg": "",
+  "data": {
+    "list": [
+      {
+        "uuid": "53a677bb3e281b8-f94411a60c-63c24009",
+        "data_center": "sgp1",
+        "deployment_uuid": "da497aea1eb8343",
+        "status": "running",
+        "gpu_name": "RTX 5090",
+        "gpu_num": 1,
+        "cpu_num": 16,
+        "memory_size": 68719476736,
+        "image_uuid": "image-xxxxxxxx",
+        "price": 1600,
+        "info": {
+          "ssh_command": "ssh -p 22345 root@sgp1.gpuhub.com",
+          "root_password": "xxxxxxxxxx",
+          "service_6006_port_url": "https://sgp1.gpuhub.com:22346",
+          "service_6008_port_url": "http://sgp1.gpuhub.com:22348"
+        },
+        "started_at": "2025-11-19T10:43:03+08:00",
+        "created_at": "2025-11-19T10:42:50+08:00"
+      }
+    ],
+    "page_index": 1,
+    "page_size": 10,
+    "max_page": 1
+  }
+}
+```
+
+```python Python
+import requests
+
+headers = {
+    "Authorization": "your_token_here",
+    "Content-Type": "application/json"
+}
+
+url = "https://api.gpuhub.com/api/v1/dev/deployment/container/list"
+
+body = {
+    "deployment_uuid": "da497aea1eb8343",
+    "status": ["running"],
+    "page_index": 1,
+    "page_size": 10
+}
+
+response = requests.post(url, json=body, headers=headers)
+print(response.json())
+
+```
+
+## 9 Stop a Container
+
+### → Request
+
+```
+POST /api/v1/dev/deployment/container/event/stop
+```
+Place the following parameters in the request body:
+
+| Parameter                   | Type    | Required | Description                                                  |
+| --------------------------- | ------- | -------- | ------------------------------------------------------------ |
+| `deployment_container_uuid` | String  | Yes      | UUID of the container to stop                                |
+| `decrease_one_replica_num`  | Boolean | No       | **ReplicaSet only**: if `true`, decreases the desired replica count by 1 after stopping (default: `false`) |
+| `no_cache`                  | Boolean | No       | If `true`, prevents the stopped container from being cached for reuse (default: `false`) |
+| `cmd_before_shutdown`       | String  | No       | Command to run before shutdown (5-second timeout; force-kills on timeout). Overrides any `cmd_before_shutdown` set during deployment creation (very rare chance both run) |
+
+```json Request Body
+{
+     "deployment_container_uuid": "da497aea1eb8343-f94411a60c-a394fb30",
+     "decrease_one_replica_num": false,
+     "no_cache": false,
+     "cmd_before_shutdown": "sleep 5"
+}
+
+```
+
+### ← Response
+
+Response Parameters
+
+| Parameter | Type    | Description                                   |
+| --------- | ------- | --------------------------------------------- |
+| `code`    | String  | Response status. `Success` on success         |
+| `msg`     | String  | Error message. Empty when successful          |
+| `data`    | null    | No data returned                              |
+
+
+```json Response (on success)
+{
+    "code": "Success",
+    "msg": "",
+    "data": null
+}
+```
+
+```python Python
+import requests
+headers = {
+    "Authorization": "your token",
+    "Content-Type": "application/json"
+}
+
+url = "https://api.gpuhub.com/api/v1/dev/deployment/container/event/stop"
+body = {
+    "deployment_container_uuid": "da497aea1eb8343-f94411a60c-a394fb30",
+    "decrease_one_replica_num": false,
+    "no_cache": false,
+    "cmd_before_shutdown": "sleep 5"
+}
+
+response = requests.put(url, json=body, headers=headers)
+print(response.content.decode())
+```
+
+
+## 10 Host Blacklist
+
+### → Request
+
+To avoid bad machines: if a container experiences unknown issues (e.g., slow startup, crashes), you can blacklist its host to prevent future scheduling on that machine.
+
+```
+POST /api/v1/dev/deployment/blacklist
+```
+
+| Parameter                   | Type   | Required | Description                                                  |
+| --------------------------- | ------ | -------- | ------------------------------------------------------------ |
+| `deployment_container_uuid` | String | Yes      | UUID of the problematic container                            |
+| `expire_in_minutes`         | Int    | No       | Blacklist duration in minutes. Default: **1440** (24 hours). Max: **43200** (30 days) |
+| `comment`                   | String | No       | Optional note (e.g., "Slow boot")                            |
+
+
+```json Request Body
+{
+  "deployment_container_uuid": "da497aea1eb8343-f94411a60c-1502e6e2",
+  "expire_in_minutes": 1440,
+  "comment": "Slow startup — avoid this host"
+}
+```
+
+### ← Response
+
+Response Parameters
+
+| Parameter | Type    | Description                                   |
+| --------- | ------- | --------------------------------------------- |
+| `code`    | String  | Response status. `Success` on success         |
+| `msg`     | String  | Error message. Empty when successful          |
+| `data`    | null    | No data returned                              |
+
+
+```json Response (on success)
+{
+    "code": "Success",
+    "msg": "",
+    "data": null
+}
+```
+
+```python Python
+import requests
+
+headers = {"Authorization": "your token", "Content-Type": "application/json"}
+url = "https://api.gpuhub.com/api/v1/dev/deployment/blacklist"
+
+body = {
+    "deployment_container_uuid": "da497aea1eb8343-f94411a60c-1502e6e2",
+    "expire_in_minutes": 1440,
+    "comment": "Slow startup — avoid this host"
+}
+
+response = requests.post(url, json=body, headers=headers)
+print(response.json())
+
+```
+
+## 11 Get Active Blacklist
+
+### → Request
+
+```
+GET /api/v1/dev/deployment/blacklist
+```
+No body required.
+
+### ← Response
+
+Response Parameters
+
+| Parameter | Type   | Description                           |
+| --------- | ------ | ------------------------------------- |
+| `code`    | String | Response status. `Success` on success |
+| `msg`     | String | Error message. Empty when successful  |
+| `data`    | List   | List of active blacklist entries      |
+
+
+Blacklist Entry Object
+
+| Field          | Type   | Description                                                  |
+| -------------- | ------ | ------------------------------------------------------------ |
+| `created_at`   | String | Timestamp when the blacklist was first created               |
+| `updated_at`   | String | Timestamp of the last update (updates when expiry time is extended) |
+| `data_center`  | String | Region / data center code (e.g., `sgp1`)                     |
+| `expired_time` | String | Timestamp when the blacklist entry will automatically expire |
+| `machine_id`   | String | Physical host ID that is blacklisted                         |
+| `msg`          | String | Optional comment provided when creating the blacklist        |
+
+
+```json Success Response
+{
+  "code": "Success",
+  "msg": "",
+  "data": [
+    {
+      "created_at": "2025-03-25T17:42:55+08:00",
+      "updated_at": "2025-03-25T17:48:11+08:00",
+      "data_center": "sgp1",
+      "machine_id": "24fb4ca36a",
+      "expired_time": "2025-03-26T17:48:11+08:00",
+      "msg": "Slow startup — avoid this host"
+    }
+  ]
+}
+```
+
+```python Python
+import requests
+
+headers = {"Authorization": "your token"}
+url = "https://api.gpuhub.com/api/v1/dev/deployment/blacklist"
+
+response = requests.get(url, headers=headers)
+print(response.json())
+```
+
+## 12 Real-time GPU Stock by Region
+
+### → Request
+
+```
+POST /api/v1/dev/machine/region/gpu_stock
+
+```
+Use this endpoint before creating deployments to check real-time availability and avoid scheduling failures. Stock is calculated assuming 1 GPU per container. Even if a host has 2 idle GPUs, they may be on different machines — a container requiring 2 GPUs might still fail to schedule.
+
+Request Body Parameters
+
+| Parameter          | Type         | Required | Description                                              |
+| ------------------ | ------------ | -------- | -------------------------------------------------------- |
+| `region_sign`      | String       | Yes      | Region code (see Appendix)                               |
+| `cuda_v_from`      | Int          | No       | Minimum supported CUDA version (e.g., `118` = CUDA 11.8) |
+| `cuda_v_to`        | Int          | No       | Maximum supported CUDA version                           |
+| `gpu_name_set`     | `List<String>` | No       | Filter by specific GPU models                            |
+| `memory_size_from` | Int          | No       | Minimum memory size in GB                                |
+| `memory_size_to`   | Int          | No       | Maximum memory size in GB                                |
+| `cpu_num_from`     | Int          | No       | Minimum CPU cores                                        |
+| `cpu_num_to`       | Int          | No       | Maximum CPU cores                                        |
+| `price_from`       | Int          | No       | Minimum price (USD × 1000, e.g., $0.10/hr → `100`)       |
+| `price_to`         | Int          | No       | Maximum price (USD × 1000)                               |
+
+
+```json Request Body
+{
+  "region_sign": "sgp1",
+  "cuda_v_from": 118,
+  "cuda_v_to": 128
+}
+
+```
+
+
+### ← Response
+
+Response Parameters
+
+| Parameter | Type   | Description                           |
+| --------- | ------ | ------------------------------------- |
+| `code`    | String | Response status. `Success` on success |
+| `msg`     | String | Error message. Empty when successful  |
+| `data`    | List   | List of GPU inventory objects         |
+
+
+GPU Inventory Object
+
+| Field           | Type   | Description                   |
+| --------------- | ------ | ----------------------------- |
+| `{GPU_MODEL}`   | Object | Key is the GPU model name     |
+| `idle_gpu_num`  | Int    | Number of currently idle GPUs |
+| `total_gpu_num` | Int    | Total number of GPUs          |
+
+
+```json Response (on success)
+{
+  "code": "Success",
+  "msg": "",
+  "data": [
+    {
+      "RTX 5090": {
+        "idle_gpu_num": 312,
+        "total_gpu_num": 2850
+      }
+    },
+    {
+      "RTX Pro 6000": {
+        "idle_gpu_num": 48,
+        "total_gpu_num": 640
+      }
+    }
+  ]
+}
+```
+
+```python Python
+import requests
+
+headers = {
+    "Authorization": "your_token_here",
+    "Content-Type": "application/json"
+}
+
+url = "https://api.gpuhub.com/api/v1/dev/machine/region/gpu_stock"
+
+body = {
+    "region_sign": "sgp1",
+    "cuda_v_from": 118,
+    "cuda_v_to": 128
+}
+
+response = requests.post(url, json=body, headers=headers)
+print(response.json())
+```
+
+
+## 13 Check Duration Package Balance
+
+### → Request
+
+```
+GET /api/v1/dev/deployment/ddp/overview
+```
+
+Request Parameters (Query String)
+
+| Parameter         | Type   | Required | Description            |
+| ----------------- | ------ | -------- | ---------------------- |
+| `deployment_uuid` | String | Yes      | UUID of the deployment |
+
+Response Parameters
+
+| Parameter | Type   | Description                           |
+| --------- | ------ | ------------------------------------- |
+| `code`    | String | Response status. `Success` on success |
+| `msg`     | String | Error message. Empty when successful  |
+| `data`    | List   | List of prepaid package objects       |
+
+Prepaid Package Object
+
+| Field      | Type   | Description                                                  |
+| ---------- | ------ | ------------------------------------------------------------ |
+| `gpu_type` | String | GPU model (e.g., `RTX 5090`)                                 |
+| `total`    | Int    | Total remaining seconds across all **unused** prepaid packages (seconds) |
+| `balance`  | Int    | Currently remaining seconds from **unused** packages (seconds) |
+| `dc_list`  | String | Regions covered by the package (comma-separated if multiple, e.g., `sgp1,us-west1`) |
+
+
+### ← Response
+
+```json Response (on success)
+{
+    "code": "Success",
+    "data": [
+        {
+            "gpu_type": "RTX 5090",
+            "total": 86400,
+            "balance": 83829,
+            "dc_list": "sgp1,us-west1"
+        }
+    ],
+    "msg": ""
+}
+```
+
+```python Python
+import requests
+
+headers = {"Authorization": "your_token_here"}
+url = "https://api.gpuhub.com/api/v1/dev/deployment/ddp/overview"
+params = {"deployment_uuid": "your_deployment_uuid_here"}
+
+response = requests.get(url, params=params, headers=headers)
+print(response.json())
+
+```
+
+##  14 Appendix
+### region_sign & dc_list
+
+Values for dc_list (preferred) or the deprecated region_sign parameter when creating a deployment, After a container starts, the current region is also available inside the container via the environment variable.
+
+| Region Name         | `dc_list` Value | Old `region_sign` |
+| ------------------- | --------------- | ----------------- |
+| Singapore (Primary) | `sgp1`   | `sgp1`     |
+
+### Public Image UUID
+
+| Framework  | Image UUID              | Description                                          |
+| ---------- | ----------------------- | ---------------------------------------------------- |
+| PyTorch    | `base-image-12be412037` | CUDA 11.1 · torch 1.9.0 · Ubuntu 18.04               |
+| PyTorch    | `base-image-u9r24vthlk` | CUDA 11.3 · torch 1.10.0 · Ubuntu 20.04              |
+| PyTorch    | `base-image-l374uiucui` | CUDA 11.3 · torch 1.11.0 · Ubuntu 20.04              |
+| PyTorch    | `base-image-l2t43iu6uk` | CUDA 11.8 · torch 2.0.0 · Ubuntu 20.04 (recommended) |
+| TensorFlow | `base-image-0gxqmciyth` | CUDA 11.2 · tf 2.5.0 · Ubuntu 18.04                  |
+| TensorFlow | `base-image-uxeklgirir` | CUDA 11.2 · tf 2.9.0 · Ubuntu 20.04                  |
+| TensorFlow | `base-image-4bpg0tt88l` | CUDA 11.4 · tf 1.15.5 · Ubuntu 20.04                 |
+| Miniconda  | `base-image-mbr2n4urrc` | CUDA 11.6 · Ubuntu 20.04                             |
+| Miniconda  | `base-image-qkkhitpik5` | CUDA 10.2 · Ubuntu 18.04                             |
+| Miniconda  | `base-image-h041hn36yt` | CUDA 11.1 · Ubuntu 18.04                             |
+| Miniconda  | `base-image-7bn8iqhkb5` | CUDA 11.3 · Ubuntu 20.04                             |
+| Miniconda  | `base-image-k0vep6kyq8` | CUDA 9.0  · Ubuntu 16.04                             |
+| TensorRT   | `base-image-l2843iu23k` | CUDA 11.8 · TensorRT 8.5.1 · Ubuntu 20.04            |
+| TensorRT   | `base-image-l2t43iu6uk` | CUDA 11.8 · torch 2.0.0 + TensorRT · Ubuntu 20.04    |
+
+More images are added regularly – contact support for the latest list or request a custom base image.
+
+### CUDA Version values
+
+| CUDA Version        | Value to use in `cuda_v_from` / `cuda_v_to` |
+| ------------------- | ------------------------------------------- |
+| 11.8                | `118`                                       | 
+| 12.0                | `120`                                       | 
+| 12.1                | `121`                                       | 
+| 12.2                | `122`                                       | 
+
+If your framework needs CUDA 11.5 (or any unlisted version), choose the lowest available version ≥ your requirement (e.g., 11.8 → `118`).
+
+Higher drivers are backward-compatible, but picking a version that's too high reduces available GPUs.
+
+Always select the smallest compatible value to maximize scheduling success.
+
+### Container Environment Variables
+| Variable Name        |  ODescription      |
+| -------------------- |  ----------------- |
+| AutoDLContainerUUID  |  Unique ID of the current container     |
+| AutoDLDeploymentUUID |  UUID of the parent deployment          |
+| AutoDLDataCenter     |  Current region / data center code      |

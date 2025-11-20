@@ -139,6 +139,19 @@
         ]
       },
       {
+        "tab": "Serverless",
+        "groups": [
+          {
+            "group": "Serveless",
+            "pages": [
+              "serverless/serverless",
+              "serverless/serverless-best",
+              "serverless/serverless-monitoring"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Best Practices",
         "groups": [
           {
@@ -211,7 +224,8 @@
           {
             "group": "API Documentation",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/api-obtain-balances",
+              "api-reference/api-serverless"
             ]
           }
         ]
