@@ -139,19 +139,6 @@
         ]
       },
       {
-        "tab": "Serverless",
-        "groups": [
-          {
-            "group": "Serveless",
-            "pages": [
-              "serverless/serverless",
-              "serverless/serverless-best",
-              "serverless/serverless-monitoring"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "Best Practices",
         "groups": [
           {
@@ -196,6 +183,19 @@
               "best-practices/mpi",
               "best-practices/performance",
               "best-practices/cost-saving"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Serverless",
+        "groups": [
+          {
+            "group": "Serveless",
+            "pages": [
+              "serverless/serverless",
+              "serverless/serverless-best",
+              "serverless/serverless-monitoring"
             ]
           }
         ]
