@@ -224,8 +224,8 @@
           {
             "group": "API Documentation",
             "pages": [
-              "api-reference/api-obtain-balances",
-              "api-reference/api-serverless"
+              "api-reference/api-serverless",
+              "api-reference/api-obtain-balances"
             ]
           }
         ]
