@@ -3,6 +3,11 @@
   "theme": "mint",
   "name": "Mint Starter Kit",
   "description":"GPUhub Documentation",
+  "integrations": {
+    "ga4": {
+      "measurementId": "G-KDSJ905XX7"
+    }
+  },
   "search": {
     "prompt": "Select the GPU suits your purpose and scenario"
   },
