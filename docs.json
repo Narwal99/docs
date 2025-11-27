@@ -234,12 +234,7 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Coupones",
-          "href": "https://gpuhub.com/",
-          "icon": "ticket"
-        },
-        {
-          "anchor": "Discussions",
+          "anchor": "Discod",
           "href": "https://discord.gg/PVdwkynM75",
           "icon": "discord"
         },
@@ -248,6 +243,11 @@
           "anchor": "Videos",
           "href": "https://www.youtube.com/channel/UC2qUAYW-gmjBjs_DAZbpGlg",
           "icon": "youtube"
+        },
+        {
+          "anchor": "X",
+          "href": "https://x.com/hub_gpu",
+          "icon": "x-twitter"
         }
       ]
     }
