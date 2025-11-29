@@ -1,0 +1,16 @@
+---
+title: 'PyTorch for Blackwell'
+description: 'Using RTX PRO 6000 / RTX 5090 GPUs with PyTorch'
+---
+
+<Note>
+When using RTX 5090 or RTX PRO 6000 (**Blackwell architecture**), please use the latest images and install PyTorch as follows.
+</Note>
+
+![](/images/pytorch280.png)
+
+1. RTX 5090 and RTX PRO 6000 require CUDA ≥ 12.8 and PyTorch ≥ 2.7.1 to detect and use the GPU at all.
+2. **ONLY PyTorch ≥ 2.8.0 nightly builds currently support** multi-GPU (DataParallel / DDP) on these cards.
+3. Strongly recommended to install the [nightly version](https://pytorch.org/get-started/locally/#nightly-builds) yourself for now.
+
+![](/images/pytorch-nightly.png)
