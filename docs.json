@@ -122,7 +122,8 @@
               "data/download-data",
               "data/local-data-disk",
               "data/file-storage",
-              "data/compress-decompress"
+              "data/compress-decompress",
+              "data/thirdparty-drives"
             ]
           }
         ]
