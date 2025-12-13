@@ -202,7 +202,8 @@
             "pages": [
               "elastic-deployment/elastic-deployment",
               "elastic-deployment/elastic-deployment-best",
-              "elastic-deployment/elastic-deployment-monitoring"
+              "elastic-deployment/elastic-deployment-monitoring",
+              "elastic-deployment/elastic-deployment-updatelog"
             ]
           }
         ]
