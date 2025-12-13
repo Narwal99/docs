@@ -195,14 +195,14 @@
         ]
       },
       {
-        "tab": "Serverless",
+        "tab": "Elastic Deployment",
         "groups": [
           {
             "group": "Serveless",
             "pages": [
-              "serverless/serverless",
-              "serverless/serverless-best",
-              "serverless/serverless-monitoring"
+              "elastic-deployment/elastic-deployment",
+              "elastic-deployment/elastic-deployment-best",
+              "elastic-deployment/elastic-deployment-monitoring"
             ]
           }
         ]
@@ -231,7 +231,7 @@
           {
             "group": "API Documentation",
             "pages": [
-              "api-reference/api-serverless",
+              "api-reference/api-elastic-deployment",
               "api-reference/api-obtain-balances"
             ]
           }

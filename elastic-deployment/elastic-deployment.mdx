@@ -1,10 +1,10 @@
 ---
-title: Serverless GPU
-description: "GPUhub Serverless GPU is a pay-per-second, on-demand service that instantly launches and manages GPU containers with zero maintenance. Perfect for enterprise AIGC and large-scale inference, just pick an image and GPU spec — we handle provisioning, startup, scaling, and lifecycle in seconds. Pay only for actual runtime, no idle costs."
+title: Elastic Deployment GPU
+description: "GPUhub Elastic Deployment GPU is a pay-per-second, on-demand service that instantly launches and manages GPU containers with zero maintenance. Perfect for enterprise AIGC and large-scale inference, just pick an image and GPU spec — we handle provisioning, startup, scaling, and lifecycle in seconds. Pay only for actual runtime, no idle costs."
 ---
 
 <Note>
-Read API [Documentation](../api-reference/api-serverless) for more details.
+Read API [Documentation](../api-reference/api-elastic-deployment) for more details.
 </Note>
 
 ## Scheduling Mode Introduction
@@ -94,17 +94,17 @@ nohup python app.py & && sleep infinity
 ```
 In Method 2, the application runs in the background, and sleep infinity blocks the cmd from ending, making the application's lifecycle independent of the container's lifecycle. You need to manage the application's lifecycle independently (i.e., if app.py ends, the container is still running normally, and the application state cannot be inferred from the container state). If you need to manage the application's lifecycle yourself, this method is recommended; otherwise, Method 1 is recommended.
 
-Additionally, you can call the API to stop the Serverless GPU or stop a specific container to complete the container's shutdown.
+Additionally, you can call the API to stop the Elastic Deployment GPU or stop a specific container to complete the container's shutdown.
 
 ## Billing
 
-Please refer the part of serverless in [Billing](../billing-recharge/billing#serverless) for more details.
+Please refer the part of elastic-deployment in [Billing](../billing-recharge/billing#elastic-deployment) for more details.
 
 ## Differences Between “Container Instances” and “Serveless Containers”
 
-|                     | Container Instances (Rented in Computing Market)             | Serverless GPU Containers                                    |
+|                     | Container Instances (Rented in Computing Market)             | Elastic Deployment GPU Containers                                    |
 | ----------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | **1. Data Retention Rules**      | Have a [data retention period](../data/overview) after shutdown. | Release data immediately upon shutdown and do not retain it. |
 | **2. Data Disk Expansion**       | Support data disk expansion.                                 | Do not support expansion; default data disk size is 50GB.    |
-| **3. Restart Method**            | Can be restarted as long as not released.                    | Cannot be restarted after stopping. If the deployment has stopped, [create a new deployment](../api-reference/api-serverless#2-create-deployment); if not stopped, adjust the number of running containers by [setting replica count](../api-reference/api-serverless). |
-| **4. Entering Container Method** | (Assumed to support JupyterLab, based on context).           | Have no JupyterLab entry; to enter the container, obtain SSH command and password (refer to [Documentation](../api-reference/api-serverless#7-list-container-events)). |
+| **3. Restart Method**            | Can be restarted as long as not released.                    | Cannot be restarted after stopping. If the deployment has stopped, [create a new deployment](../api-reference/api-elastic-deployment#2-create-deployment); if not stopped, adjust the number of running containers by [setting replica count](../api-reference/api-elastic-deployment). |
+| **4. Entering Container Method** | (Assumed to support JupyterLab, based on context).           | Have no JupyterLab entry; to enter the container, obtain SSH command and password (refer to [Documentation](../api-reference/api-elastic-deployment#7-list-container-events)). |

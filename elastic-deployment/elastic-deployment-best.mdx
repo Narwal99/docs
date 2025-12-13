@@ -1,5 +1,5 @@
 ---
-title: Serverless Best Practice
+title: Elastic Deployment Best Practice
 description: "The best practices cover efficient deployments, service discovery/load balancing, container management, and features like reuse for faster startups and lower costs."
 ---
 ## Creating Deployments
@@ -12,7 +12,7 @@ That is, if a container abnormally exits, the system will automatically pull up 
 
 ## Service Discovery and Load Balancing
 
-When using ReplicaSet type Serverless GPU deployments, each container provides an independent custom service address (HTTPS protocol) for external services. Due to potential single-point failures causing service stops and ReplicaSet deployments starting new containers to replace stopped ones, dynamic deregistration/registration of each container's service address is needed to achieve high-availability deployment.
+When using ReplicaSet type Elastic Deployment GPU deployments, each container provides an independent custom service address (HTTPS protocol) for external services. Due to potential single-point failures causing service stops and ReplicaSet deployments starting new containers to replace stopped ones, dynamic deregistration/registration of each container's service address is needed to achieve high-availability deployment.
 
 Service discovery is generally divided into two types: client-side discovery and server-side discovery. Here, considering simplicity and ease of use, a client-side discovery practice is introduced. This method is more suitable for GPU load scenarios (high computational load, limited GPU VRAM, long single-request response time) and is completed together with load balancing. The architecture is as follows:
 
@@ -30,7 +30,7 @@ Finally, before calling the service, the client first obtains the list of servic
 
 ## Stopping Containers
 
-When using ReplicaSet Serverless GPU deployments, in addition to controlling container start/stop by setting the replica count, if you need precise control to stop a specific container, you can do so by calling the **"Stop Container"** interface. This interface provides a `decrease_one_replica_num` parameter, which can stop the container and simultaneously reduce the deployment's replica num by 1, meaning no new container will be started after stopping this one (this parameter is effective for ReplicaSet deployments).
+When using ReplicaSet Elastic Deployment GPU deployments, in addition to controlling container start/stop by setting the replica count, if you need precise control to stop a specific container, you can do so by calling the **"Stop Container"** interface. This interface provides a `decrease_one_replica_num` parameter, which can stop the container and simultaneously reduce the deployment's replica num by 1, meaning no new container will be started after stopping this one (this parameter is effective for ReplicaSet deployments).
 
 ## Blocking Faulty Machines
 
@@ -57,7 +57,7 @@ For frequently changing files, such as code and model files, it is recommended t
 ## Important Features Introduction
 
 **Reusing Containers**
-In the process of using Serverless GPU deployments, the main time consumption is in pulling the image. Larger images and more simultaneously scheduled containers will have a greater impact on startup time. Therefore, to shorten container creation time, support for reusing stopped containers in Serverless GPU has been added.
+In the process of using Elastic Deployment GPU deployments, the main time consumption is in pulling the image. Larger images and more simultaneously scheduled containers will have a greater impact on startup time. Therefore, to shorten container creation time, support for reusing stopped containers in Elastic Deployment GPU has been added.
 
 **The specific implementation:**
 
