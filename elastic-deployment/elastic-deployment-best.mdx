@@ -16,7 +16,7 @@ When using ReplicaSet type Elastic Deployment GPU deployments, each container pr
 
 Service discovery is generally divided into two types: client-side discovery and server-side discovery. Here, considering simplicity and ease of use, a client-side discovery practice is introduced. This method is more suitable for GPU load scenarios (high computational load, limited GPU VRAM, long single-request response time) and is completed together with load balancing. The architecture is as follows:
 
-![](../images/serveless-archi-dia.png)
+![](../images/elastic-archi-dia.png)
 
 From the diagram above, first, a service needs to be developed to poll and minitor for container (temporarily considered equivalent to service) status via GPUHub's "Query Container Events" interface. If there is a stopped container, remove it from the registry; if there is a new running container, register it to the service center.
 

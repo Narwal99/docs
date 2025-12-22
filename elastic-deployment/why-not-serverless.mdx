@@ -1,0 +1,44 @@
+---
+title: Why Not Serverless
+description: "Why choose Elastic Containers over Pure Serverless"
+---
+
+"Serverless GPU" promises pay-per-second billing and scaling to zero. GPUhub's Elastic Deployment takes a different path: intelligent container orchestration that prioritizes reliability and performance. This choice reflects the real demands of academic research and production AI workloads.
+
+<Columns cols={2}>
+  <Card title="Elastic Deployment" icon="flask-round-potion">
+    If you're conducting serious AI / ML training or inference workloads that demand stability, persistence, and low latency, feel confident using our Elastic Deployment—it's designed precisely for these production-grade scenarios. It's stable, controllable, and cost-effective.
+  </Card>
+  <Card title="Serverless" icon="cube">
+    If you're simply wrapping a newly developed model into an API and launching an app to test your business model in the market, we recommend exploring other Serverless cloud services for optimal cost efficiency on bursty, short-lived requests.
+  </Card>
+</Columns>
+
+## Limitations of Pure Serverless for GPU Tasks
+
+- **Cold Starts**: Seconds-to-minutes delays disrupt low-latency services and interactive workflows.
+- **Stateless Design**: Unsuitable for long-running training or stateful applications.
+- **Cost for Sustained Workloads**: Often more expensive for hour- or day-long jobs.
+- **Limited Control**: Hard to specify exact hardware or debug effectively.
+- **Ephemeral Storage**: Repeated data loading adds overhead.
+
+## GPUhub's Approach
+
+Users set flexible constraints (GPU type/count ranges, price caps, replicas). The system auto-matches hosts and launches persistent containers, supporting:
+
+- Rolling updates
+- SSH access
+- Persistent storage (HPS)
+- High-availability, batch, and single-container modes
+
+Containers stay active until stopped — delivering near-zero cold starts and predictable costs.
+
+## Best Fit Scenarios
+
+- **Pure Serverless**: Bursty, very short (less than 10s) inference tolerant of cold starts.
+- **GPUhub Elastic Deployment**: Long training, stable inference, interactive development, and persistent workloads — the core of most serious AI projects.
+
+## Conclusion
+
+We avoided pure serverless because GPU users need stable, controllable environments — not short-lived functions. Elastic containers empower teams to build real AI applications.
+

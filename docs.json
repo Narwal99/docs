@@ -58,7 +58,8 @@
           {
             "group": "Troubleshooting",
             "pages": [
-              "troubleshooting/troubleshooting"
+              "troubleshooting/troubleshooting",
+              "troubleshooting/networks"
             ]
           },
           {
@@ -197,6 +198,12 @@
       {
         "tab": "Elastic Deployment",
         "groups": [
+          {
+            "group": "Why not serverless",
+            "pages": [
+              "elastic-deployment/why-not-serverless"
+            ]
+          },
           {
             "group": "Serveless",
             "pages": [
