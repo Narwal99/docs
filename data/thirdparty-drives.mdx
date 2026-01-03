@@ -26,6 +26,30 @@ Natively supported drives (no extra setup needed):
 
 Best for: Users who want maximum speed and mainly use global drives.
 
+<Warning>
+Due to container security restrictions, rclone mount (mounting as a local disk) is not supported on GPUhub instances and will fail with permission errors.
+</Warning>
+
+**Recommended**: Use rclone for sync/copy (fully supported and fast):
+
+```bash
+# Download data
+rclone copy xxxdrive:datasets/my_data ./data --progress
+
+# Upload results
+rclone copy ./outputs xxxdrive:results/my_run --progress
+```
+
+**Alternative**: Serve as WebDAV (access like a network drive):
+
+```bash
+rclone serve webdav xxxgdrive: --addr 0.0.0.0:8080 --vfs-cache-mode writes
+
+# Then open http://your-instance-ip:8080 in JupyterLab or browser.
+```
+
+For most training tasks, automated copy/sync works best.
+
 
 ## Alist
 
