@@ -23,6 +23,26 @@ File storage is a network-shared storage that can be mounted to different instan
 Enter the Console -> File Storage menu, and initialize the file storage for the corresponding region. After creating an instance in that region and starting it, the file storage will be mounted to the ```/root/gpuhub-fs``` directory of the instance.
 ![](/images/file-storage.png)
 
+## Cache Cleanup
+If a web upload is interrupted or files are deleted in JupyterLab, cache files or trash may be generated, occupying file storage space.
+
+### Solution 1: From Console
+
+File Storage → More Details → Clean Upload Cache
+
+### Solution 2: From Terminal
+
+Navigate to `/root/autodl-fs`, use `ls -alh` to view hidden files, then permanently delete them with `rm`.
+
+### Disk Full Error
+
+<Warning>
+ A "disk full" error may unexpectedly occur even when there is sufficient storage space, if the number of files (inodes) exceeds 200,000.
+</Warning>
+
+File storage has an **inode limit of 200,000**. Since a large number of small files significantly impacts read/write performance, we recommend compressing files before storing them in file storage, and keeping small files on the data disk instead.
+
+You can monitor your inode usage at any time in: File Storage → More Details.
 
 ## Billing
 For details on data disk billing, please refer to the [pricing](/billing-recharge/billing#file-storage).
