@@ -2,11 +2,15 @@
 title: 'Local Data Disk'
 description: 'This document explains Local Data Disks, covering capacity, resizing, and billing details.'
 ---
-<Warning>
+<Note>
 The instance's system disk and data disk are generally local SSDs, with a small portion being cloud disks. 
 Local data disks offer good performance but lack redundant copies. Due to the inherent lifespan of local disks, there is a probability of failure. 
 Important data should be regularly backed up to [file storage](/data/file-storage) or local storage. 
 GPUhub does not provide reliability guarantees or services for such local storage products.
+</Note>
+
+<Warning>
+The data disk is fixed at **/root/autodl-tmp** and cannot be modified.
 </Warning>
 
 ## Instance Creation

@@ -116,14 +116,19 @@
         "tab": "Data",
         "groups": [
           {
-            "group": "Data Transmission & Storage",
+            "group": "Data Transmission",
             "pages": [
               "data/overview",
               "data/upload-data",
               "data/download-data",
+              "data/compress-decompress"
+            ]
+          },
+                    {
+            "group": "Data Storage",
+            "pages": [
               "data/local-data-disk",
               "data/file-storage",
-              "data/compress-decompress",
               "data/thirdparty-drives"
             ]
           }
