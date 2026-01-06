@@ -2,16 +2,30 @@
 title: Overview
 description: "GPUhub Elastic Deployment GPU is a pay-per-second, on-demand service that instantly launches and manages GPU containers with zero maintenance. Perfect for enterprise AIGC and large-scale inference, just pick an image and GPU spec — we handle provisioning, startup, scaling, and lifecycle in seconds. Pay only for actual runtime, no idle costs."
 ---
-
-<Note>
-Read API [Documentation](../api-reference/api-elastic-deployment) for more details.
-</Note>
+<Columns cols={2}>
+    <Card
+    title="GPUhub Elastic Deployment API"
+    icon="code"
+    href="/api-reference/api-elastic-deployment"
+    arrow="true"
+    >
+    Read [API Documentation](../api-reference/api-elastic-deployment) for more details.
+    </Card>
+    <Card
+    title="Why Not Serverless"
+    icon="question"
+    href="/api-reference/api-elastic-deployment"
+    arrow="true"
+    >
+    Why [choose Elastic Containers](../elastic-deployment/why-not-serverless)  over Pure Serverless
+    </Card>
+</Columns>
 
 ## Scheduling Mode Introduction
 ### How Resources Are Divided (Computing Power Units)?
 
 1. GPUhub manages multiple physical servers (hosts) with varying setups, including different **GPU models/numbers, CPU cores, and memory amounts**.
-2. For each host, the system automatically divides the CPU and memory evenly based on the number of GPUs (e.g., if a host has 8 GPUs, it creates 8 "units").
+2. For each host, **the system automatically divides the CPU and memory** evenly based on the number of GPUs (e.g., if a host has 8 GPUs, it creates 8 "units").
 3. Each unit is a fixed bundle: 1 GPU + a portion of CPU + a portion of memory. **You can't change or split these bundles—it's designed for simplicity.**
 
 Simple Example:
@@ -52,7 +66,7 @@ If on Host C: You get 8x RTX PRO 6000, 128 CPU cores, 360GB memory.
 
 In short, you set loose requirements, and the system finds the best fit quickly - **NO NEED to micromanage hardware details**. If no match, it queues until one is available. This reduces complexity while ensuring efficient use of resources.
 
-### Mode: ReplicaSet-Type Scheduling
+### Mode 1: ReplicaSet-Type Scheduling
 
 <Note>
 **Applicable Scenarios**: Long-term services requiring high availability, such as web apps, APIs, or persistent inference servers.
@@ -62,7 +76,7 @@ GPUHub's ReplicaSet refers to creating and maintaining a stable set of container
 
 If the scheduling conditions are modified, the system will destroy existing running containers that do not meet the conditions and start new ones that do. Modifying the number of container replicas will immediately create new containers or destroy existing running ones until the number of running containers equals your set replica count.
 
-### Mode: Job-Type Scheduling
+### Mode 2: Job-Type Scheduling
 
 <Note>
 **Applicable Scenarios**: Batch processing tasks, such as distributed training jobs, data processing pipelines, or one-off computations that run to completion.
@@ -72,7 +86,7 @@ GPUHub's Job refers to creating one or more containers until the specified numbe
 
 
 
-### Mode: Container-Type Scheduling
+### Mode 3: Container-Type Scheduling
 
 <Note>
 **Applicable Scenarios**: Simple, single-instance tasks like quick testing, debugging, or short-lived scripts.
