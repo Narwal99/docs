@@ -244,6 +244,7 @@
           {
             "group": "API Documentation",
             "pages": [
+              "api-reference/api-authentication",
               "api-reference/api-elastic-deployment",
               "api-reference/api-obtain-balances"
             ]

@@ -3,22 +3,7 @@ title: 'Elastic Deployment API'
 description: 'GPUhub Elastic Deployment API: A simple, token-authenticated REST API that lets any user programmatically create, scale, monitor, and manage pay-per-second GPU containers for AI/ML workloads.'
 ---
 
-<Note>
-The HOST address for the API server is:
-```
-https://api.gpuhub.com/
-```
-</Note>
-
-## Authentication
-
-Create a token at [Console](https://api.gpuhub.com/console/center/settings/token) and use it for authentication.
-
-```javascript
-headers = {"Authorization": "your token"}
-```
-
-## 1 List Private Images
+## 1. List Private Images
 ### → Request
 
 ```
@@ -86,7 +71,7 @@ response = requests.post(url, json=body, headers=headers)
 print(response.content.decode())
 ```
 
-## 2 Create Deployment
+## 2. Create Deployment
 
 ### → Request
 
@@ -243,7 +228,7 @@ print(response.content.decode())
 }
 ```
 
-## 3 List Deployments
+## 3. List Deployments
 
 ### → Request
 
@@ -323,7 +308,7 @@ The fields returned in each deployment object have the same meaning as the param
 }
 ```
 
-## 4 Scale Replicas (ReplicaSet only)
+## 4. Scale Replicas (ReplicaSet only)
 
 ### → Request
 
@@ -382,7 +367,7 @@ print(response.json())
 ```
 
 
-## 5 Stop Entire Deployment
+## 5. Stop Entire Deployment
 
 ### → Request
 
@@ -437,7 +422,7 @@ response = requests.put(url, json=body, headers=headers)
 print(response.content.decode())
 ```
 
-## 6 Delete Entire Deployment
+## 6. Delete Entire Deployment
 
 ### → Request
 
@@ -482,7 +467,7 @@ body = {"deployment_uuid": "5be3045703152b9"}
 response = requests.delete(url, json=body, headers=headers)
 print(response.json())
 ```
-## 7 List Container Events
+## 7. List Container Events
 
 ### → Request
 
@@ -600,7 +585,7 @@ response = requests.post(url, json=body, headers=headers)
 print(response.json())
 ```
 
-## 8 List Containers
+## 8. List Containers
 
 ### → Request
 
@@ -735,7 +720,7 @@ print(response.json())
 
 ```
 
-## 9 Stop a Container
+## 9. Stop a Container
 
 ### → Request
 
@@ -800,7 +785,7 @@ print(response.content.decode())
 ```
 
 
-## 10 Host Blacklist
+## 10. Host Blacklist
 
 ### → Request
 
@@ -861,7 +846,7 @@ print(response.json())
 
 ```
 
-## 11 Get Active Blacklist
+## 11. Get Active Blacklist
 
 ### → Request
 
@@ -920,7 +905,7 @@ response = requests.get(url, headers=headers)
 print(response.json())
 ```
 
-## 12 Real-time GPU Stock by Region
+## 12. Real-time GPU Stock by Region
 
 ### → Request
 
@@ -1018,7 +1003,7 @@ print(response.json())
 ```
 
 
-## 13 Check Duration Package Balance
+## 13. Check Duration Package Balance
 
 ### → Request
 
@@ -1079,7 +1064,7 @@ print(response.json())
 
 ```
 
-##  14 Appendix
+## 14. Appendix
 ### region_sign & dc_list
 
 Values for dc_list (preferred) or the deprecated region_sign parameter when creating a deployment, After a container starts, the current region is also available inside the container via the environment variable.
