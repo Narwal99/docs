@@ -246,7 +246,8 @@
             "pages": [
               "api-reference/api-authentication",
               "api-reference/api-elastic-deployment",
-              "api-reference/api-obtain-balances"
+              "api-reference/api-obtain-balances",
+              "api-reference/api-switch-nfs-fs"
             ]
           }
         ]

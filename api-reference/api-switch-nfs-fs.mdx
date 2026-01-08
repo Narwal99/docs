@@ -1,0 +1,58 @@
+---
+title: 'Switch Dedicated NFS / File Storage'
+description: 'To switch between Dedicated NFS storage and standard file storage for a specified data center.'
+---
+
+## Switch Dedicated NFS / File Storage
+
+### → Request
+
+```
+POST /api/v1/dev/exclusive_nfs/mount
+```
+
+Request Parameters
+
+| Parameter   | Type   | Description                                                  |
+| ----------- | ------ | ------------------------------------------------------------ |
+| data_center | String | Target region code. Refer to the appendix of the Elastic Deployment API documentation for available values. |
+| mountable   | Int    | Set to `1` to mount **Dedicated NFS** (this will disable normal file storage). Set to `-1` to disable Dedicated NFS and switch back to **standard file storage**. |
+
+### ← Response
+
+Response Parameters
+
+| Parameter | Type   | Description                                          |
+| --------- | ------ | ---------------------------------------------------- |
+| code      | String | Response code. Returns `Success` on success.         |
+| msg       | String | Error message. Empty when the request is successful. |
+
+Example Response
+
+```json
+{
+    "code": "Success",
+    "msg": ""
+}
+```
+
+Python Example
+
+```python
+import requests
+
+headers = {
+    "Authorization": "YOUR_TOKEN"
+}
+
+body = {
+    "data_center": "westDC2",
+    "mountable": 1
+}
+
+
+url = "https://api.gpuhub.com/api/v1/dev/exclusive_nfs/mount"
+response = requests.post(url, json=body, headers=headers)
+
+print(response.content.decode())
+```

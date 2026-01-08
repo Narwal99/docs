@@ -76,3 +76,23 @@ Additionally, the initial startup of the **Community Images** may take a conside
 1. **First, check if the platform's pre-installed images** include the required versions of PyTorch, TensorFlow, or other frameworks. If available, prioritize using the platform's built-in images.
 2. If the platform does not have the desired framework versions, determine the required CUDA version for your framework. For example, PyTorch 1.9.0 requires CUDA 11.1. You can then select a platform image with Miniconda and CUDA 11.1 pre-installed. This allows you to install the required framework without the hassle of setting up cudatoolkit. (The pre-installed CUDA on the platform includes .h header files, which is more convenient if you need to compile code.)
 3. If neither of the above conditions is met, you can choose any Miniconda image and install the required frameworks, CUDA, or even other Python versions after the instance is started.
+
+## About 3rd-Party Container Registries
+
+At present, GPUHub **DOES NOT support deploying containers using Docker images hosted on 3rd-party container registries**, including but not limited to Docker Hub, GitHub Container Registry, and GitLab Container Registry.
+
+This limitation is based on the following considerations:
+
+1. **Security and Compliance**
+
+Images hosted on third-party registries vary widely in origin and update behavior, making it difficult for the platform to perform consistent security review and risk control. To ensure platform security and data protection, GPUHub currently supports only verified image deployment mechanisms.
+
+2. **Runtime Environment Consistency**
+
+Differences in image build standards, dependency management, and runtime configurations across registries may lead to compatibility issues within GPUHub’s execution environment. Restricting image sources helps maintain system stability and consistency.
+
+3. **Operational and Support Complexity**
+
+Supporting third-party registries would significantly increase troubleshooting complexity related to image pulling, authentication, network access, and runtime errors, potentially impacting support efficiency and service quality.
+
+GPUHub continues to evaluate more flexible and secure image management solutions and may introduce support for third-party registries in the future, subject to security and stability requirements.
