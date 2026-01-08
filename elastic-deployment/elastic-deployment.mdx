@@ -21,8 +21,14 @@ description: "GPUhub Elastic Deployment GPU is a pay-per-second, on-demand servi
     </Card>
 </Columns>
 
-## Scheduling Mode Introduction
-### How Resources Are Divided (Computing Power Units)?
+<Card title="Best Practices" img="../images/elastic-archi-dia.png" href="/elastic-deployment/elastic-deployment-best">
+  Efficient deployments, service discovery/load balancing, and container management etc.
+</Card>
+
+## Scheduling Mode Overview
+### Resource Partitioning Logic
+
+How Resources Are Divided (Computing Power Units)?
 
 1. GPUhub manages multiple physical servers (hosts) with varying setups, including different **GPU models/numbers, CPU cores, and memory amounts**.
 2. For each host, **the system automatically divides the CPU and memory** evenly based on the number of GPUs (e.g., if a host has 8 GPUs, it creates 8 "units").
@@ -38,7 +44,9 @@ Simple Example:
 
 This keeps things straightforward: you pick how many GPUs you want, and the system gives you proportional CPU and memory automatically.
 
-### How Containers Are Created and Started (Scheduling)?
+### Creation & Launch Mechanism
+
+How Containers Are Created and Started (Scheduling)?
 
 1. When you request a container, you specify basic conditions like: GPU model and count, CPU core range, memory size range, or price limit.
 2. The system scans available hosts and picks one that matches your conditions (due to the fixed units and host differences).
@@ -65,6 +73,8 @@ If on Host C: You get 8x RTX PRO 6000, 128 CPU cores, 360GB memory.
 </Card>
 
 In short, you set loose requirements, and the system finds the best fit quickly - **NO NEED to micromanage hardware details**. If no match, it queues until one is available. This reduces complexity while ensuring efficient use of resources.
+
+## Elastic Scheduling Mode
 
 ### Mode 1: ReplicaSet-Type Scheduling
 
