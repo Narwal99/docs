@@ -1,6 +1,6 @@
 ---
 title: 'File Storage'
-description: 'Store your important data and code in here!'
+description: 'Store your important data and code in here! Including models, datasets, and more — and access them across all your instances.'
 ---
 
 File storage is a network-shared storage that can be mounted to different instances within the same region
@@ -21,7 +21,22 @@ File storage is a network-shared storage that can be mounted to different instan
 
 ## Initialization
 Enter the Console -> File Storage menu, and initialize the file storage for the corresponding region. After creating an instance in that region and starting it, the file storage will be mounted to the ```/root/gpuhub-fs``` directory of the instance.
+
+
+```bash
+/root/gpuhub-fs
+```
+
 ![](/images/file-storage.png)
+
+## Not Mounted
+
+1. Check whether file storage is supported for instances in the region.
+2. Check whether the file storage interface has been initialized for the region.
+3. If the instance was started before the initialization of file storage, you need to **restart the instance**.
+4. Check the **mount status** in **Account → Settings → File Storage**. If the status is "Unmounted", remount the file storage and then restart the instance.
+5. For instances created by a sub-account, verify that the sub-account has file storage permissions in **Account → Sub-accounts → Configure Permissions → File Storage**.
+6. If the file storage still cannot be mounted, contact customer [support](mailto:support@gpuhub.com) for assistance.
 
 ## Cache Cleanup
 If a web upload is interrupted or files are deleted in JupyterLab, cache files or trash may be generated, occupying file storage space.
@@ -29,6 +44,8 @@ If a web upload is interrupted or files are deleted in JupyterLab, cache files o
 ### Solution 1: From Console
 
 File Storage → More Details → Clean Upload Cache
+
+![](/images/filestorage-clean.png)
 
 ### Solution 2: From Terminal
 
@@ -43,6 +60,8 @@ Navigate to `/root/autodl-fs`, use `ls -alh` to view hidden files, then permanen
 File storage has an **inode limit of 200,000**. Since a large number of small files significantly impacts read/write performance, we recommend compressing files before storing them in file storage, and keeping small files on the data disk instead.
 
 You can monitor your inode usage at any time in: File Storage → More Details.
+
+![](/images/filestorage-inodes.png)
 
 ## Billing
 For details on data disk billing, please refer to the [pricing](/billing-recharge/billing#file-storage).
