@@ -36,7 +36,7 @@ To check the disk usage within the instance, please execute the command ```sourc
 |----|----|----|----|----|
 |System Disk	|Root directory / and all subdirectories (except for the special paths listed below)	|30GB	|Local disk, Fast	|Data will not be lost when the instance is shut down. System dependencies and Python packages are typically installed here. It can also be used to store small amounts of data such as code. The system disk is migrated when the [instance is migrated](), and it is included in the image when [saving an image]().|
 |Data Disk	|/root/gpuhub-tmp	|Starting from 50GB, can be expanded	|Local disk, Fast	|Data will not be lost when the instance is shut down. Suitable for storing data with high read/write I/O requirements. Data on the data disk cannot be saved to an image. If you need to migrate data from the data disk, please refer to the [instance migration process (within the same region)]().|
-|GPUhub File Storage	|/root/gpuhub-fs	|Free 20GB, billed for additional capacity	|Network disk, Moderate	|Enables file synchronization and sharing between different instances within the same region.|
+|GPUhub File Storage	|/root/autodl-fs	|Free 20GB, billed for additional capacity	|Network disk, Moderate	|Enables file synchronization and sharing between different instances within the same region.|
 |Public Data	|/root/gpuhub-pub	|Read-only	|Network disk, Slow	|Directory for commonly used public data and models provided by the platform. Read-only, does not support writing files.|
 
 ### Further Explanation of the System Disk
