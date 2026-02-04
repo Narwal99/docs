@@ -4,10 +4,6 @@ description: "Currently, a receipt is sent automatically once your recharge is c
 icon: 'file-invoice'
 ---
 
-<Warning>
-The amount that has been invoiced DOES NOT SUPPORT withdrawal.
-</Warning>
-
 ## Receipt
 
 Once your recharge is successful in our console, the email address you provided will automatically receive a receipt—please keep an eye on your inbox.
@@ -17,27 +13,35 @@ Mail example:
 
 ## Invoice
 
-### Invoice Type
-
-We offer two invoicing methods: 
-
-<CardGroup cols={2}>
-  <Card title="1. Based on Recharge Amount" icon="credit-card">
-    The amount that has been successfully paid online through recharge.
-  </Card>
-  <Card title="2. Based on Bill Amount" icon="file-invoice-dollar">
-    The amount of your order that has already been consumed.
-  </Card>
-</CardGroup>
-
-The differences between them are as follows:
+<Warning>
+The amount that has been invoiced DOES NOT SUPPORT withdrawal.
+</Warning>
 
 <Warning>
 Recharge invoicing WON'T PROVIDE DETAILED invoice of billing later. 
 </Warning>
 
-1. **Different invoicing amount logic.** When invoicing based on consumption bills, the invoicing amount is the total amount of the selected consumption bills and cannot be freely adjusted. When invoicing based on recharges, you can issue an invoice immediately after recharging and customize the invoicing amount (with a minimum of USD10 per invoice).
-2. **Different proof of consumption.** When invoicing based on recharge amounts, an invoice and recharge proof will be provided. When invoicing based on bill amounts, the detailed bills you selected at the time of invoicing will be provided.
+<Warning>
+The portion of the payment covered by vouchers cannot be issued with an invoice.
+</Warning>
+
+### Invoice Type
+
+We offer two invoicing methods: 
+
+<CardGroup cols={2}>
+  <Card title="1. Based on Bill Amount" icon="file-invoice-dollar">
+    The amount of your order that has already been consumed.
+  </Card>
+  <Card title="2. Based on Recharge Amount" icon="credit-card">
+    The amount that has been successfully paid online through recharge.
+  </Card>
+</CardGroup>
+
+The differences between them are as follows:
+
+1. When invoicing based on recharges, you can issue an invoice immediately after recharging and customize the invoicing amount (with a minimum of USD10 per invoice).
+2. When invoicing based on bill amounts, When invoicing based on bill amounts, invoices can only be issued after the subscribed or purchased period has ended.
 
 ### Apply for Invoice
 To apply, please provide the information below to our [customer service](mailto:support@gpuhub.com) team.
