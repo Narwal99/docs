@@ -226,6 +226,7 @@
           {
             "group": "Frequently Asked Question",
             "pages": [
+              "faqs/access-openai-and-claude",
               "faqs/system-disk-space-insufficient",
               "faqs/jupyterlab-fails-to-open",
               "faqs/unable-to-call-gpu",

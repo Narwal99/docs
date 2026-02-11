@@ -1,0 +1,57 @@
+---
+title: 'Unable to Access Codex or Claude APIs from Instances'
+description: 'Access Codex or Claude APIs http://llm.gpuhub.com'
+---
+
+> **Issue**: Due to a recent POP adjustment (now routed through Hong Kong to improve European access performance), some instances may temporarily be unable to directly reach the official OpenAI (Codex) and Anthropic (Claude) API endpoints.
+
+## Temporary Solution
+Please replace the original API domain with: ```http://llm.gpuhub.com```. All request paths and headers should remain unchanged.
+
+<Warning>
+Use http, NOT https.
+</Warning>
+
+### Domain Replacement Rules
+
+
+**Original OpenAI endpoint**: https://api.openai.com
+
+→ Replace with: `http://llm.gpuhub.com`
+
+**Original Anthropic endpoint**: https://api.anthropic.com 
+
+→ Replace with: `http://llm.gpuhub.com`
+
+### Quick Connectivity Test
+
+```bash
+curl http://llm.gpuhub.com/v1/models \
+-H "Authorization: Bearer YOUR_API_KEY"
+
+```
+### Example – Codex (OpenAI)
+
+```bash
+curl -i http://llm.gpuhub.com/v1/chat/completions \
+-H "Authorization: Bearer sk-proj-XXXXXXXXXXXXXXX" \
+-H "Content-Type: application/json" \
+-d '{
+  "model": "gpt-4o",
+  "messages": [{"role": "user", "content": "hi"}]
+}'
+```
+### Example – Claude (Anthropic)
+
+```bash
+curl -i http://llm.gpuhub.com/v1/messages \
+-H "x-api-key: sk-ant-XXXXXXXXXXXXXXXXXXX" \
+-H "Content-Type: application/json" \
+-d '{
+  "model": "claude-3-5-sonnet-20240620",
+  "max_tokens": 20,
+  "messages": [{"role": "user", "content": "Hello Claude"}]
+}'
+```
+
+If you see “Welcome to nginx!”, please verify that you are using **http (not https)** and that the request path (e.g., /v1/chat/completions) is correct.
