@@ -4,6 +4,16 @@ description: 'Currently, the custom services provided by GPUhub only support exp
 ---
 
 
+## Scope of the Lightweight Proxy
+
+The lightweight proxy solution (route_path-based forwarding) is primarily designed for backend API and HTTP request forwarding.
+
+It does not guarantee full compatibility with **complex Web UI applications, such as ComfyUI, Gradio, or other SPA-based interfaces**. These applications typically rely on static asset routing, frontend path resolution, and WebSocket connections, which may not function correctly under simple path-based forwarding.
+
+If you need to expose a complete Web UI application, we recommend deploying a standard reverse proxy (e.g., Nginx) inside the container to handle routing and asset forwarding properly.
+
+## Route-Based Forwarding with proxy_in_instance
+
 Assuming you have two services running inside your container, listening on ports `2000` and `3000` respectively, here is an example using Flask:
 
 ```python python
