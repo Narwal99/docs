@@ -120,7 +120,7 @@ Place all parameters in the request body. Details are as follows:
   "replica_num": 2,
   "reuse_container": true,
   "container_template": {
-    "dc_list": ["singpore-a", "Singapore-B"],
+    "dc_list": ["Singpore-A", "Singapore-B"],
     "gpu_name_set": ["RTX 5090", "RTX Pro 6000"],
     "cuda_v_from": 118,
     "cuda_v_to": 128,
@@ -167,7 +167,7 @@ body = {
     "replica_num": 2,
     "reuse_container": True,
     "container_template": {
-        "dc_list": ["singpore-a", "Singapore-B"],
+        "dc_list": ["Singpore-A", "Singapore-B"],
         "gpu_name_set": ["RTX 5090", "RTX Pro 6000"],
         "gpu_num": 1,
         "cuda_v_from": 118,
@@ -194,7 +194,7 @@ print(response.content.decode())
     "parallelism_num": 1,
     "reuse_container": True,
     "container_template": {
-        "dc_list": ["singpore-a"],
+        "dc_list": ["Singpore-A"],
         "gpu_name_set": ["RTX 5090"],
         "gpu_num": 1,
         "cuda_v_from": 118,
@@ -216,7 +216,7 @@ print(response.content.decode())
     "deployment_type": "Container",
     "reuse_container": True,
     "container_template": {
-        "dc_list": ["singpore-a"],
+        "dc_list": ["Singpore-A"],
         "gpu_name_set": ["RTX 5090"],
         "gpu_num": 1,
         "cuda_v": 118,
@@ -284,7 +284,7 @@ The fields returned in each deployment object have the same meaning as the param
         "finished_num": 2,
         "image_uuid": "image-db8346e037",
         "template": {
-          "dc_list": ["singpore-a", "Singapore-B"],
+          "dc_list": ["Singpore-A", "Singapore-B"],
           "gpu_name_set": ["RTX 5090"],
           "gpu_num": 1,
           "cpu_num_from": 1,
@@ -641,7 +641,7 @@ Container Object
 | ----------------- | ------- | ------------------------------------------------------------ |
 | `uuid`            | String  | Container UUID                                               |
 | `version`         | String  | Container version (auto-generated or user-specified on deployment update) |
-| `data_center`     | String  | Region / data center code (e.g., `singpore-a`)                     |
+| `data_center`     | String  | Region / data center code (e.g., `Singpore-A`)                     |
 | `deployment_uuid` | String  | Parent deployment UUID                                       |
 | `machine_id`      | String  | Physical host ID                                             |
 | `status`          | String  | Current status (`running`, `stopped`, `starting`, etc.)      |
@@ -676,7 +676,7 @@ Container Object
     "list": [
       {
         "uuid": "53a677bb3e281b8-f94411a60c-63c24009",
-        "data_center": "singpore-a",
+        "data_center": "Singpore-A",
         "deployment_uuid": "da497aea1eb8343",
         "status": "running",
         "gpu_name": "RTX 5090",
@@ -876,7 +876,7 @@ Blacklist Entry Object
 | -------------- | ------ | ------------------------------------------------------------ |
 | `created_at`   | String | Timestamp when the blacklist was first created               |
 | `updated_at`   | String | Timestamp of the last update (updates when expiry time is extended) |
-| `data_center`  | String | Region / data center code (e.g., `singpore-a`)                     |
+| `data_center`  | String | Region / data center code (e.g., `Singpore-A`)                     |
 | `expired_time` | String | Timestamp when the blacklist entry will automatically expire |
 | `machine_id`   | String | Physical host ID that is blacklisted                         |
 | `msg`          | String | Optional comment provided when creating the blacklist        |
@@ -890,7 +890,7 @@ Blacklist Entry Object
     {
       "created_at": "2025-03-25T17:42:55+08:00",
       "updated_at": "2025-03-25T17:48:11+08:00",
-      "data_center": "singpore-a",
+      "data_center": "Singpore-A",
       "machine_id": "24fb4ca36a",
       "expired_time": "2025-03-26T17:48:11+08:00",
       "msg": "Slow startup — avoid this host"
@@ -937,7 +937,7 @@ Request Body Parameters
 
 ```json Request Body
 {
-  "region_sign": "singpore-a",
+  "region_sign": "Singpore-A",
   "cuda_v_from": 118,
   "cuda_v_to": 128
 }
@@ -997,7 +997,7 @@ headers = {
 url = "https://api.gpuhub.com/api/v1/dev/machine/region/gpu_stock"
 
 body = {
-    "region_sign": "singpore-a",
+    "region_sign": "Singpore-A",
     "cuda_v_from": 118,
     "cuda_v_to": 128
 }
@@ -1077,7 +1077,7 @@ Values for dc_list (preferred) or the deprecated region_sign parameter when crea
 
 | Region Name         | `dc_list` Value | Old `region_sign` |
 | ------------------- | --------------- | ----------------- |
-| Singapore (Primary) | `singpore-a`   | `singpore-a`     |
+| Singapore (Primary) | `Singpore-A`   | `Singpore-A`     |
 
 ### Public Image UUID
 
