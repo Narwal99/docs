@@ -120,7 +120,7 @@ Place all parameters in the request body. Details are as follows:
   "replica_num": 2,
   "reuse_container": true,
   "container_template": {
-    "dc_list": ["sgp1", "us-west1"],
+    "dc_list": ["singpore-a", "Singapore-B"],
     "gpu_name_set": ["RTX 5090", "RTX Pro 6000"],
     "cuda_v_from": 118,
     "cuda_v_to": 128,
@@ -167,7 +167,7 @@ body = {
     "replica_num": 2,
     "reuse_container": True,
     "container_template": {
-        "dc_list": ["sgp1", "us-west1"],
+        "dc_list": ["singpore-a", "Singapore-B"],
         "gpu_name_set": ["RTX 5090", "RTX Pro 6000"],
         "gpu_num": 1,
         "cuda_v_from": 118,
@@ -194,7 +194,7 @@ print(response.content.decode())
     "parallelism_num": 1,
     "reuse_container": True,
     "container_template": {
-        "dc_list": ["sgp1"],
+        "dc_list": ["singpore-a"],
         "gpu_name_set": ["RTX 5090"],
         "gpu_num": 1,
         "cuda_v_from": 118,
@@ -216,7 +216,7 @@ print(response.content.decode())
     "deployment_type": "Container",
     "reuse_container": True,
     "container_template": {
-        "dc_list": ["sgp1"],
+        "dc_list": ["singpore-a"],
         "gpu_name_set": ["RTX 5090"],
         "gpu_num": 1,
         "cuda_v": 118,
@@ -284,7 +284,7 @@ The fields returned in each deployment object have the same meaning as the param
         "finished_num": 2,
         "image_uuid": "image-db8346e037",
         "template": {
-          "dc_list": ["sgp1", "us-west1"],
+          "dc_list": ["singpore-a", "Singapore-B"],
           "gpu_name_set": ["RTX 5090"],
           "gpu_num": 1,
           "cpu_num_from": 1,
@@ -641,7 +641,7 @@ Container Object
 | ----------------- | ------- | ------------------------------------------------------------ |
 | `uuid`            | String  | Container UUID                                               |
 | `version`         | String  | Container version (auto-generated or user-specified on deployment update) |
-| `data_center`     | String  | Region / data center code (e.g., `sgp1`)                     |
+| `data_center`     | String  | Region / data center code (e.g., `singpore-a`)                     |
 | `deployment_uuid` | String  | Parent deployment UUID                                       |
 | `machine_id`      | String  | Physical host ID                                             |
 | `status`          | String  | Current status (`running`, `stopped`, `starting`, etc.)      |
@@ -676,7 +676,7 @@ Container Object
     "list": [
       {
         "uuid": "53a677bb3e281b8-f94411a60c-63c24009",
-        "data_center": "sgp1",
+        "data_center": "singpore-a",
         "deployment_uuid": "da497aea1eb8343",
         "status": "running",
         "gpu_name": "RTX 5090",
@@ -686,10 +686,10 @@ Container Object
         "image_uuid": "image-xxxxxxxx",
         "price": 1600,
         "info": {
-          "ssh_command": "ssh -p 22345 root@sgp1.gpuhub.com",
+          "ssh_command": "ssh -p 22345 root@singpore-a.gpuhub.com",
           "root_password": "xxxxxxxxxx",
-          "service_6006_port_url": "https://sgp1.gpuhub.com:22346",
-          "service_6008_port_url": "http://sgp1.gpuhub.com:22348"
+          "service_6006_port_url": "https://singpore-a.gpuhub.com:22346",
+          "service_6008_port_url": "http://singpore-a.gpuhub.com:22348"
         },
         "started_at": "2025-11-19T10:43:03+08:00",
         "created_at": "2025-11-19T10:42:50+08:00"
@@ -876,7 +876,7 @@ Blacklist Entry Object
 | -------------- | ------ | ------------------------------------------------------------ |
 | `created_at`   | String | Timestamp when the blacklist was first created               |
 | `updated_at`   | String | Timestamp of the last update (updates when expiry time is extended) |
-| `data_center`  | String | Region / data center code (e.g., `sgp1`)                     |
+| `data_center`  | String | Region / data center code (e.g., `singpore-a`)                     |
 | `expired_time` | String | Timestamp when the blacklist entry will automatically expire |
 | `machine_id`   | String | Physical host ID that is blacklisted                         |
 | `msg`          | String | Optional comment provided when creating the blacklist        |
@@ -890,7 +890,7 @@ Blacklist Entry Object
     {
       "created_at": "2025-03-25T17:42:55+08:00",
       "updated_at": "2025-03-25T17:48:11+08:00",
-      "data_center": "sgp1",
+      "data_center": "singpore-a",
       "machine_id": "24fb4ca36a",
       "expired_time": "2025-03-26T17:48:11+08:00",
       "msg": "Slow startup — avoid this host"
@@ -937,7 +937,7 @@ Request Body Parameters
 
 ```json Request Body
 {
-  "region_sign": "sgp1",
+  "region_sign": "singpore-a",
   "cuda_v_from": 118,
   "cuda_v_to": 128
 }
@@ -997,7 +997,7 @@ headers = {
 url = "https://api.gpuhub.com/api/v1/dev/machine/region/gpu_stock"
 
 body = {
-    "region_sign": "sgp1",
+    "region_sign": "singpore-a",
     "cuda_v_from": 118,
     "cuda_v_to": 128
 }
@@ -1038,7 +1038,7 @@ Prepaid Package Object
 | `gpu_type` | String | GPU model (e.g., `RTX 5090`)                                 |
 | `total`    | Int    | Total remaining seconds across all **unused** prepaid packages (seconds) |
 | `balance`  | Int    | Currently remaining seconds from **unused** packages (seconds) |
-| `dc_list`  | String | Regions covered by the package (comma-separated if multiple, e.g., `sgp1,us-west1`) |
+| `dc_list`  | String | Regions covered by the package (comma-separated if multiple, e.g., `singpore-a,singapore-b`) |
 
 
 ### ← Response
@@ -1051,7 +1051,7 @@ Prepaid Package Object
             "gpu_type": "RTX 5090",
             "total": 86400,
             "balance": 83829,
-            "dc_list": "sgp1,us-west1"
+            "dc_list": "singpore-a,singapore-b"
         }
     ],
     "msg": ""
@@ -1077,7 +1077,7 @@ Values for dc_list (preferred) or the deprecated region_sign parameter when crea
 
 | Region Name         | `dc_list` Value | Old `region_sign` |
 | ------------------- | --------------- | ----------------- |
-| Singapore (Primary) | `sgp1`   | `sgp1`     |
+| Singapore (Primary) | `singpore-a`   | `singpore-a`     |
 
 ### Public Image UUID
 
