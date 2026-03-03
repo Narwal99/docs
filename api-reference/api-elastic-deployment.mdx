@@ -80,7 +80,7 @@ print(response.content.decode())
 ### → Request
 
 ```
-POST /api-reference/api-elastic-deployment#request
+POST /api/v1/dev/deployment
 ```
 
 Place all parameters in the request body. Details are as follows:
@@ -999,7 +999,7 @@ url = "https://api.gpuhub.com/api/v1/dev/machine/region/gpu_stock"
 body = {
     "region_sign": "Singpore-A",
     "cuda_v_from": 118,
-    "cuda_v_to": 128
+    "cuda_v_to": 138
 }
 
 response = requests.post(url, json=body, headers=headers)
@@ -1051,7 +1051,7 @@ Prepaid Package Object
             "gpu_type": "RTX 5090",
             "total": 86400,
             "balance": 83829,
-            "dc_list": "singpore-a,singapore-b"
+            "dc_list": "Singpore-A,Singapore-B"
         }
     ],
     "msg": ""
