@@ -132,7 +132,7 @@ Place all parameters in the request body. Details are as follows:
     "cmd": "python main.py",
     "price_from": 100,    // base price: $0.10/hr
     "price_to": 9000,     // base price: $9.00/hr
-    "image_uuid": "image-xxxxxxxx"
+    "image_uuid": "base-image-ec1e9vdbd3"
   }
 }
  
@@ -1077,28 +1077,50 @@ Values for dc_list (preferred) or the deprecated region_sign parameter when crea
 
 | Region Name         | `dc_list` Value | Old `region_sign` |
 | ------------------- | --------------- | ----------------- |
-| Singapore (Primary) | `Singpore-A`   | `Singpore-A`     |
+| Singapore-B | `Singpore-A`   | `Singpore-A`     |
+| Singapore-A | `Singapore-B`   | `Singapore-B`     |
+
+
 
 ### Public Image UUID
 
-| Framework  | Image UUID              | Description                                          |
-| ---------- | ----------------------- | ---------------------------------------------------- |
-| PyTorch    | `base-image-12be412037` | CUDA 11.1 · torch 1.9.0 · Ubuntu 18.04               |
-| PyTorch    | `base-image-u9r24vthlk` | CUDA 11.3 · torch 1.10.0 · Ubuntu 20.04              |
-| PyTorch    | `base-image-l374uiucui` | CUDA 11.3 · torch 1.11.0 · Ubuntu 20.04              |
-| PyTorch    | `base-image-l2t43iu6uk` | CUDA 11.8 · torch 2.0.0 · Ubuntu 20.04 (recommended) |
-| TensorFlow | `base-image-0gxqmciyth` | CUDA 11.2 · tf 2.5.0 · Ubuntu 18.04                  |
-| TensorFlow | `base-image-uxeklgirir` | CUDA 11.2 · tf 2.9.0 · Ubuntu 20.04                  |
-| TensorFlow | `base-image-4bpg0tt88l` | CUDA 11.4 · tf 1.15.5 · Ubuntu 20.04                 |
-| Miniconda  | `base-image-mbr2n4urrc` | CUDA 11.6 · Ubuntu 20.04                             |
-| Miniconda  | `base-image-qkkhitpik5` | CUDA 10.2 · Ubuntu 18.04                             |
-| Miniconda  | `base-image-h041hn36yt` | CUDA 11.1 · Ubuntu 18.04                             |
-| Miniconda  | `base-image-7bn8iqhkb5` | CUDA 11.3 · Ubuntu 20.04                             |
-| Miniconda  | `base-image-k0vep6kyq8` | CUDA 9.0  · Ubuntu 16.04                             |
-| TensorRT   | `base-image-l2843iu23k` | CUDA 11.8 · TensorRT 8.5.1 · Ubuntu 20.04            |
-| TensorRT   | `base-image-l2t43iu6uk` | CUDA 11.8 · torch 2.0.0 + TensorRT · Ubuntu 20.04    |
+| Framework  | Framework Version | Image UUID              | Description                      |
+| ---------- | ----------------- | ----------------------- | -------------------------------- |
+| PyTorch    | 2.8.0 (Blackwell) | `base-image-ec1e9vdbd3` | CUDA 12.8 · Ubuntu 22.04         |
+| PyTorch    | 2.7.0             | `base-image-d13e3vu5d3` | CUDA 12.8 · Ubuntu 22.04         |
+| PyTorch    | 2.5.1             | `base-image-b2343du52k` | CUDA 12.4 · Ubuntu 22.04         |
+| PyTorch    | 2.5.1             | `base-image-c1333ve5d3` | CUDA 8.1.rc1 · Ubuntu 22.04      |
+| PyTorch    | 2.3.0             | `base-image-321232d5d4` | CUDA 12.1 · Ubuntu 22.04         |
+| PyTorch    | 2.1.2             | `base-image-lbdbb183fk` | CUDA 11.8 · Ubuntu 22.04         |
+| PyTorch    | 2.1.0             | `base-image-323d32u534` | CUDA 12.1 · Ubuntu 22.04         |
+| PyTorch    | 2.1.0             | `base-image-pi743du52k` | CUDA 8.0 · Ubuntu 22.04          |
+| PyTorch    | 2.0.0             | `base-image-l2t43iu6uk` | CUDA 11.8 · Ubuntu 20.04         |
+| PyTorch    | 1.11.0            | `base-image-l374uiucui` | CUDA 11.3 · Ubuntu 20.04         |
+| PyTorch    | 1.10.0            | `base-image-tbk3g58lhs` | CUDA 11.3 · Ubuntu 20.04         |
+| PyTorch    | 1.9.0             | `base-image-12be412037` | CUDA 11.1 · Ubuntu 18.04         |
+| PyTorch    | 1.8.1             | `base-image-db83412037` | CUDA 11.1 · Ubuntu 18.04         |
+| PyTorch    | 1.7.0             | `base-image-db8346e037` | CUDA 11 · Ubuntu 18.04           |
+| PyTorch    | 1.6.0             | `base-image-ldnbxc4by8` | CUDA 10.1 · Ubuntu 18.04         |
+| PyTorch    | 1.5.1             | `base-image-qyil80d3s4` | CUDA 10.1 · Ubuntu 18.04         |
+| PyTorch    | 1.1.0             | `base-image-0x7zgbw1ji` | CUDA 10 · Ubuntu 18.04           |
+| TensorFlow | 2.9.0             | `base-image-uxeklgirir` | CUDA 11.2 · Ubuntu 20.04         |
+| TensorFlow | 2.5.0             | `base-image-0gxqmciyth` | CUDA 11.2 · Ubuntu 18.04         |
+| TensorFlow | 1.15.5            | `base-image-4bpg0tt88l` | CUDA 11.4 · Ubuntu 20.04         |
+| Miniconda  | —                 | `base-image-8hkyyugih5` | CUDA 11.8 · Ubuntu 22.04         |
+| Miniconda  | —                 | `base-image-m26c71lgul` | CUDA 11.8 · Ubuntu 20.04         |
+| Miniconda  | —                 | `base-image-mbr2n4urrc` | CUDA 11.6 · Ubuntu 20.04         |
+| Miniconda  | —                 | `base-image-zsd8dwuwus` | CUDA 11.3(cudagl) · Ubuntu 20.04 |
+| Miniconda  | —                 | `base-image-7bn8iqhkb5` | CUDA 11.3 · Ubuntu 18.04         |
+| Miniconda  | —                 | `base-image-h041hn36yt` | CUDA 11.1 · Ubuntu 18.04         |
+| Miniconda  | —                 | `base-image-hek323ev8b` | CUDA 10.1 · Ubuntu 18.04         |
+| Miniconda  | —                 | `base-image-qkkhitpik5` | CUDA 10.2 · Ubuntu 18.04         |
+| Miniconda  | —                 | `base-image-1e5uf433g1` | CUDA 10 · Ubuntu 18.04           |
+| Miniconda  | —                 | `base-image-k0vep6kyq8` | CUDA 9 · Ubuntu 16.04            |
+| Miniconda  | —                 | `base-image-b23jugu52k` | CUDA 8.0 · Ubuntu 22.04          |
+| TensorRT   | 8.6.1             | `base-image-l2193iu12k` | CUDA 11.8 · Ubuntu 20.04         |
+| TensorRT   | 8.5.1             | `base-image-l2843iu23k` | CUDA 11.8 · Ubuntu 20.04         |
 
-More images are added regularly – contact support for the latest list or request a custom base image.
+More images are added regularly: contact support for the latest list or request a custom base image.
 
 ### CUDA Version values
 
