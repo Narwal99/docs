@@ -484,9 +484,9 @@ Place the following parameters in the request body:
 | --------------------------- | ------- | -------- | --------------------------------------------- |
 | `deployment_uuid`           | String  | Yes      | Deployment UUID                               |
 | `deployment_container_uuid` | String  | No       | Specific container UUID (leave empty for all) |
-| `page_index`                | Int | Yes      | Page number (starting from 1)                 |
-| `page_size`                 | Int | Yes      | Number of items per page                      |
-| `offset`                    | Int | No       | Starting offset (used for polling new events) |
+| `page_index`                | Int     | Yes      | Page number (starting from 1)                 |
+| `page_size`                 | Int     | Yes      | Number of items per page                      |
+| `offset`                    | Int     | No       | Starting offset (used for polling new events) |
 
 
 ```json Request Body
@@ -511,11 +511,11 @@ Response Parameters
 
 Event Object Fields
 
-| Parameter                   | Type   | Description                                                  |
-| --------------------------- | ------ | ------------------------------------------------------------ |
-| `deployment_container_uuid` | String | UUID of the container                                        |
-| `status`                    | String | Container state (e.g., `creating`, `starting`, `running`, `shutting_down`, `shutdown`) |
-| `created_at`                | String | Timestamp when the state change occurred                     |
+| Parameter                   | Type   | Description                                                                               |
+| --------------------------- | ------ | ----------------------------------------------------------------------------------------- |
+| `deployment_container_uuid` | String | UUID of the container                                                                     |
+| `status`                    | String | Container state (e.g., `creating`, `starting`, `running`, `shutting_down`, `shutdown`)    |
+| `created_at`                | String | Timestamp when the state change occurred                                                  |
 
 
 ```json Response (on success)
@@ -601,20 +601,20 @@ POST /api/v1/dev/deployment/container/list
 
 Request Body Parameters
 
-| Parameter               | Type         | Required | Description                             |
-| ----------------------- | ------------ | -------- | --------------------------------------- |
-| `deployment_uuid`       | String       | Yes      | Deployment UUID                         |
-| `container_uuid`        | String       | No       | Filter by specific container UUID       |
-| `date_from` / `date_to` | String       | No       | Filter by container creation time range |
-| `gpu_name`              | String       | No       | Filter by GPU model                     |
-| `cpu_num_from/to`       | Int      | No       | CPU core range                          |
-| `memory_size_from/to`   | Int      | No       | Memory range (bytes)                    |
-| `price_from/to`         | Float        | No       | Base price range (USD × 1000)           |
-| `released`              | Boolean      | No       | Include released containers?            |
+| Parameter               | Type           | Required | Description                             |
+| ----------------------- | -------------- | -------- | --------------------------------------- |
+| `deployment_uuid`       | String         | Yes      | Deployment UUID                         |
+| `container_uuid`        | String         | No       | Filter by specific container UUID       |
+| `date_from` / `date_to` | String         | No       | Filter by container creation time range |
+| `gpu_name`              | String         | No       | Filter by GPU model                     |
+| `cpu_num_from/to`       | Int            | No       | CPU core range                          |
+| `memory_size_from/to`   | Int            | No       | Memory range (bytes)                    |
+| `price_from/to`         | Float          | No       | Base price range (USD × 1000)           |
+| `released`              | Boolean        | No       | Include released containers?            |
 | `status`                | `List<String>` | No       | Filter by status: e.g., `["running"]`   |
-| `page_index`            | Int      | Yes      | Page number (default: 1)                |
-| `page_size`             | Int      | Yes      | Items per page (default: 10)            |
-| `offset`                | Int      | No       | Starting offset                         |
+| `page_index`            | Int            | Yes      | Page number (default: 1)                |
+| `page_size`             | Int            | Yes      | Items per page (default: 10)            |
+| `offset`                | Int            | No       | Starting offset                         |
 
 ```json Request Body
 {
@@ -637,25 +637,25 @@ Response Fields
 Container Object
 
 
-| Field             | Type    | Description                                                  |
-| ----------------- | ------- | ------------------------------------------------------------ |
-| `uuid`            | String  | Container UUID                                               |
-| `version`         | String  | Container version (auto-generated or user-specified on deployment update) |
-| `data_center`     | String  | Region / data center code (e.g., `Singpore-A`)                     |
-| `deployment_uuid` | String  | Parent deployment UUID                                       |
-| `machine_id`      | String  | Physical host ID                                             |
-| `status`          | String  | Current status (`running`, `stopped`, `starting`, etc.)      |
-| `gpu_name`        | String  | GPU model (e.g., `RTX 5090`)                                 |
-| `gpu_num`         | Int | Number of GPUs allocated                                     |
-| `cpu_num`         | Int | Number of CPU cores                                          |
-| `memory_size`     | Int | Memory size in **bytes**                                     |
-| `image_uuid`      | String  | Image UUID                                                   |
-| `price`           | Float   | Base price in **USD × 1000** (e.g., 1600 = $1.60/hr)         |
-| `info`            | Object  | Connection details (see below)                               |
-| `started_at`      | String  | Time when container started running                          |
-| `stopped_at`      | String  | Time when container stopped (null if running)                |
-| `created_at`      | String  | Creation timestamp                                           |
-| `updated_at`      | String  | Last update timestamp                                        |
+| Field             | Type    | Description                                                                |
+| ----------------- | ------- | -------------------------------------------------------------------------- |
+| `uuid`            | String  | Container UUID                                                             |
+| `version`         | String  | Container version (auto-generated or user-specified on deployment update)  |
+| `data_center`     | String  | Region / data center code (e.g., `Singpore-A`)                             |
+| `deployment_uuid` | String  | Parent deployment UUID                                                     |
+| `machine_id`      | String  | Physical host ID                                                           |
+| `status`          | String  | Current status (`running`, `stopped`, `starting`, etc.)                    |
+| `gpu_name`        | String  | GPU model (e.g., `RTX 5090`)                                               |
+| `gpu_num`         | Int     | Number of GPUs allocated                                                   |
+| `cpu_num`         | Int     | Number of CPU cores                                                        |
+| `memory_size`     | Int     | Memory size in **bytes**                                                   |
+| `image_uuid`      | String  | Image UUID                                                                 |
+| `price`           | Float   | Base price in **USD × 1000** (e.g., 1600 = $1.60/hr)                       |
+| `info`            | Object  | Connection details (see below)                                             |
+| `started_at`      | String  | Time when container started running                                        |
+| `stopped_at`      | String  | Time when container stopped (null if running)                              |
+| `created_at`      | String  | Creation timestamp                                                         |
+| `updated_at`      | String  | Last update timestamp                                                      |
 
 `info` Object (Connection Details)
 
@@ -799,11 +799,11 @@ To avoid bad machines: if a container experiences unknown issues (e.g., slow sta
 POST /api/v1/dev/deployment/blacklist
 ```
 
-| Parameter                   | Type   | Required | Description                                                  |
-| --------------------------- | ------ | -------- | ------------------------------------------------------------ |
-| `deployment_container_uuid` | String | Yes      | UUID of the problematic container                            |
+| Parameter                   | Type   | Required | Description                                                                           |
+| --------------------------- | ------ | -------- | ------------------------------------------------------------------------------------- |
+| `deployment_container_uuid` | String | Yes      | UUID of the problematic container                                                     |
 | `expire_in_minutes`         | Int    | No       | Blacklist duration in minutes. Default: **1440** (24 hours). Max: **43200** (30 days) |
-| `comment`                   | String | No       | Optional note (e.g., "Slow boot")                            |
+| `comment`                   | String | No       | Optional note (e.g., "Slow boot")                                                     |
 
 
 ```json Request Body
@@ -872,14 +872,14 @@ Response Parameters
 
 Blacklist Entry Object
 
-| Field          | Type   | Description                                                  |
-| -------------- | ------ | ------------------------------------------------------------ |
-| `created_at`   | String | Timestamp when the blacklist was first created               |
+| Field          | Type   | Description                                                         |
+| -------------- | ------ | ------------------------------------------------------------------- |
+| `created_at`   | String | Timestamp when the blacklist was first created                      |
 | `updated_at`   | String | Timestamp of the last update (updates when expiry time is extended) |
-| `data_center`  | String | Region / data center code (e.g., `Singpore-A`)                     |
-| `expired_time` | String | Timestamp when the blacklist entry will automatically expire |
-| `machine_id`   | String | Physical host ID that is blacklisted                         |
-| `msg`          | String | Optional comment provided when creating the blacklist        |
+| `data_center`  | String | Region / data center code (e.g., `Singpore-A`)                      |
+| `expired_time` | String | Timestamp when the blacklist entry will automatically expire        |
+| `machine_id`   | String | Physical host ID that is blacklisted                                |
+| `msg`          | String | Optional comment provided when creating the blacklist               |
 
 
 ```json Success Response
@@ -921,18 +921,18 @@ Use this endpoint before creating deployments to check real-time availability an
 
 Request Body Parameters
 
-| Parameter          | Type         | Required | Description                                              |
-| ------------------ | ------------ | -------- | -------------------------------------------------------- |
-| `region_sign`      | String       | Yes      | Region code (see Appendix)                               |
-| `cuda_v_from`      | Int          | No       | Minimum supported CUDA version (e.g., `118` = CUDA 11.8) |
-| `cuda_v_to`        | Int          | No       | Maximum supported CUDA version                           |
+| Parameter          | Type           | Required | Description                                              |
+| ------------------ | -------------- | -------- | -------------------------------------------------------- |
+| `region_sign`      | String         | Yes      | Region code (see Appendix)                               |
+| `cuda_v_from`      | Int            | No       | Minimum supported CUDA version (e.g., `118` = CUDA 11.8) |
+| `cuda_v_to`        | Int            | No       | Maximum supported CUDA version                           |
 | `gpu_name_set`     | `List<String>` | No       | Filter by specific GPU models                            |
-| `memory_size_from` | Int          | No       | Minimum memory size in GB                                |
-| `memory_size_to`   | Int          | No       | Maximum memory size in GB                                |
-| `cpu_num_from`     | Int          | No       | Minimum CPU cores                                        |
-| `cpu_num_to`       | Int          | No       | Maximum CPU cores                                        |
-| `price_from`       | Int          | No       | Minimum price (USD * 1000, e.g., $0.10/hr → `100`)       |
-| `price_to`         | Int          | No       | Maximum price (USD * 1000)                               |
+| `memory_size_from` | Int            | No       | Minimum memory size in GB                                |
+| `memory_size_to`   | Int            | No       | Maximum memory size in GB                                |
+| `cpu_num_from`     | Int            | No       | Minimum CPU cores                                        |
+| `cpu_num_to`       | Int            | No       | Maximum CPU cores                                        |
+| `price_from`       | Int            | No       | Minimum price (USD * 1000, e.g., $0.10/hr → `100`)       |
+| `price_to`         | Int            | No       | Maximum price (USD * 1000)                               |
 
 
 ```json Request Body
@@ -1033,11 +1033,11 @@ Response Parameters
 
 Prepaid Package Object
 
-| Field      | Type   | Description                                                  |
-| ---------- | ------ | ------------------------------------------------------------ |
-| `gpu_type` | String | GPU model (e.g., `RTX 5090`)                                 |
-| `total`    | Int    | Total remaining seconds across all **unused** prepaid packages (seconds) |
-| `balance`  | Int    | Currently remaining seconds from **unused** packages (seconds) |
+| Field      | Type   | Description                                                                                  |
+| ---------- | ------ | -------------------------------------------------------------------------------------------- |
+| `gpu_type` | String | GPU model (e.g., `RTX 5090`)                                                                 |
+| `total`    | Int    | Total remaining seconds across all **unused** prepaid packages (seconds)                     |
+| `balance`  | Int    | Currently remaining seconds from **unused** packages (seconds)                               |
 | `dc_list`  | String | Regions covered by the package (comma-separated if multiple, e.g., `singpore-a,singapore-b`) |
 
 
@@ -1077,8 +1077,8 @@ Values for dc_list (preferred) or the deprecated region_sign parameter when crea
 
 | Region Name         | `dc_list` Value | Old `region_sign` |
 | ------------------- | --------------- | ----------------- |
-| Singapore-B | `Singpore-A`   | `Singpore-A`     |
-| Singapore-A | `Singapore-B`   | `Singapore-B`     |
+| Singapore-B         | `Singpore-A`    | `Singpore-A`      |
+| Singapore-A         | `Singapore-B`   | `Singapore-B`     |
 
 
 
@@ -1138,8 +1138,8 @@ Higher drivers are backward-compatible, but picking a version that's too high re
 Always select the smallest compatible value to maximize scheduling success.
 
 ### Container Environment Variables
-| Variable Name        |  ODescription      |
-| -------------------- |  ----------------- |
+| Variable Name        |  ODescription                           |
+| -------------------- |  -------------------------------------- |
 | AutoDLContainerUUID  |  Unique ID of the current container     |
 | AutoDLDeploymentUUID |  UUID of the parent deployment          |
 | AutoDLDataCenter     |  Current region / data center code      |
