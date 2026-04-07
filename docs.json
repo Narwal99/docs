@@ -72,12 +72,6 @@
               "terms/cloud-disk-agreement",
               "terms/custom-instance-agreement"
             ]
-          },
-          {
-            "group": "Resource",
-            "pages": [
-              "/brandkit"
-            ]
           }
         ]
       },
