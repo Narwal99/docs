@@ -134,3 +134,34 @@ Consumed amount calculation: Consumed amount = Used hours * Unit price of the co
 - Example: If the maximum daily usage is 50GB, the daily fee = (50 - 30) * 0.002 = USD0.40.
 </Card>
 
+## Billing Execution & Instance Shutdown
+
+To ensure accurate billing and resource usage control, the platform follows the rules below:
+
+1. Billing Execution Frequency
+
+- Billing checks are performed every 10 minutes.
+
+2. Billing Behavior
+
+- When the account balance is greater than 0:
+    - Billing is applied at the next hourly boundary (on the hour).
+    - Instances continue running normally.
+- When the account balance is less than or equal to 0:
+    - If available voucher credits are sufficient to cover the charges:
+        - Billing continues at the hourly boundary as usual.
+        - Instances remain running.
+    - If voucher credits are insufficient:
+        - Billing is executed immediately.
+        - A shutdown event is triggered for the instance.
+
+3. Shutdown Timing
+
+Once the balance becomes negative and cannot be covered by voucher credits:
+
+- The instance will be automatically stopped within up to 10 minutes.
+
+4. Summary
+- Billing is aligned to hourly intervals, not triggered exactly at the moment of usage.
+- System checks run every 10 minutes to enforce billing and resource control.
+- If funds are insufficient, instances are gracefully stopped within 10 minutes.
