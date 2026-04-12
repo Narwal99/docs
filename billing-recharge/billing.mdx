@@ -10,9 +10,13 @@ GPUhub offers two billing models for container instance: **Pay-as-you-go** and *
 
 ### Pay-as-you-go Model (PAYG)
 - **Billing Rules:**
-    - **Charges start when the instance is turned on and stop when it is turned off.** The fee is calculated as Duration * Unit Price, with the duration measured in seconds and a minimum charge of USD0.01.
+    - **Charges start when the instance is turned on and stop when it is turned off (shutdown state).** The fee is calculated as Duration * Unit Price, with the duration measured in seconds and a minimum charge of USD0.01.
     - **Billing occurs hourly and at shutdown.** The fee covers the usage period, with precise measurement down to the second.
     - **Billing starts based on instance on/off time, not GPU usage.**
+
+<Warning>
+In PAYG mode, billing does not stop unless the instance is manually shut down. We cannot issue refunds for charges incurred due to instances left running.
+</Warning>
 <Card>
 - Advantages:
     - Flexibility: Supports configuration adjustments (upgrades/downgrades), data disk expansion, and instance migration.
