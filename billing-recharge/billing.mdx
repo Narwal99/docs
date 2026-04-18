@@ -15,8 +15,13 @@ GPUhub offers two billing models for container instance: **Pay-as-you-go** and *
     - **Billing starts based on instance on/off time, not GPU usage.**
 
 <Warning>
-In PAYG mode, billing does not stop unless the instance is manually shut down. We cannot issue refunds for charges incurred due to instances left running.
+In PAYG mode, billing does not stop unless the instance is manually shut down.
 </Warning>
+
+<Danger>
+We cannot issue refunds for charges incurred due to instances not being properly shut down for user-side reasons.
+</Danger>
+
 <Card>
 - Advantages:
     - Flexibility: Supports configuration adjustments (upgrades/downgrades), data disk expansion, and instance migration.
@@ -99,46 +104,7 @@ Consumed amount calculation: Consumed amount = Used hours * Unit price of the co
     - If used hours ≥ 24 hours → Calculated at the daily package rate
     - If usage exceeds one week or one month, the weekly/monthly package rate applies accordingly (using the most favorable longer-duration pricing)
 
-## Data Disk Expansion
-
-- **Billing Unit Price:** USD0.002/GB/day.
-- **Billing Rules:**
-    - **Pay-as-you-go Instances:** Paid data disks are settled daily at midnight, regardless of instance status. To stop billing, reduce the disk size to the free tier or release the instance.
-    - **Subscription Instances:** Paid data disks are included in the total fee and paid upfront. After expiration, billing follows the pay-as-you-go rules (daily settlement at midnight).
-    - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
-        - If the account owes more than USD10, the platform reserves the right to clean data (with caution). 
-        - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
-
-## File Storage
-
-- **Elastic billing based on actual usage.** Free up to 20GB.
-- **Billing Unit Price:** USD0.002/GB/day.
-- **Billing Rules:**
-    - **Charged based on the maximum daily usage,** excluding the free 20GB. Fees are deducted daily at midnight.
-    - **Minimum Fee:** USD0.01 if exceeding the free capacity.
-    - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
-        - If the account owes more than USD10, the platform reserves the right to clean data (with caution). 
-        - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
-- **Total Storage Capacity:** Default 200GB per user. Contact support for larger capacity.
-<Card>
-- Example: If the maximum daily usage is 50GB, the daily fee = (50 - 20) * 0.002 = USD0.60.
-</Card>
-
-## Docker Image
-
-- **Default Limit:** 20 images per user. Contact support for more.
-- **Billing Unit Price:** USD 0.002/GB/day.
-- **Billing Rules:**
-    - **Charged based on the maximum daily usage** (excluding the free 30GB). Fees are deducted daily at midnight.
-    - **Minimum Fee:** USD 0.002 if exceeding the free capacity.
-    - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
-        - If the account owes more than USD10, the platform reserves the right to clean data (with caution). 
-        - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
-<Card>
-- Example: If the maximum daily usage is 50GB, the daily fee = (50 - 30) * 0.002 = USD0.40.
-</Card>
-
-## Billing Execution & Instance Shutdown
+## Billing & Shutdown
 
 To ensure accurate billing and resource usage control, the platform follows the rules below:
 
@@ -169,3 +135,57 @@ Once the balance becomes negative and cannot be covered by voucher credits:
 - Billing is aligned to hourly intervals, not triggered exactly at the moment of usage.
 - System checks run every 10 minutes to enforce billing and resource control.
 - If funds are insufficient, instances are gracefully stopped within 10 minutes.
+
+## Persistent Storage Services
+
+<Warning>
+All persistent storage is billed once per day at a fixed time, based on the peak usage during the previous 24-hour period.
+</Warning>
+
+
+### Data Disk Expansion
+
+<Warning>
+The extended data disk continues to incur charges even when the instance is shutdown.
+</Warning>
+
+<Warning>
+Billing stops only after the instance is released. However, any usage within that day will still be charged the next day based on the peak usage before release.
+</Warning>
+
+- **Billing Unit Price:** USD0.002/GB/day.
+- **Billing Rules:**
+    - **Pay-as-you-go Instances:** Paid data disks are settled daily at midnight, regardless of instance status. To stop billing, reduce the disk size to the free tier or release the instance.
+    - **Subscription Instances:** Paid data disks are included in the total fee and paid upfront. After expiration, billing follows the pay-as-you-go rules (daily settlement at midnight).
+    - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
+        - If the account owes more than USD10, the platform reserves the right to clean data (with caution). 
+        - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
+
+### File Storage
+
+- **Elastic billing based on actual usage.** Free up to 20GB.
+- **Billing Unit Price:** USD0.002/GB/day.
+- **Billing Rules:**
+    - **Charged based on the maximum daily usage,** excluding the free 20GB. Fees are deducted daily at midnight.
+    - **Minimum Fee:** USD0.01 if exceeding the free capacity.
+    - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
+        - If the account owes more than USD10, the platform reserves the right to clean data (with caution). 
+        - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
+- **Total Storage Capacity:** Default 200GB per user. Contact support for larger capacity.
+<Card>
+- Example: If the maximum daily usage is 50GB, the daily fee = (50 - 20) * 0.002 = USD0.60.
+</Card>
+
+### Docker Image
+
+- **Default Limit:** 20 images per user. Contact support for more.
+- **Billing Unit Price:** USD 0.002/GB/day.
+- **Billing Rules:**
+    - **Charged based on the maximum daily usage** (excluding the free 30GB). Fees are deducted daily at midnight.
+    - **Minimum Fee:** USD 0.002 if exceeding the free capacity.
+    - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
+        - If the account owes more than USD10, the platform reserves the right to clean data (with caution). 
+        - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
+<Card>
+- Example: If the maximum daily usage is 50GB, the daily fee = (50 - 30) * 0.002 = USD0.40.
+</Card>
