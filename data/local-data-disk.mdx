@@ -2,20 +2,29 @@
 title: 'Local Data Disk'
 description: 'This document explains Local Data Disks, covering capacity, resizing, and billing details.'
 ---
+
+## Overview
+
+1. The instance's **system disk** and **data disk** are generally local SSDs. 
+2. Local data disks offer good performance but lack redundant copies. Due to the inherent lifespan of local disks, there is a probability of failure. 
+3. GPUhub does not provide reliability guarantees or services for such local storage products.
+
+
 <Note>
-The instance's system disk and data disk are generally local SSDs, with a small portion being cloud disks. 
-Local data disks offer good performance but lack redundant copies. Due to the inherent lifespan of local disks, there is a probability of failure. 
-Important data should be regularly backed up to [file storage](/data/file-storage) or local storage. 
-GPUhub does not provide reliability guarantees or services for such local storage products.
+The **system disk** is fixed at 30GB and cannot be resized.
 </Note>
 
-## Instance Creation
-When renting an instance, a data disk of 50-100 GB is provided for free. If you need to expand the disk, select a host that supports the required capacity during rental.
-![](/images/data-local-ex.png)
+<Note>
+The **data disk** is fixed to the path `/root/autodl-tmp` and cannot be modified.
+</Note>
 
 <Warning>
-The data disk is fixed at **/root/autodl-tmp** and cannot be modified.
+Important data (e.g., datasets, models) should be regularly backed up to [file storage](/data/file-storage) or local storage.
 </Warning>
+
+## Instance Creation
+When renting an instance, a data disk of 50GB is provided for free. If you need to expand the disk, select a host that supports the required capacity during rental.
+![](/images/data-local-ex.png)
 
 ![](/images/data-disk.png)
 
