@@ -155,6 +155,12 @@
         "tab": "Best Practices",
         "groups": [
           {
+            "group": "Team & Collaboration",
+            "pages": [
+              "best-practices/sub-account"
+            ]
+          },
+          {
             "group": "Tools & Environment",
             "pages": [
               "best-practices/linux-basics",
