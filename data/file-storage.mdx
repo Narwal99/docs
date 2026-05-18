@@ -16,6 +16,10 @@ File storage is a network-shared storage that can be mounted to different instan
   </Card>
 </CardGroup>
 
+<Warning>
+File Storage does not have the ability to quickly synchronize data between different regions.
+</Warning>
+
 ## Recommendation
 - **Store your important data and code in file storage** for shared access and high reliability. For training data requiring high IO performance, copy it to the local data disk of the instance to achieve better IO performance. This approach balances convenience, safety, and performance.
 
