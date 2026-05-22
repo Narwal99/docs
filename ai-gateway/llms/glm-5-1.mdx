@@ -1,0 +1,64 @@
+---
+title: 'GLM-5.1'
+description: 'Use GLM-5.1 through AI Gateway with an OpenAI-compatible chat completions API.'
+---
+
+`GLM-5.1` is available through the OpenAI-compatible chat completions API. It is suitable for chat, reasoning, coding assistance, document understanding, and Chinese-English application workflows.
+
+<Note>
+Create or copy your API key from the console before calling the API. Use the model unit price displayed in the console as the source of truth.
+</Note>
+
+## Endpoint
+
+| Compatibility | Base URL |
+| ------------- | -------- |
+| OpenAI-compatible | `https://api.gpuhub.com/api/v1` |
+
+## curl
+
+```bash
+curl --location --request POST "https://api.gpuhub.com/api/v1/chat/completions" \
+  --header "Authorization: Bearer $API_KEY" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "model": "GLM-5.1",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Hello! Please compare two deployment strategies for an AI service."
+      }
+    ],
+    "stream": true
+  }'
+```
+
+## Python
+
+```python
+# Install the SDK first if needed:
+# pip install openai
+
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.gpuhub.com/api/v1",
+    api_key="YOUR_API_KEY",
+)
+
+stream = client.chat.completions.create(
+    model="GLM-5.1",
+    messages=[
+        {"role": "user", "content": "Hello! Please compare two deployment strategies for an AI service."}
+    ],
+    stream=True,
+)
+
+for chunk in stream:
+    if chunk.choices and chunk.choices[0].delta.content:
+        print(chunk.choices[0].delta.content, end="")
+```
+
+## Use with Cherry Studio
+
+To use this model in Cherry Studio, configure the matching provider type and add the model name shown on this page. See [Cherry Studio](/ai-gateway/ides-agents/cherry-studio) for setup details.

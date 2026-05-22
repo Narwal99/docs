@@ -1,0 +1,76 @@
+---
+title: 'Cherry Studio'
+description: 'Configure Cherry Studio to use AI Gateway models across Anthropic, OpenAI-compatible, Responses, and Gemini-compatible providers.'
+---
+
+![](/images/ide-agents-cherry-icon.png)
+
+Cherry Studio can connect to AI Gateway through different provider types depending on the model family you want to use.
+
+<Note>
+Create or copy your API key from the console before configuring Cherry Studio.
+</Note>
+
+## Claude-Series Models
+
+Use the Anthropic-compatible provider for Claude-series models.
+
+1. Add a new provider in Cherry Studio.
+2. Choose the Anthropic-compatible provider type.
+3. Use the AI Gateway Anthropic-compatible endpoint.
+
+| Field | Value |
+| ----- | ----- |
+| Provider type | Anthropic-compatible |
+| API URL | `https://api.gpuhub.com/api/v1/anthropic/v1` |
+| API Key | Your AI Gateway API key |
+| Model example | `claude-sonnet-4-6` |
+
+![](/images/ide-agents-cherry-studio-anthropic-provider.png)
+
+![](/images/ide-agents-cherry-studio-anthropic-config.png)
+
+## OpenAI Responses Models
+
+For OpenAI-series models that use the Responses API, select the OpenAI Responses provider type when available.
+
+| Field | Value |
+| ----- | ----- |
+| Provider type | OpenAI Responses |
+| API URL | `https://api.gpuhub.com/api/v1` |
+| API Key | Your AI Gateway API key |
+| Model examples | `gpt-5.3-codex`, `gpt-5.4`, `gpt-5.5` |
+
+![](/images/ide-agents-cherry-studio-responses-provider.png)
+
+![](/images/ide-agents-cherry-studio-responses-config.png)
+
+## Gemini-Series Models
+
+Use the Gemini provider type for Gemini-compatible models.
+
+| Field | Value |
+| ----- | ----- |
+| Provider type | Gemini |
+| API URL | `https://api.gpuhub.com/api/v1/gemini/v1beta` |
+| API Key | Your AI Gateway API key |
+| Model example | `gemini-3.1-pro-preview` |
+
+![](/images/ide-agents-cherry-studio-gemini-provider.png)
+
+![](/images/ide-agents-cherry-studio-gemini-config.png)
+
+## OpenAI-Compatible Models
+
+Use the OpenAI provider type for models that support the OpenAI Chat Completions interface, such as GLM, DeepSeek, MiniMax, and Qwen models.
+
+| Field | Value |
+| ----- | ----- |
+| Provider type | OpenAI |
+| API URL | `https://api.gpuhub.com/api/v1` |
+| API Key | Your AI Gateway API key |
+| Model examples | `GLM-5`, `DeepSeek-V3.2`, `MiniMax-M2.5`, `Qwen3.5-397B-A17B` |
+
+![](/images/ide-agents-cherry-studio-openai-provider.png)
+
+![](/images/ide-agents-cherry-studio-openai-config.png)

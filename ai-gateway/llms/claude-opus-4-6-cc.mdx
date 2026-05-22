@@ -1,0 +1,57 @@
+---
+title: 'claude-opus-4-6-cc'
+description: 'Use the Claude Opus 4.6 Claude Code variant through AI Gateway.'
+---
+
+`claude-opus-4-6-cc` is the Claude Code-focused variant of Anthropic Claude Opus 4.6. Use `claude-opus-4-6` instead when you need the general-purpose model for non-Claude Code scenarios.
+
+<Note>
+Create or copy your API key from the console before calling the API. Use the model unit price displayed in the console as the source of truth.
+</Note>
+
+## Endpoints
+
+| Compatibility | Base URL |
+| ------------- | -------- |
+| Anthropic-compatible | `https://api.gpuhub.com/api/v1/anthropic` |
+| OpenAI-compatible | `https://api.gpuhub.com/api/v1` |
+
+## Claude Code
+
+```bash
+export ANTHROPIC_BASE_URL=https://api.gpuhub.com/api/v1/anthropic
+export ANTHROPIC_AUTH_TOKEN=$API_KEY
+
+# Optional: route Claude Code model aliases to this model.
+export ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-opus-4-6-cc
+export ANTHROPIC_DEFAULT_SONNET_MODEL=claude-opus-4-6-cc
+export ANTHROPIC_DEFAULT_OPUS_MODEL=claude-opus-4-6-cc
+```
+
+## Python
+
+```python
+# Install the SDK first if needed:
+# pip install anthropic
+
+from anthropic import Anthropic
+
+client = Anthropic(
+    api_key="YOUR_API_KEY",
+    base_url="https://api.gpuhub.com/api/v1/anthropic",
+)
+
+message = client.messages.create(
+    model="claude-opus-4-6-cc",
+    max_tokens=1024,
+    messages=[
+        {"role": "user", "content": "Hello! Please help me plan a coding task."}
+    ],
+)
+
+print(message.content[0].text)
+```
+
+## Use with Cherry Studio
+
+To use this model in Cherry Studio, configure the matching provider type and add the model name shown on this page. See [Cherry Studio](/ai-gateway/ides-agents/cherry-studio) for setup details.

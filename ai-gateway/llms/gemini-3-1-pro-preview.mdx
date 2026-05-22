@@ -1,0 +1,47 @@
+---
+title: 'gemini-3.1-pro-preview'
+description: 'Use gemini-3.1-pro-preview through AI Gateway with the Google GenAI SDK.'
+---
+
+`gemini-3.1-pro-preview` is available through the Gemini-compatible AI Gateway endpoint. It is suitable for advanced reasoning, analysis, and multimodal-ready application workflows when supported by the selected model configuration.
+
+<Note>
+Create or copy your API key from the console before calling the API. Use the model unit price displayed in the console as the source of truth.
+</Note>
+
+## Endpoint
+
+| Compatibility | Base URL |
+| ------------- | -------- |
+| Gemini-compatible | `https://api.gpuhub.com/api/v1/gemini` |
+
+Some tools may require the versioned base URL:
+
+```text
+https://api.gpuhub.com/api/v1/gemini/v1beta
+```
+
+## Python
+
+```python
+# Install the SDK first if needed:
+# pip install google-genai
+
+from google import genai
+
+client = genai.Client(
+    api_key="YOUR_API_KEY",
+    http_options={"base_url": "https://api.gpuhub.com/api/v1/gemini"},
+)
+
+response = client.models.generate_content(
+    model="gemini-3.1-pro-preview",
+    contents="Hello! Please summarize the key tradeoffs of long-context models.",
+)
+
+print(response.text)
+```
+
+## Use with Cherry Studio
+
+To use this model in Cherry Studio, configure the matching provider type and add the model name shown on this page. See [Cherry Studio](/ai-gateway/ides-agents/cherry-studio) for setup details.

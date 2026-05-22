@@ -227,6 +227,46 @@
         ]
       },
       {
+        "tab": "AI Gateway",
+        "groups": [
+          {
+            "group": "AI Gateway",
+            "pages": [
+              "ai-gateway/ai-gateway"
+            ]
+          },
+          {
+            "group": "LLMs",
+            "pages": [
+              "ai-gateway/llms/claude-opus-4-6",
+              "ai-gateway/llms/claude-opus-4-6-cc",
+              "ai-gateway/llms/claude-sonnet-4-6",
+              "ai-gateway/llms/claude-sonnet-4-6-cc",
+              "ai-gateway/llms/gpt-5-3-codex",
+              "ai-gateway/llms/gpt-5-4",
+              "ai-gateway/llms/gpt-5-5",
+              "ai-gateway/llms/gemini-3-1-pro-preview",
+              "ai-gateway/llms/glm-5",
+              "ai-gateway/llms/glm-5-1",
+              "ai-gateway/llms/qwen3-5-397b-a17b",
+              "ai-gateway/llms/deepseek-r1-0528",
+              "ai-gateway/llms/deepseek-v3-2",
+              "ai-gateway/llms/minimax-m2-5"
+            ]
+          },
+          {
+            "group": "IDEs & Agents",
+            "pages": [
+              "ai-gateway/ides-agents/claude-code",
+              "ai-gateway/ides-agents/codex",
+              "ai-gateway/ides-agents/cursor",
+              "ai-gateway/ides-agents/trae",
+              "ai-gateway/ides-agents/cherry-studio"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "FAQ",
         "groups": [
           {

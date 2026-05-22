@@ -1,0 +1,88 @@
+---
+title: 'AI Gateway'
+description: 'Access GPUhub-hosted open-source models and route requests to closed-source models through one unified AI gateway.'
+---
+
+You can call supported models through a compatible API, monitor usage, and pay based on actual consumption.
+
+<Note>
+Model availability, context length, and final prices may vary by model. Use the prices displayed in the console as the source of truth before starting production traffic.
+</Note>
+
+## Supported Model Types
+
+AI Gateway supports multiple categories of models for common AI workloads.
+
+| Model Type | Typical Use Cases | Billing Unit |
+| ---------- | ----------------- | ------------ |
+| Language models | Chat, reasoning, coding, summarization, tool calling, and structured output | Input and output tokens |
+| Long-context language models | Document analysis, large codebase analysis, and retrieval-augmented generation | Input and output tokens, sometimes tiered by context size |
+| Claude-series models | Chat, coding, reasoning, and workflows that use prompt caching | Input tokens, output tokens, cache writes, and cache reads |
+
+## Pricing
+
+For each model, use the unit price displayed in the console as the source of truth.
+
+### Language Models
+
+General language models are billed by token usage.
+
+| Usage Type | Unit Price |
+| ---------- | ---------- |
+| Input tokens | `$XX.XX` / 1M tokens |
+| Output tokens | `$XX.XX` / 1M tokens |
+
+Billing formula:
+
+```text
+Total cost =
+  input tokens / 1,000,000 * input token price
++ output tokens / 1,000,000 * output token price
+```
+
+### Tiered Context Pricing
+
+Some language models use tiered pricing based on the number of input tokens in a request. For example, requests within a shorter context window may use one price, while requests with a larger context window may use a higher price.
+
+| Context Tier | Input Token Price | Output Token Price |
+| ------------ | ----------------- | ------------------ |
+| Standard context | `$XX.XX` / 1M tokens | `$XX.XX` / 1M tokens |
+| Extended context | `$XX.XX` / 1M tokens | `$XX.XX` / 1M tokens |
+
+Billing formula:
+
+```text
+Total cost =
+  input tokens / 1,000,000 * tiered input token price
++ output tokens / 1,000,000 * tiered output token price
+```
+
+### Claude-Series Prompt Caching
+
+Claude-series models may include prompt caching charges in addition to normal input and output token charges.
+
+| Usage Type | Unit Price |
+| ---------- | ---------- |
+| Input tokens | `$XX.XX` / 1M tokens |
+| Output tokens | `$XX.XX` / 1M tokens |
+| Cache write, 5-minute TTL | `$XX.XX` / 1M tokens |
+| Cache write, 1-hour TTL | `$XX.XX` / 1M tokens |
+| Cache read | `$XX.XX` / 1M tokens |
+
+Billing formula:
+
+```text
+Total cost =
+  input tokens / 1,000,000 * input token price
++ output tokens / 1,000,000 * output token price
++ 5-minute cache write tokens / 1,000,000 * 5-minute cache write price
++ 1-hour cache write tokens / 1,000,000 * 1-hour cache write price
++ cache read tokens / 1,000,000 * cache read price
+```
+
+## Usage Notes
+
+- Check the console for the latest model list, supported parameters, context limits, and real-time prices.
+- For language models, estimate cost from both input and output tokens. Long prompts, retrieved documents, and tool results can increase input token usage.
+- For cached prompts, cache writes and cache reads may appear as separate billable usage types.
+- Use rate limits and budget controls when integrating AI Gateway into production applications.

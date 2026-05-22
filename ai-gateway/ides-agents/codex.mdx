@@ -1,0 +1,54 @@
+---
+title: 'Codex'
+description: 'Configure Codex to use AI Gateway with an OpenAI-compatible API endpoint.'
+---
+
+![](/images/ide-agents-codex-icon.png)
+
+
+Codex is a command-line coding assistant. You can route Codex requests through AI Gateway by configuring the OpenAI-compatible base URL and providing your API key.
+
+<Note>
+Create or copy your API key from the console before starting Codex.
+</Note>
+
+## Recommended: Manage Config with cc switch
+
+If you use multiple coding agents, consider using [**cc switch**](https://github.com/farion1231/cc-switch) or a similar profile manager to maintain separate configurations for Codex, Claude Code, and other tools.
+
+![](/images/ide-agents-codex-cc-switch-01.png)
+![](/images/ide-agents-codex-cc-switch-02.png)
+
+## Configure the API Base URL
+
+Set the OpenAI-compatible base URL before starting Codex.
+
+```bash
+export OPENAI_BASE_URL=https://api.gpuhub.com/api/v1
+```
+
+To make this persistent, add it to your shell profile.
+
+```bash
+echo 'export OPENAI_BASE_URL=https://api.gpuhub.com/api/v1' >> ~/.zshrc
+```
+
+## Start Codex
+
+```bash
+codex
+```
+
+## Provide Your API Key
+
+When Codex opens the authentication menu, choose `Provide your own API key`.
+
+![](/images/ide-agents-codex-login-method.png)
+
+Paste your API key into the prompt and press Enter to save it.
+
+![](/images/ide-agents-codex-api-key.png)
+
+## Start Using Codex
+
+After configuration is complete, you can use Codex from the terminal for code generation, explanation, debugging, and refactoring tasks.

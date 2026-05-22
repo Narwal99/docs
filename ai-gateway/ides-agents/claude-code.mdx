@@ -1,0 +1,35 @@
+---
+title: 'Claude Code'
+description: 'Configure Claude Code to use AI Gateway through the Anthropic-compatible endpoint.'
+---
+
+![](/images/ide-agents-claude-code-icon.png)
+
+Claude Code can use AI Gateway through the Anthropic-compatible API endpoint. Configure the base URL and API key before starting Claude Code.
+
+<Note>
+Create or copy your API key from the console before configuring Claude Code.
+</Note>
+
+## Configure Environment Variables
+
+```bash
+export ANTHROPIC_BASE_URL=https://api.gpuhub.com/api/v1/anthropic
+export ANTHROPIC_AUTH_TOKEN=$API_KEY
+```
+
+If you do not specify a model, Claude Code uses the default model configured by the gateway. You can also route Claude Code model aliases to a specific model.
+
+```bash
+export ANTHROPIC_DEFAULT_HAIKU_MODEL=GLM-5
+export ANTHROPIC_DEFAULT_SONNET_MODEL=GLM-5
+export ANTHROPIC_DEFAULT_OPUS_MODEL=GLM-5
+```
+
+## Start Claude Code
+
+After the environment variables are set, start Claude Code from your project directory.
+
+```bash
+claude
+```
