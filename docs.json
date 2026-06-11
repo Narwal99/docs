@@ -232,7 +232,7 @@
           {
             "group": "AI Gateway",
             "pages": [
-              "ai-gateway/overview"
+              "ai-gateway/ai-gateway"
             ]
           },
           {
@@ -267,6 +267,20 @@
         ]
       },
       {
+        "tab": "API",
+        "groups": [
+          {
+            "group": "API Documentation",
+            "pages": [
+              "api-reference/api-authentication",
+              "api-reference/api-elastic-deployment",
+              "api-reference/api-obtain-balances",
+              "api-reference/api-switch-nfs-fs"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "FAQ",
         "groups": [
           {
@@ -280,20 +294,6 @@
               "faqs/ssh-based-connection-exception",
               "faqs/sd-image-generation-memory-leak",
               "faqs/others"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API",
-        "groups": [
-          {
-            "group": "API Documentation",
-            "pages": [
-              "api-reference/api-authentication",
-              "api-reference/api-elastic-deployment",
-              "api-reference/api-obtain-balances",
-              "api-reference/api-switch-nfs-fs"
             ]
           }
         ]
