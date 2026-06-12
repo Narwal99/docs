@@ -13,13 +13,13 @@ Create or copy your API key from the console before calling the API. Use the mod
 
 | Compatibility | Base URL |
 | ------------- | -------- |
-| Anthropic-compatible | `https://api.gpuhub.com/api/v1/anthropic` |
-| OpenAI-compatible | `https://api.gpuhub.com/api/v1` |
+| Anthropic-compatible | `https://llm.gpuhub.com/api/v1/anthropic` |
+| OpenAI-compatible | `https://llm.gpuhub.com/api/v1` |
 
 ## Claude Code
 
 ```bash
-export ANTHROPIC_BASE_URL=https://api.gpuhub.com/api/v1/anthropic
+export ANTHROPIC_BASE_URL=https://llm.gpuhub.com/api/v1/anthropic
 export ANTHROPIC_AUTH_TOKEN=$API_KEY
 
 # Optional: route Claude Code model aliases to this model.
@@ -38,7 +38,7 @@ from anthropic import Anthropic
 
 client = Anthropic(
     api_key="YOUR_API_KEY",
-    base_url="https://api.gpuhub.com/api/v1/anthropic",
+    base_url="https://llm.gpuhub.com/api/v1/anthropic",
 )
 
 message = client.messages.create(

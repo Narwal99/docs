@@ -13,12 +13,12 @@ Create or copy your API key from the console before calling the API. Use the mod
 
 | Compatibility | Base URL |
 | ------------- | -------- |
-| OpenAI-compatible | `https://api.gpuhub.com/api/v1` |
+| OpenAI-compatible | `https://llm.gpuhub.com/api/v1` |
 
 ## curl
 
 ```bash
-curl --location --request POST "https://api.gpuhub.com/api/v1/responses" \
+curl --location --request POST "https://llm.gpuhub.com/api/v1/responses" \
   --header "Authorization: Bearer $API_KEY" \
   --header "Content-Type: application/json" \
   --data-raw '{
@@ -36,7 +36,7 @@ curl --location --request POST "https://api.gpuhub.com/api/v1/responses" \
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.gpuhub.com/api/v1",
+    base_url="https://llm.gpuhub.com/api/v1",
     api_key="YOUR_API_KEY",
 )
 
