@@ -10,7 +10,7 @@ You can call supported models through a compatible API, monitor usage, and pay b
   <img src="/images/ide-agents-chatgpt-icon.png" alt="ChatGPT" style={{ width: '64px', height: '64px', objectFit: 'contain' }} />
   <img src="/images/ide-agents-codex-icon.png" alt="Codex" style={{ width: '64px', height: '64px', objectFit: 'contain' }} />
   <img src="/images/ide-agents-gemini-icon.png" alt="Gemini" style={{ width: '64px', height: '64px', objectFit: 'contain' }} />
-  <img src="/images/ide-agents-glm-icon.png" alt="MiniMax" style={{ width: '64px', height: '64px', objectFit: 'contain' }} />
+  <img src="/images/ide-agents-glm-icon.png" alt="GLM" style={{ width: '64px', height: '64px', objectFit: 'contain' }} />
   <img src="/images/ide-agents-deepseek-icon.png" alt="DeepSeek" style={{ width: '64px', height: '64px', objectFit: 'contain' }} />
   <img src="/images/ide-agents-qwen-icon.png" alt="Qwen" style={{ width: '64px', height: '64px', objectFit: 'contain' }} />
   <img src="/images/ide-agents-minimax-icon.png" alt="MiniMax" style={{ width: '64px', height: '64px', objectFit: 'contain' }} />
@@ -32,26 +32,26 @@ AI Gateway supports multiple categories of models for common AI workloads.
 
 ## Pricing
 
-AI Gateway API provides two tiers — Enterprise for enterprise-grade workloads, and Developer for individual or experimental use. For each model, use the unit price displayed in the console as the source of truth.
+AI Gateway provides two service plans: Enterprise for production workloads and Developer for individual or experimental use. Model prices are listed in USD. Always use the unit prices displayed in the console as the source of truth.
 
 <Columns cols={2}>
     <Card
     title="Enterprise"
     icon="building"
-    href=""
-    arrow="true"
     >
     Production-grade API access for enterprise workloads, with priority capacity, higher service stability, and dedicated support. Suitable for commercial applications, high-volume usage, and business-critical AI services.
     </Card>
     <Card
     title="Developer"
     icon="circle-user"
-    href=""
-    arrow="true"
     >
     Affordable API access for individual developers, testing, and non-critical workloads. Powered by shared capacity, with best-effort availability and performance that may vary depending on resource availability.
     </Card>
 </Columns>
+
+<Note>
+The prices below are placeholders used to illustrate each billing formula. They do not represent actual model prices.
+</Note>
 
 ### Language Models
 
@@ -60,32 +60,42 @@ General language models are billed by token usage.
 | Usage Type | Unit Price |
 | ---------- | ---------- |
 | Input tokens | `$XX.XX` / 1M tokens |
-| Output tokens | `$XX.XX` / 1M tokens |
+| Output tokens | `$YY.YY` / 1M tokens |
 
 Billing formula:
 
 ```text
 Total cost =
-  input tokens / 1,000,000 * input token price
-+ output tokens / 1,000,000 * output token price
+  (input tokens / 1,000,000 × $XX.XX)
++ (output tokens / 1,000,000 × $YY.YY)
 ```
 
 ### Tiered Context Pricing
 
-Some language models use tiered pricing based on the number of input tokens in a request. For example, requests within a shorter context window may use one price, while requests with a larger context window may use a higher price.
+Some language models select a pricing tier based on the total number of input tokens in a request. After the tier is selected, its input and output prices apply to the entire request.
 
-| Context Tier | Input Token Price | Output Token Price |
-| ------------ | ----------------- | ------------------ |
-| Standard context | `$XX.XX` / 1M tokens | `$XX.XX` / 1M tokens |
-| Extended context | `$XX.XX` / 1M tokens | `$XX.XX` / 1M tokens |
+| Context Tier | Input Tokens per Request | Input Token Price | Output Token Price |
+| ------------ | ------------------------ | ----------------- | ------------------ |
+| Standard context | Up to the model's tier threshold | `$XX.XX` / 1M tokens | `$YY.YY` / 1M tokens |
+| Extended context | Above the model's tier threshold | `$AA.AA` / 1M tokens | `$BB.BB` / 1M tokens |
 
-Billing formula:
+Standard-context formula:
 
 ```text
 Total cost =
-  input tokens / 1,000,000 * tiered input token price
-+ output tokens / 1,000,000 * tiered output token price
+  (input tokens / 1,000,000 × $XX.XX)
++ (output tokens / 1,000,000 × $YY.YY)
 ```
+
+Extended-context formula:
+
+```text
+Total cost =
+  (input tokens / 1,000,000 × $AA.AA)
++ (output tokens / 1,000,000 × $BB.BB)
+```
+
+The exact threshold and prices vary by model and are displayed in the console.
 
 ### Claude-Series Prompt Caching
 
@@ -94,25 +104,26 @@ Claude-series models may include prompt caching charges in addition to normal in
 | Usage Type | Unit Price |
 | ---------- | ---------- |
 | Input tokens | `$XX.XX` / 1M tokens |
-| Output tokens | `$XX.XX` / 1M tokens |
-| Cache write, 5-minute TTL | `$XX.XX` / 1M tokens |
-| Cache write, 1-hour TTL | `$XX.XX` / 1M tokens |
-| Cache read | `$XX.XX` / 1M tokens |
+| Output tokens | `$YY.YY` / 1M tokens |
+| Cache write, 5-minute TTL | `$MM.MM` / 1M tokens |
+| Cache write, 1-hour TTL | `$NN.NN` / 1M tokens |
+| Cache read | `$ZZ.ZZ` / 1M tokens |
 
 Billing formula:
 
 ```text
 Total cost =
-  input tokens / 1,000,000 * input token price
-+ output tokens / 1,000,000 * output token price
-+ 5-minute cache write tokens / 1,000,000 * 5-minute cache write price
-+ 1-hour cache write tokens / 1,000,000 * 1-hour cache write price
-+ cache read tokens / 1,000,000 * cache read price
+  (input tokens / 1,000,000 × $XX.XX)
++ (output tokens / 1,000,000 × $YY.YY)
++ (5-minute cache write tokens / 1,000,000 × $MM.MM)
++ (1-hour cache write tokens / 1,000,000 × $NN.NN)
++ (cache read tokens / 1,000,000 × $ZZ.ZZ)
 ```
 
 ## Usage Notes
 
 - Check the console for the latest model list, supported parameters, context limits, and real-time prices.
 - For language models, estimate cost from both input and output tokens. Long prompts, retrieved documents, and tool results can increase input token usage.
+- For tiered-context models, the input token count determines which price pair applies to the entire request.
 - For cached prompts, cache writes and cache reads may appear as separate billable usage types.
 - Use rate limits and budget controls when integrating AI Gateway into production applications.
