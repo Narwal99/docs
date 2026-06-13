@@ -13,12 +13,12 @@ Create or copy your API key from the console before calling the API. Use the mod
 
 | Compatibility | Base URL |
 | ------------- | -------- |
-| Gemini-compatible | `https://llm.gpuhub.com/api/v1/gemini` |
+| Gemini-compatible | `https://www.autodl.art/api/v1/gemini/v1beta/models` |
 
 Some tools may require the versioned base URL:
 
 ```text
-https://llm.gpuhub.com/api/v1/gemini/v1beta
+https://www.autodl.art/api/v1/gemini/v1beta/models
 ```
 
 ## Python
@@ -31,7 +31,7 @@ from google import genai
 
 client = genai.Client(
     api_key="YOUR_API_KEY",
-    http_options={"base_url": "https://llm.gpuhub.com/api/v1/gemini"},
+    http_options={"base_url": "https://www.autodl.art/api/v1/gemini/v1beta/models"},
 )
 
 response = client.models.generate_content(
