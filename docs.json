@@ -93,7 +93,8 @@
             "pages": [
               "container-instance/jupyterlab",
               "container-instance/ssh",
-              "container-instance/remote-desktop"
+              "container-instance/remote-desktop",
+              "container-instance/open-ports"
             ]
           },
           {
@@ -191,7 +192,6 @@
           {
             "group": "System Management",
             "pages": [
-              "best-practices/open-ports",
               "best-practices/computational-precision",
               "best-practices/exposing-multiple-services"
             ]
