@@ -138,20 +138,24 @@ Once the balance becomes negative and cannot be covered by voucher credits:
 
 ## Persistent Storage Services
 
-<Warning>
-All persistent storage is billed once per day at a fixed time, based on the peak usage during the previous 24-hour period.
-</Warning>
+Persistent storage (Data Disk, File Storage and Docker Images) is billed once per day.
 
+The system records the maximum storage used during each calendar day. Your daily bill is calculated from that day's peak usage, even if you later delete data before the billing time.
 
 ### Data Disk Expansion
+
+Expanding the data disk creates a persistent storage resource. This storage exists independently of the running state of the instance.
+
+Therefore, shutting down the instance does not stop storage billing. Billing ends only after the expansion is removed or the instance is released.
 
 <Warning>
 The extended data disk continues to incur charges even when the instance is shutdown.
 </Warning>
 
-<Warning>
-Billing stops only after the instance is released. However, any usage within that day will still be charged the next day based on the peak usage before release.
-</Warning>
+
+Billing stops only after the instance is released. 
+
+If the instance is released today, today's storage charge will still be settled at the next daily billing cycle because billing is based on the day's peak usage.
 
 - **Billing Unit Price:** USD0.002/GB/day.
 - **Billing Rules:**
@@ -160,6 +164,22 @@ Billing stops only after the instance is released. However, any usage within tha
     - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
         - If the account owes more than USD10, the platform reserves the right to clean data (with caution). 
         - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
+
+For Example:
+
+<Card>
+09:00 - 50GB usage 
+
+11:00 - 200GB usage 
+
+18:00 - 120GB usage 
+
+Peak = 200GB
+
+Charge = 200 × 0.002 = USD0.40 in the next day
+
+Remark: Even if an instance is cloned but the cloning process ultimately fails and no new instance is created, the expanded portion of the data disk is still billable. This is because storage resources have already been allocated during the cloning process.
+</Card>
 
 ### File Storage
 
@@ -172,8 +192,11 @@ Billing stops only after the instance is released. However, any usage within tha
         - If the account owes more than USD10, the platform reserves the right to clean data (with caution). 
         - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
 - **Total Storage Capacity:** Default 200GB per user. Contact support for larger capacity.
+
+
+For Example:
 <Card>
-- Example: If the maximum daily usage is 50GB, the daily fee = (50 - 20) * 0.002 = USD0.06.
+If the maximum daily usage is 50GB, the daily fee = (50 - 20) * 0.002 = USD0.06.
 </Card>
 
 ### Docker Image
@@ -186,6 +209,7 @@ Billing stops only after the instance is released. However, any usage within tha
     - **Account Balance Insufficiency:** Data is retained to prioritize billing. 
         - If the account owes more than USD10, the platform reserves the right to clean data (with caution). 
         - If overcharged due to delayed data cleanup, we will cover the excess with vouchers (e.g., if you owe USD60, contact support for a USD10 voucher; if you owe USD20, the user is responsible).
+For Example:
 <Card>
-- Example: If the maximum daily usage is 50GB, the daily fee = (50 - 30) * 0.002 = USD0.40.
+If the maximum daily usage is 50GB, the daily fee = (50 - 30) * 0.002 = USD0.40.
 </Card>
