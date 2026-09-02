@@ -3,14 +3,16 @@ title: "Introduction"
 description: "Welcome to the GPUhub documentation. This is the go-to resource for researchers and developers working with GPU-accelerated computing. Get clear, accurate, step-by-step guides to train, deploy, and optimize faster."
 icon: "crystal-ball"
 ---
-```
-“Do. Or do not. There is no try.” ― Yoda 
+``` python
+quote = '"Do. Or do not. There is no try." — Yoda'
+print(quote)
 ```
 <Frame>
   ![](/images/docs-banner.jpg)
 </Frame>
 
-## Create Your Container Instance
+## Cloud GPU Instance
+### Create Your Container Instance
 
 Create a stable, reliable, and reasonably priced cloud container instance suitable for your use.
 
@@ -29,7 +31,7 @@ Create a stable, reliable, and reasonably priced cloud container instance suitab
   </Card>
 </CardGroup>
 
-## Data Transmission & Storage
+### Data Transmission & Storage
 
 We are offering multiple flexible methods for data transfer. It supports various tools and techniques, including JupyterLab, scp commands, and graphical interfaces like FileZilla or XShell, providing users with convenient options for uploading and downloading data.
 
@@ -48,7 +50,7 @@ We are offering multiple flexible methods for data transfer. It supports various
   </Card>
 </CardGroup>
 
-## Enviroment Configuration
+### Enviroment Configuration
 
 The platform's images come with many frameworks and versions. If they don't meet your needs, see how to configure other versions.
 
@@ -61,7 +63,7 @@ The platform's images come with many frameworks and versions. If they don't meet
   </Card>
 </CardGroup>
 
-## SSH & Ports
+### SSH & Ports
 
 Manage secure instance access and external connectivity with SSH and customizable ports.
 
@@ -83,5 +85,24 @@ Effortlessly deploy and manage scalable GPU-accelerated applications with intell
   </Card>
   <Card title="Why Not Pure Serverless?" icon="circle-question" href="/elastic-deployment/why-not-serverless">
     Understand why GPUhub chooses elastic containers over traditional serverless for better stability, lower latency, and real-world AI training/inference needs.
+  </Card>
+</CardGroup>
+
+## AI Gateway
+
+AI Gateway gives you one place to access GPUhub-hosted open-source models and route requests to closed-source model providers. It supports OpenAI-compatible, Anthropic-compatible, and Gemini-compatible endpoints, so you can use familiar SDKs and tools while managing usage and billing from the GPUhub console.
+
+<CardGroup cols="2">
+  <Card title="AI Gateway Overview" icon="merge" href="/ai-gateway/ai-gateway">
+    Learn how AI Gateway works, including supported model types, service plans, and billing formulas.
+  </Card>
+  <Card title="LLMs" icon="cube" href="/ai-gateway/llms/claude-opus-4-8">
+    Browse available LLMs such as Claude, GPT, Gemini, GLM, Qwen, DeepSeek, and MiniMax.
+  </Card>
+  <Card title="Codex" icon="laptop-code" href="/ai-gateway/ides-agents/codex">
+    Configure Codex to use AI Gateway through an OpenAI-compatible endpoint.
+  </Card>
+  <Card title="Cherry Studio" icon="cherries" href="/ai-gateway/ides-agents/cherry-studio">
+    Connect Cherry Studio to AI Gateway providers for Claude, GPT, Gemini, and OpenAI-compatible models.
   </Card>
 </CardGroup>
