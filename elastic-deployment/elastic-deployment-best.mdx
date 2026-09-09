@@ -73,3 +73,37 @@ In the process of using Elastic Deployment GPU deployments, the main time consum
 **Usage method:**
 
 Set `reuse_container` to true when creating the deployment to automatically enable this function. This function takes effect at the deployment level, not globally.
+
+## Deploying Large Models with Custom Images and File Storage
+
+For large-model inference workloads that require instances to be created and released repeatedly, we recommend separating the runtime environment from the model weights.
+
+Instead of rebuilding the environment and downloading large model files every time a new Elastic Deployment container is created, you can prepare the environment once, save it as a custom image, and store the model separately in GPUhub File Storage.
+
+### 1. Prepare the Runtime Environment
+First, create a regular GPUhub instance using a suitable [pre-installed image](/environment/overview).
+Install the frameworks, Python packages, inference engines, system dependencies, and other components required by your application on the system disk.
+Once the environment has been fully configured and tested, [save the instance](http://localhost:3000/environment/image#save-image) as a custom image.
+This creates a reusable image that can be used for future Elastic Deployments.
+
+### 2. Get the Custom Image ID
+After the custom image has been successfully created, obtain its Image UUID from My Images.
+This image can then be selected when creating future Elastic Deployments.
+
+### 3. Store Large Model Weights in File Storage
+Large model weights should generally not be included in the custom image.
+Instead, store them in GPUhub [File Storage](/file-storage). File Storage is shared across instances within the same region and is automatically mounted to:
+/root/autodl-fs
+This allows newly created Elastic Deployment instances to access the same model files without downloading them again from an external source.
+
+### 4. Create the Elastic Deployment
+When creating an Elastic Deployment, select My Images and use the custom image prepared above.
+After the container starts, your inference environment is already available from the custom image, while the large model weights can be loaded directly from File Storage.
+Your startup command can then launch the inference service and load the model from the File Storage path.
+
+### Recommended Workflow
+Pre-installed Image → Create Instance → Configure Inference Environment → Save as Custom Image → Obtain Image ID → Store Model in File Storage → Create Elastic Deployment with My Images → Load Model from File Storage → Start Inference
+
+### Why Use This Approach?
+This approach is particularly useful for large-model inference services that need to be created, released, or scaled repeatedly.
+It avoids rebuilding the software environment for every deployment and avoids repeatedly downloading large model weights from external sources. The custom image provides a consistent runtime environment, while File Storage keeps large model files persistent and accessible across instances.
