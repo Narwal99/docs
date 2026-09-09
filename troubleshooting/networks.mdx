@@ -4,7 +4,7 @@ description: 'Not blazing fast, but stable.'
 icon: 'globe'
 ---
 
-
+## Shared Network Bandwidth
 To reduce the cost of using instances and provide a more flexible experience, GPUhub adopts a shared bandwidth scheme for instances in the same region, instead of charging separately for network bandwidth and traffic.
 
 <Note>
@@ -13,9 +13,33 @@ Each region has approximately 1–2 Gbps of shared bandwidth, with symmetric upl
 
 ![](/images/strange-of-services.png)
 
+## Network Performance During Peak Hours
 During peak hours, if other users on the same host are pulling large datasets at the same time, it may further slow down shell responsiveness and file transfers.
 
 This only affects SSH and uploads/downloads—not actual training speed.
 
+## Downloading Large Models or Datasets
 
- 
+<Warning>
+Non-GPU Mode provides only limited CPU and memory resources and is intended primarily for tasks such as downloading models or datasets and preparing files, rather than compute-intensive workloads.
+</Warning>
+
+Large models and datasets can sometimes take a significant amount of time to download, especially during periods of high network utilization.
+
+<Note>
+By default, each account can run only one instance in Non-GPU Mode at a time. 
+</Note>
+
+If you do not need GPU compute while downloading files, you can start the instance in Non-GPU Mode and complete the download first. Once the required models, datasets, or other files are ready, restart the instance with GPU resources and begin your workload.
+
+This helps avoid occupying and paying for GPU resources while simply waiting for large downloads to complete.
+
+![](/images/non-gpu-mode.png)
+
+<Warning>
+GPU availability is not reserved in Non-GPU Mode.
+</Warning>
+
+When you switch an instance to Non-GPU Mode, the GPU hardware previously used by your instance is released and may be allocated to other users. As a result, there is no guarantee that the same GPU, or even an available GPU, will still be available when you are ready to restart the instance with GPU resources.
+
+We recommend using Non-GPU Mode for long downloads or environment preparation only when you are comfortable releasing your current GPU allocation.
