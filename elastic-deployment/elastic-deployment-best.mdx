@@ -80,6 +80,23 @@ For large-model inference workloads that require instances to be created and rel
 
 Instead of rebuilding the environment and downloading large model files every time a new Elastic Deployment container is created, you can prepare the environment once, save it as a custom image, and store the model separately in GPUhub File Storage.
 
+### Recommended Workflow
+```
+Step 1: Create Instance with Pre-installed Image
+↓
+Step 2: Configure Inference Environment for Your Model
+↓
+Step 3: Save as a Custom Image below your account in My Images to Obtain Image UUID
+↓
+Step 4: Store Large Model in File Storage
+↓
+Step 5: Create Elastic Deployment with My Images
+↓
+Step 6: Load Large Model from File Storage
+↓
+Step 7: Start Inference in your Elastic Deployment
+```
+
 ### 1. Prepare the Runtime Environment
 First, create a regular GPUhub instance using a suitable [pre-installed image](/environment/overview).
 Install the frameworks, Python packages, inference engines, system dependencies, and other components required by your application on the system disk.
@@ -100,9 +117,6 @@ This allows newly created Elastic Deployment instances to access the same model 
 When creating an Elastic Deployment, select My Images and use the custom image prepared above.
 After the container starts, your inference environment is already available from the custom image, while the large model weights can be loaded directly from File Storage.
 Your startup command can then launch the inference service and load the model from the File Storage path.
-
-### Recommended Workflow
-Pre-installed Image → Create Instance → Configure Inference Environment → Save as Custom Image → Obtain Image ID → Store Model in File Storage → Create Elastic Deployment with My Images → Load Model from File Storage → Start Inference
 
 ### Why Use This Approach?
 This approach is particularly useful for large-model inference services that need to be created, released, or scaled repeatedly.
