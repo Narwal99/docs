@@ -67,6 +67,14 @@ We cannot issue refunds for charges incurred due to instances not being properly
 
 ### Pay-As-You-Go Billing (Default)
 
+The GPU unit price for instances created through Elastic Deployment is the same as the Pay-As-You-Go (PAYG) rate for the corresponding GPU model.
+
+<Card>
+Total cost = Duration * Unit price  
+- The GPU unit price for instances created through Elastic Deployment is the same as the Pay-As-You-Go (PAYG) rate for the corresponding GPU model.
+- Duration = Shut down time - Start time (billed per second, minimum charge USD0.01)
+</Card>
+
 1. **Billing Calculation**
     - Billing starts when the container is powered on and ends when it is powered off.
     - Total cost = Duration * Unit price
