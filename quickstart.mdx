@@ -10,6 +10,25 @@ You needn't reconfigure or reupload data upon restart. However, instances will b
 For details, see [Instance Data Retention Policy](/data/overview).
 </Note>
 
+## Before You Start
+
+<Tip>
+Please read this carefully before using GPUHub. These are the essential things every user needs to know before getting started.
+</Tip>
+
+**Please review these 10 points before using GPUHub:**
+
+1. [Storage](/data/local-data-disk) — System Disk, Data Disk, and File Storage serve different purposes. Images do not include Data Disk data.
+2. [Billing](/billing-recharge/billing) — Stopping an instance stops GPU charges, but storage charges may continue.
+3. [Data](/data/overview) — Back up important data before releasing an instance. Deleted data may not be recoverable.
+4. [Access](/container-instance/overview) — GPUHub provides a container environment, not host or Docker daemon access.
+5. [Images](/container-instance/save-image#custom-image) — Custom Docker images and private registries are not supported.
+6. [Ports](/container-instance/open-ports) — Each instance supports 2 public ports only. Additional ports cannot be added.
+7. [Network](/troubleshooting/networks) — Public Internet performance depends on routing, ISPs, and destination services. End-to-end performance is not guaranteed.
+8. [Elastic Deployment](/elastic-deployment/elastic-deployment-best) — Elastic Deployment has no dedicated Data Disk. Use images or File Storage for persistent data.
+9. [Payments](/billing-recharge/recharge) — Automatic payments and cryptocurrency payments, including USDT, are not supported.
+10. [Refunds](/terms/terms-of-service#refund-policy) — GPUHub is prepaid. Please review the billing and refund policies before adding funds.
+
 ## Create an Instance
 After registration, enter the console. Under My Instances, click "Launch Instance".
 ![](/images/instances.png)
