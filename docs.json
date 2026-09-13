@@ -308,7 +308,11 @@
           "href": "https://discord.gg/PVdwkynM75",
           "icon": "discord"
         },
-
+        {
+          "anchor": "Telegram",
+          "href": "https://t.me/+x1igBQ49Z0NkN2E1",
+          "icon": "telegram"
+        },
         {
           "anchor": "Videos",
           "href": "https://www.youtube.com/channel/UC2qUAYW-gmjBjs_DAZbpGlg",
