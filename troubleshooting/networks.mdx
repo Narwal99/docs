@@ -10,8 +10,11 @@ GPUHub uses a shared bandwidth model for GPU instances. Network bandwidth and tr
 </Note>
 
 Network performance varies by region and host. Each region and host may have its own bandwidth capacity and transmission limits. The bandwidth available to an individual instance is not guaranteed and should not be interpreted as dedicated bandwidth.
+
 The total upstream bandwidth available in a region may be approximately 1–2 Gbps, but this capacity is shared among multiple hosts and instances. Actual upload and download speeds may vary depending on the region, host, concurrent network usage, destination server, network route, and time of day.
+
 During periods of high network activity, large dataset transfers by other users may reduce SSH responsiveness and file transfer speeds. This affects network-related operations only and does not directly affect local GPU training or computation performance.
+
 If your workload requires sustained or guaranteed network bandwidth, please contact GPUHub Support before deployment to confirm the available options for your target region.
 
 ![](/images/strange-of-services.png)
