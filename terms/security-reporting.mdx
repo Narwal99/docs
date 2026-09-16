@@ -1,0 +1,157 @@
+---
+title: 'Security Vulnerability Reporting Policy'
+description: "This policy explains how to report a potential security issue to GPUHub and establishes the boundaries for responsible security research involving our services."
+icon: 'shield'
+---
+
+GPUHub takes the security of our platform, infrastructure, and users seriously. We appreciate the efforts of security researchers and members of the community who responsibly report potential security vulnerabilities to us.
+
+## Reporting a Security Vulnerability
+
+If you believe you have identified a security vulnerability affecting GPUHub, please report it to: support@gpuhub.com
+
+Please include as much relevant information as possible so that our technical team can reproduce and evaluate the issue.
+
+A useful report should include:
+
+- A description of the vulnerability
+- The affected URL, API endpoint, service, or component
+- Steps required to reproduce the issue
+- The potential security impact
+- Screenshots, logs, request/response examples, or other supporting evidence where applicable
+- Any conditions required to reproduce the vulnerability
+- Your contact information for follow-up
+
+Please avoid including unnecessary personal information, credentials, access tokens, or data belonging to other GPUHub users.
+
+## Responsible Testing
+
+Security research must be conducted in a manner that does not compromise the security, privacy, availability, or integrity of GPUHub, our infrastructure, or our users.
+
+When investigating a potential vulnerability, please:
+
+- Use your own GPUHub account and resources whenever possible.
+- Limit testing to the minimum necessary to demonstrate the vulnerability.
+- Stop testing once sufficient evidence has been collected to demonstrate the issue.
+- Avoid accessing, modifying, downloading, or deleting data belonging to other users.
+- Avoid actions that could degrade or interrupt GPUHub services.
+- Report the vulnerability to us promptly after confirming it.
+
+Discovery of a potential vulnerability does not constitute authorization to perform additional testing beyond what is reasonably necessary to demonstrate the issue.
+
+## Prohibited Activities
+
+The following activities are not permitted without prior written authorization from GPUHub:
+
+- Denial-of-service (DoS/DDoS) testing or other availability attacks
+- Stress testing or intentionally generating excessive traffic
+- Destructive testing
+- Social engineering, phishing, or impersonation
+- Testing against GPUHub employees, customers, suppliers, or partners
+- Accessing or attempting to access another user's account
+- Accessing, modifying, downloading, or deleting another user's data
+- Credential stuffing or brute-force attacks
+- Large-scale automated vulnerability scanning
+- Introducing malware, cryptominers, ransomware, or other malicious software
+- Attempting to maintain persistent unauthorized access
+- Physical attacks against GPUHub infrastructure or facilities
+- Testing third-party services or infrastructure that are not operated by GPUHub
+- Public disclosure of an unresolved vulnerability before GPUHub has had a reasonable opportunity to investigate and address it
+
+If your testing unexpectedly provides access to another user's data, credentials, internal systems, or other sensitive information, **stop testing immediately and report the issue to us**. Do not continue exploring or collecting additional information.
+
+## Production Environment
+
+GPUHub is a live GPU cloud platform used by customers for production workloads.
+
+Security research must therefore be conducted carefully and must not interfere with running GPU instances, network services, storage systems, APIs, payment systems, or other customers' workloads.
+
+Please do not attempt to demonstrate the severity of a vulnerability by disrupting production services.
+
+A clear reproduction procedure or limited proof of concept is generally sufficient for our team to investigate an issue.
+
+## Bug Bounty and Monetary Rewards
+
+GPUHub currently **does not operate a public bug bounty program**.
+
+Submitting a vulnerability report does not create any contractual obligation for GPUHub to provide payment, compensation, rewards, employment, or other benefits.
+
+GPUHub may, at its sole discretion, choose to recognize particularly valuable security contributions. Any such recognition is voluntary and should not be interpreted as establishing a bug bounty program or an expectation of payment for future reports.
+
+Please do not conduct additional or more intrusive testing based on the expectation of receiving a reward.
+
+## Security Testing Services
+
+Submission of a vulnerability report should not be interpreted as authorization to provide penetration testing, security auditing, vulnerability scanning, or other professional services to GPUHub.
+
+GPUHub does not accept unsolicited security testing services through the vulnerability reporting process.
+
+Any formal penetration testing or security assessment must be separately authorized in writing by GPUHub.
+
+## Duplicate, Informational, and Low-Impact Reports
+
+We appreciate all good-faith reports, but we may not individually respond to reports that are duplicate, purely informational, or do not represent a meaningful security risk.
+
+Examples may include:
+
+- Missing security headers without demonstrated security impact
+- Version disclosure without a demonstrated vulnerability
+- Publicly available information
+- Self-XSS requiring the user to execute code themselves
+- Issues requiring unrealistic or highly unlikely user interaction
+- Reports generated solely by automated vulnerability scanners without verification
+- Rate-limit observations without demonstrated security impact
+- Best-practice recommendations without an exploitable vulnerability
+- Vulnerabilities affecting unsupported browsers, software, or third-party systems outside GPUHub's control
+
+A vulnerability scanner result alone does not necessarily demonstrate a security vulnerability. Please verify findings and provide reproducible evidence before submitting a report.
+
+## Third-Party Services
+
+GPUHub uses third-party services and infrastructure as part of operating our platform.
+
+Vulnerabilities that exclusively affect a third-party product or service should generally be reported directly to the relevant provider.
+
+If you believe a third-party vulnerability creates a specific security risk for GPUHub or GPUHub users, you may still notify us so that we can evaluate the potential impact.
+
+## Handling of Vulnerability Reports
+
+After receiving a security report, GPUHub may:
+
+1. Review and validate the reported issue.
+2. Request additional information where necessary.
+3. Assess the potential impact and severity.
+4. Develop and deploy appropriate mitigations or fixes.
+5. Contact the reporter if further clarification is required.
+
+The time required to investigate and resolve an issue depends on its complexity, severity, and potential impact.
+
+We cannot guarantee a specific response or remediation timeline for every report.
+
+## Confidentiality and Disclosure
+
+We ask security researchers to give GPUHub a reasonable opportunity to investigate and remediate reported vulnerabilities before making information publicly available.
+
+Please do not publicly disclose vulnerability details, proof-of-concept code, sensitive technical information, or information that could enable exploitation while an issue remains unresolved.
+
+If you would like to publish research concerning a vulnerability reported to GPUHub, please contact us before publication so that disclosure can be coordinated where appropriate.
+
+## Good-Faith Research
+
+We appreciate security research performed in good faith and in accordance with this policy.
+
+This policy is intended to provide guidance for responsible vulnerability reporting. It does **not** grant unrestricted permission to test GPUHub systems and does not authorize activities that would otherwise violate applicable laws, agreements, or the rights of GPUHub or third parties.
+
+Researchers remain responsible for ensuring that their activities comply with applicable laws and regulations.
+
+## Contact
+
+For security vulnerability reports:
+
+**support@gpuhub.com**
+
+Please use the subject line:
+
+**Security Vulnerability Report – [Brief Description]**
+
+Thank you for helping us keep GPUHub and our users secure.
