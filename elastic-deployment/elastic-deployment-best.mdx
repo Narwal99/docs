@@ -1,123 +1,105 @@
 ---
 title: Best Practices
-description: "The best practices cover efficient deployments, service discovery/load balancing, container management, and features like reuse for faster startups and lower costs."
+description: "Best practices for choosing deployment types, managing container storage and startup commands, improving service availability, and optimizing repeated deployments."
 ---
-## Creating Deployments
 
-1. If your requirement is to perform a one-time task, it is recommended to use **Container/Job type** deployments. 
+## Choose a Deployment Type
 
-2. If it is for service deployment, then **ReplicaSet type** deployment is recommended, as ReplicaSet has the function of managing and maintaining container node replicas.
+- For one-time tasks, use **Container/Job** deployments.
+- For services, use **ReplicaSet** deployments. ReplicaSet manages container replicas and starts a replacement if a container exits unexpectedly. For reliable service delivery, combine ReplicaSet with service discovery and load balancing.
 
-That is, if a container abnormally exits, the system will automatically pull up a new container to replace it. For service deployment, in addition to using the ReplicaSet feature, it is also necessary to coordinate with service discovery and load balancing to improve reliability and availability (see the subsection below).
+## Configure Images and Storage
 
-## Service Discovery and Load Balancing
+When a container starts, the system pulls its image. Put static environments and files that rarely change in the image. Avoid frequent image updates because each update requires the image to be cached on hosts again and can increase startup time.
 
-When using ReplicaSet type Elastic Deployment GPU deployments, each container provides an independent custom service address (HTTPS protocol) for external services. Due to potential single-point failures causing service stops and ReplicaSet deployments starting new containers to replace stopped ones, dynamic deregistration/registration of each container's service address is needed to achieve high-availability deployment.
+Store frequently updated files, such as application code and model files, in File Storage. File Storage is shared by containers in the same region and can simplify management across deployments. Its performance is lower than local disks, especially for workloads that read or write many small files. Large-file read and write bandwidth is approximately 100 MB/s. Contact customer support if you need higher performance.
 
-Service discovery is generally divided into two types: client-side discovery and server-side discovery. Here, considering simplicity and ease of use, a client-side discovery practice is introduced. This method is more suitable for GPU load scenarios (high computational load, limited GPU VRAM, long single-request response time) and is completed together with load balancing. The architecture is as follows:
+<Warning>
+The data disk for each Elastic Deployment container is fixed at 50 GB and cannot be resized.
+</Warning>
+
+## Configure Startup Commands
+
+The container runs its configured startup command when it starts. When that command exits, the container stops and is released. The command's lifecycle is therefore the container's lifecycle.
+
+For example, do not start a service in the background with `python app.py &` as the only startup command. The parent process exits while the application continues in the background, causing the system to stop the container and terminate its processes. If you have a specific reason to run it this way, keep the command active with `python app.py &; sleep infinity`.
+
+- For multiple or complex startup steps, put the commands in a shell script stored in the image or File Storage, then use the startup command to run that script.
+- Use an explicit working directory for relative paths. For example, if `app.py` is in `/root`, run `cd /root/ && python app.py`.
+- For a Conda environment, `conda activate my-env && python xxx.py` may fail because the startup shell cannot switch environments. Call the environment's interpreter directly, for example `/root/miniconda3/envs/my-env/bin/python xxx.py`.
+
+## Improve Service Availability
+
+### Service Discovery and Load Balancing
+
+In a ReplicaSet Elastic Deployment, each container provides an independent HTTPS service address. A container may stop unexpectedly, after which ReplicaSet starts a replacement. To keep the service available, dynamically remove stopped containers' addresses from the registry and add addresses for newly running containers.
+
+Service discovery is commonly implemented on the client or server side. The client-side approach below is straightforward and suits GPU workloads with high compute demand, limited GPU VRAM, and long request times. It combines service discovery with load balancing:
 
 ![](../images/elastic-archi-dia.png)
 
-From the diagram above, first, a service needs to be developed to poll and minitor for container (temporarily considered equivalent to service) status via GPUHub's "Query Container Events" interface. If there is a stopped container, remove it from the registry; if there is a new running container, register it to the service center.
+Build a service that polls container status through GPUhub's **Query Container Events** interface. Remove stopped containers from the service registry and register newly running containers. Before making a request, the client retrieves the available service addresses from the registry and selects one according to its load balancing strategy.
 
-Finally, before calling the service, the client first obtains the list of service addresses from the service registry, then selects one according to the load balancing strategy for service invocation. This shows that load balancing can be completed together in this step.
+**Why doesn't GPUhub provide load balancing?**
 
-**Common Questions:**
+Built-in load balancing could simplify client integrations, but common Nginx strategies offer limited control and cannot accurately account for business-specific GPU utilization. Application-managed routing can make decisions based on workload needs to improve utilization and control costs.
 
-**Question**: Why doesn't GPUHub provide load balancing?
+### Stop a Specific Container
 
-**Answer**: If GPUHub provided load balancing, it could simplify user-side usage. However, common Nginx load balancing supports limited strategies and cannot precisely control GPU utilization based on business conditions to reduce costs and increase efficiency.
+For a ReplicaSet deployment, you can control the number of running containers by changing the replica count. To stop a specific container, call the **Stop Container** interface with `decrease_one_replica_num`. This stops the container and decreases the deployment's replica count by one, so ReplicaSet will not start a replacement for it. This parameter applies only to ReplicaSet deployments.
 
-## Stopping Containers
+### Block a Faulty Host
 
-When using ReplicaSet Elastic Deployment GPU deployments, in addition to controlling container start/stop by setting the replica count, if you need precise control to stop a specific container, you can do so by calling the **"Stop Container"** interface. This interface provides a `decrease_one_replica_num` parameter, which can stop the container and simultaneously reduce the deployment's replica num by 1, meaning no new container will be started after stopping this one (this parameter is effective for ReplicaSet deployments).
+If containers on a particular host repeatedly experience abnormal behavior, use the **Set Scheduling Blacklist** API to prevent deployments from being scheduled on that host.
 
-## Blocking Faulty Machines
+## Reuse Stopped Containers
 
-If you find that containers scheduled and started on a certain host frequently experience abnormalities in a regular pattern, you can use the "Set Scheduling Blacklist" API to disable that machine.
+Image pulls are often the main source of Elastic Deployment startup time. Larger images and more containers starting at once can increase that time. Container reuse can reduce startup time by restarting eligible stopped containers instead of pulling the image and creating new containers.
 
-## Images and File Storage
+### How Reuse Works
 
-When starting, the system will pull the image to start the container. If static environments and other data files that do not need frequent changes can be stored in the image, avoid frequent image updates, as each update involves recaching the image to every host, which affects the first startup time of the container.
+1. After a container is stopped, the system may retain it in a reusable container pool according to system policy, for up to seven days.
+2. When a new container is needed, the system looks for a stopped container matching the deployment conditions, including its image and other parameters. If one is available, it is started for the new deployment; otherwise, the normal image-pull and container-creation process is used.
 
-For frequently changing files, such as code and model files, it is recommended to store them in file storage. File storage, as cross-instance shared storage, will be mounted to every container in the same region, so this feature can be utilized to simplify management and deployment. However, file storage has drawbacks: performance is slower compared to local disks, especially for reading/writing a very large number of small files (KB-level files), with large file read/write bandwidth around 100MB/s. If performance needs to be increased, please contact customer support.
+### Behavior to Know
 
-**Startup Commands**
+- **Interfaces:** Set `reuse_container` when creating the deployment. Other interfaces work the same way, so enabling reuse does not require changes to the rest of your API integration.
+- **Container data:** Reuse does not restore the container to the image's initial state. Files from the previous run may remain. Remove any residual data that could affect the next run, or use reuse to avoid copying the same files repeatedly.
+- **Container UUID:** The GPUhub `ContainerUUID` environment variable contains the current container UUID, including when a stopped container is reused.
 
-1. After the container starts, it will immediately execute your set startup command. When the command ends, the container will stop and release, i.e., the command execution lifecycle = container lifecycle. Therefore, taking the `python app.py` command as an example, do not execute it in the background, such as `python app.py &`, as the command (parent process) will immediately complete and run the program (child process) in the background, but at this time, since the command has ended, the system will stop the container, causing all processes to terminate together, failing to achieve the expected effect. If there is a special reason to execute in this way, the trick is: `python app.py &; sleep infinity`
-2. If your startup commands are numerous and complex, it is recommended to write a shell script in the image or file storage, putting these commands in one script, so the container's startup command becomes executing that script, simplifying the startup command and avoiding errors.
-3. Relative path for startup command execution: It is recommended to switch to the corresponding directory first before executing the script. For example, `python app.py` command, with `app.py` script in `/root` directory, the command is best written as `cd /root/ && python app.py`
-4. For Conda using virtual environments, writing `conda activate my-env && python xxx.py` in the command will generally fail due to inability to switch environments. It is recommended to change to `/root/miniconda3/envs/my-env/bin/python xxx.py`, i.e., directly use the virtual environment's Python interpreter.
+Set `reuse_container` to `true` when creating a deployment to enable reuse. The setting applies to that deployment only.
 
-## Exception Debugging
+## Debug Startup Failures
 
-- **Scenario example**: The container's startup command is `python app.py`. After scheduling starts, the container powers on but immediately ends abnormally, reason unknown.
-- **Debugging method**: Edit the deployment, change the container's startup command from `python app.py` to `sleep infinity`, to block the container with the sleep command so it stays running. At this time, wait for the container to run, then log in using the container's SSH command, manually execute `python app.py` in the container to check for execution abnormalities and debug. This allows interactive and efficient problem localization. After debugging, edit the deployment to change the command to the correct one.
+If a container starts and then exits unexpectedly, temporarily change its startup command to `sleep infinity`. Once the container is running, connect through SSH and run the original command manually, such as `python app.py`, to inspect errors interactively. After debugging, update the deployment with the correct startup command.
 
-## Important Features Introduction
+## Deploy Large Models with Custom Images and File Storage
 
-**Reusing Containers**
-In the process of using Elastic Deployment GPU deployments, the main time consumption is in pulling the image. Larger images and more simultaneously scheduled containers will have a greater impact on startup time. Therefore, to shorten container creation time, support for reusing stopped containers in Elastic Deployment GPU has been added.
+For inference workloads that repeatedly create and release instances, keep the runtime environment separate from model weights. Save the configured runtime as a custom image and store model weights in GPUhub File Storage. This avoids rebuilding the environment and downloading large model files for each deployment.
 
-**The specific implementation:**
+### Workflow
 
-1. For containers that have been deployed and then stopped, the system will automatically retain them for a period (this period is determined by system strategy, maximum not exceeding 7 days). These containers will be placed in the reusable container pool.
-2. When a new container needs to be created, the system will first look in the reusable container pool for stopped containers that match the current deployment conditions (based on image and other parameters). If found, that old container will be directly started as the new container; otherwise, proceed with the original process of pulling the image and creating a new container.
+1. Create an instance with a pre-installed image.
+2. Configure and test the inference environment for your model.
+3. Save the instance as a custom image and obtain its Image UUID.
+4. Store the model weights in File Storage.
+5. Create an Elastic Deployment using the custom image.
+6. Load the model weights from File Storage and start inference.
 
-**Differences between reusing and not reusing containers:**
+### Prepare the Runtime Environment
 
-1. **On the interface**: Except for the `reuse_container` parameter set during deployment creation being different, all other interfaces are the same; internal differences are shielded by the system. Therefore, using the reuse function does not require changes to other interface code.
-2. **On the data**: When reusing a previous container, the system does not clean the data (restore to the image's initial state), so there may be residual file data from the last use of that container. If this data affects the current run, delete it based on your business prior knowledge; alternatively, this feature can be utilized to reduce repeated file copying.
-3. **Environment variables**: The GPUhub ContainerUUID environment variable used to record the container UUID is unique regardless of reuse and will not use the old container's UUID value.
+Create a regular GPUhub instance using a suitable [pre-installed image](/environment/overview). Install the frameworks, Python packages, inference engines, system dependencies, and other components your application needs on the system disk. When the environment is ready and tested, [save the instance as a custom image](/environment/image#save-image) for use in future Elastic Deployments.
 
-**Usage method:**
+### Get the Custom Image ID
 
-Set `reuse_container` to true when creating the deployment to automatically enable this function. This function takes effect at the deployment level, not globally.
+After the custom image is created, find its Image UUID under **My Images**. Select this image when creating future Elastic Deployments.
 
-## Deploying Large Models with Custom Images and File Storage
+### Store Model Weights in File Storage
 
-For large-model inference workloads that require instances to be created and released repeatedly, we recommend separating the runtime environment from the model weights.
+Model weights generally should not be included in the custom image. Store them in GPUhub [File Storage](/file-storage), which is shared across instances in the same region and mounted at `/root/autodl-fs`. New Elastic Deployment containers can then access the same files without downloading them again from an external source.
 
-Instead of rebuilding the environment and downloading large model files every time a new Elastic Deployment container is created, you can prepare the environment once, save it as a custom image, and store the model separately in GPUhub File Storage.
+### Create the Elastic Deployment
 
-### Recommended Workflow
-```
-Step 1: Create Instance with Pre-installed Image
-↓
-Step 2: Configure Inference Environment for Your Model
-↓
-Step 3: Save as a Custom Image below your account in My Images to Obtain Image UUID
-↓
-Step 4: Store Large Model in File Storage
-↓
-Step 5: Create Elastic Deployment with My Images
-↓
-Step 6: Load Large Model from File Storage
-↓
-Step 7: Start Inference in your Elastic Deployment
-```
+Select **My Images** and choose the custom image prepared above. The container will start with the inference environment already installed, while the model weights remain accessible in File Storage. Configure the startup command to launch the inference service and load the model from its File Storage path.
 
-### 1. Prepare the Runtime Environment
-First, create a regular GPUhub instance using a suitable [pre-installed image](/environment/overview).
-Install the frameworks, Python packages, inference engines, system dependencies, and other components required by your application on the system disk.
-Once the environment has been fully configured and tested, [save the instance](http://localhost:3000/environment/image#save-image) as a custom image.
-This creates a reusable image that can be used for future Elastic Deployments.
-
-### 2. Get the Custom Image ID
-After the custom image has been successfully created, obtain its Image UUID from My Images.
-This image can then be selected when creating future Elastic Deployments.
-
-### 3. Store Large Model Weights in File Storage
-Large model weights should generally not be included in the custom image.
-Instead, store them in GPUhub [File Storage](/file-storage). File Storage is shared across instances within the same region and is automatically mounted to:
-/root/autodl-fs
-This allows newly created Elastic Deployment instances to access the same model files without downloading them again from an external source.
-
-### 4. Create the Elastic Deployment
-When creating an Elastic Deployment, select My Images and use the custom image prepared above.
-After the container starts, your inference environment is already available from the custom image, while the large model weights can be loaded directly from File Storage.
-Your startup command can then launch the inference service and load the model from the File Storage path.
-
-### Why Use This Approach?
-This approach is particularly useful for large-model inference services that need to be created, released, or scaled repeatedly.
-It avoids rebuilding the software environment for every deployment and avoids repeatedly downloading large model weights from external sources. The custom image provides a consistent runtime environment, while File Storage keeps large model files persistent and accessible across instances.
+This approach is useful for large-model inference services that need to scale or restart repeatedly. The custom image provides a consistent runtime environment, while File Storage keeps model files persistent and accessible across instances.
