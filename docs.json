@@ -272,7 +272,7 @@
             ]
           },
           {
-            "group": "IDEs & Agents",
+            "group": "IDEs & Agent Apps",
             "pages": [
               "ai-gateway/ides-agents/claude-code",
               "ai-gateway/ides-agents/codex",
